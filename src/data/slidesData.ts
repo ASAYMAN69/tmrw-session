@@ -172,21 +172,6 @@ export const SLIDES: SlideData[] = [
   },
   {
     id: 12,
-    slug: 'skills-and-next-steps',
-    title: 'The Full-Stack Learning Tree',
-    badge: 'Skill Progression',
-    subtitle: 'From beginner foundations to production-ready software engineer',
-    category: 'Big Picture',
-    bigStatement: "You do NOT need to learn everything today. Master Level 1 and ship your first project.",
-    maxSubSteps: 3,
-    presenterNotes: [
-      "Level 1: Web Foundations - HTML, CSS, JavaScript, Git.",
-      "Level 2: Full-Stack Frameworks - React, Node, APIs, PostgreSQL.",
-      "Level 3: Production & DevOps - CI/CD, Cloud Hosting, DNS, Secrets."
-    ]
-  },
-  {
-    id: 13,
     slug: 'pick-your-first-project',
     title: 'Pick Your First Project',
     badge: 'Action Plan',
@@ -201,7 +186,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 14,
+    id: 13,
     slug: 'the-whole-journey',
     title: 'The Whole Journey',
     badge: 'Grand Finale & Launch',
@@ -215,7 +200,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 15,
+    id: 14,
     slug: 'acc-codelaunch-bootcamp',
     title: 'ACC CodeLaunch 2026: Live Web Development Bootcamp',
     badge: 'Official Masterclass',

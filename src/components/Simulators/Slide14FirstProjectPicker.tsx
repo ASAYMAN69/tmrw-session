@@ -257,7 +257,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
 
           <div className="pt-3.5 border-t border-[#2e334a] text-xs sm:text-sm text-zinc-400 flex items-center justify-between font-bold">
             <span>Press Next or Hotbar to advance</span>
-            <span className="text-[#55FFFF]">Module 13: Project Picker</span>
+            <span className="text-[#55FFFF]">Module 12: Project Picker</span>
           </div>
         </div>
 
