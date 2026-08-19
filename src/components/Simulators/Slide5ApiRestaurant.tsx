@@ -43,11 +43,11 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
         setStage(1);
       }, 2600);
     } else if (stage === 1) {
-      // Accelerating Left -> Right Transit (1.8s)
+      // Accelerating Left -> Right Transit + hold for 1 more second (Total 2.8s)
       timer = setTimeout(() => {
         sound.success?.();
         setStage(2);
-      }, 1800);
+      }, 2800);
     } else if (stage === 2) {
       // Offloading into 4 server racks (3.0s), then restart
       timer = setTimeout(() => {
