@@ -187,6 +187,20 @@ export const SLIDES: SlideData[] = [
   },
   {
     id: 13,
+    slug: 'questions-and-feedback',
+    title: 'Questions & Feedback',
+    badge: 'Open Floor',
+    subtitle: 'Ask anything or share your thoughts',
+    category: 'Q&A',
+    bigStatement: "There are no silly questions in programming. Ask away!",
+    maxSubSteps: 2,
+    presenterNotes: [
+      "SubStep 1: Open the floor for any questions from the audience ('Any questions? :P').",
+      "SubStep 2: When next is clicked, celebrate and ask 'Loved the session? :D' with confetti!"
+    ]
+  },
+  {
+    id: 14,
     slug: 'acc-codelaunch-bootcamp',
     title: 'ACC CodeLaunch 2026: Live Web Development Bootcamp',
     badge: 'Official Masterclass',

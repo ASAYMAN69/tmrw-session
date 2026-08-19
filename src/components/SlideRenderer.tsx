@@ -14,6 +14,7 @@ import { Slide10StudentNotesStack } from './Simulators/Slide10StudentNotesStack'
 import { Slide11RoadmapSteps } from './Simulators/Slide11RoadmapSteps';
 import { Slide12ArchitectureCompare } from './Simulators/Slide12ArchitectureCompare';
 import { Slide14FirstProjectPicker } from './Simulators/Slide14FirstProjectPicker';
+import { Slide13QuestionsFeedback } from './Simulators/Slide13QuestionsFeedback';
 import { Slide16LiveMasterclass } from './Simulators/Slide16LiveMasterclass';
 
 interface SlideRendererProps {
@@ -56,6 +57,8 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
       case 12:
         return <Slide14FirstProjectPicker subStep={subStep} onSubStepChange={onSubStepChange} />;
       case 13:
+        return <Slide13QuestionsFeedback subStep={subStep} onSubStepChange={onSubStepChange} />;
+      case 14:
         return <Slide16LiveMasterclass subStep={subStep} onSubStepChange={onSubStepChange} />;
       default:
         return <Slide1JourneyMap subStep={subStep} onSubStepChange={onSubStepChange} />;
@@ -65,7 +68,7 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
   return (
     <div className="w-full max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-8 py-3 flex flex-col gap-3 pb-24 font-mono">
       {/* Clean Minimal Slide Header */}
-      {slide.id !== 13 && (
+      {slide.id !== 14 && (
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-[#55FFFF] bg-[#121420] px-2 py-0.5 border border-[#2e334a]">
