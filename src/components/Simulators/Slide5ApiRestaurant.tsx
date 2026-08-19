@@ -17,7 +17,11 @@ import {
   Sparkles,
   ArrowRight,
   Package,
-  HardDrive
+  HardDrive,
+  User,
+  Tag,
+  ExternalLink,
+  BookOpen
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -146,7 +150,7 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
                     animate={{ x: 310 }}
                     transition={{
                       duration: 1.8,
-                      ease: [0.7, 0, 0.84, 0] // Accelerates forward smoothly to right edge
+                      ease: [0.7, 0, 0.84, 0]
                     }}
                     className="px-3 py-1 bg-[#55FFFF] text-black text-[10px] font-black flex items-center gap-1.5 shadow-glow-cyan shrink-0"
                   >
@@ -236,21 +240,129 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
   );
 };
 
+// Crazy Motion Graphic: Raw JSON Payload Morphing into an HTML/CSS UI Card
+const JsonToUiMorphGraphic: React.FC = () => {
+  // Mode: 'json' (raw text) -> 'morph' (data unpacking) -> 'card' (rendered HTML/CSS modal card)
+  const [viewMode, setViewMode] = useState<'json' | 'card'>('json');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setViewMode(prev => {
+        if (prev === 'json') {
+          sound.success?.();
+          return 'card';
+        } else {
+          sound.packetPing?.();
+          return 'json';
+        }
+      });
+    }, 2800);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="w-full max-w-md mx-auto font-mono">
+      <div className="p-5 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel min-h-[240px] flex flex-col justify-center">
+        <AnimatePresence mode="wait">
+          {/* STATE 1: RAW JSON TEXT RECEIVED OVER HTTP */}
+          {viewMode === 'json' && (
+            <motion.div
+              key="json-view"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="p-4 bg-[#090a10] border border-[#55FFFF]/60 shadow-pixel space-y-2 font-mono text-xs"
+            >
+              <div className="flex items-center justify-between border-b border-[#2e334a] pb-1.5 text-[10px]">
+                <span className="text-zinc-400 font-bold">RAW HTTP JSON PAYLOAD:</span>
+                <span className="text-[#55FFFF] font-bold animate-pulse">application/json</span>
+              </div>
+
+              <div className="text-[#55FFFF] text-xs leading-relaxed">
+                &#123;<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"id"</span>: <span className="text-[#55FF55]">101</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Chapter 4"</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"author"</span>: <span className="text-[#FF8888]">"Alex"</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"badge"</span>: <span className="text-[#55FF55]">"PRO STUDENT"</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"status"</span>: <span className="text-[#55FF55]">200</span><br />
+                &#125;
+              </div>
+
+              <div className="pt-1 text-[10px] text-center text-zinc-400 font-bold">
+                ⬇ Browser receives raw JSON text ➔ React compiles into HTML/CSS ⬇
+              </div>
+            </motion.div>
+          )}
+
+          {/* STATE 2: POLISHED RENDERED HTML/CSS CYBER CARD */}
+          {viewMode === 'card' && (
+            <motion.div
+              key="card-view"
+              initial={{ opacity: 0, scale: 0.92, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: -8 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="p-4 bg-[#181b2c] border-2 border-[#55FF55] shadow-glow-diamond space-y-3"
+            >
+              {/* Card Header with User & Badge */}
+              <div className="flex items-center justify-between border-b border-[#2e334a] pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 bg-[#55FFFF]/20 border border-[#55FFFF] flex items-center justify-center text-[#55FFFF]">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-white font-black text-xs block">Alex (usr_101)</span>
+                    <span className="text-[9px] text-zinc-400">Verified Note Owner</span>
+                  </div>
+                </div>
+
+                <span className="px-2 py-0.5 bg-[#55FF55]/20 border border-[#55FF55] text-[#55FF55] text-[10px] font-black">
+                  PRO STUDENT
+                </span>
+              </div>
+
+              {/* Note Content Block */}
+              <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-[#55FFFF]" />
+                  <div>
+                    <h4 className="text-sm font-black text-white">Calculus Chapter 4</h4>
+                    <span className="text-[10px] text-zinc-400">Integrals & Derivative Notes</span>
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono text-[#55FF55] font-bold">200 OK</span>
+              </div>
+
+              {/* Card Footer Button */}
+              <div className="flex items-center justify-between pt-1">
+                <div className="flex gap-1">
+                  <span className="px-1.5 py-0.5 bg-[#121420] text-zinc-400 text-[9px] font-bold border border-[#2e334a]">
+                    #Math
+                  </span>
+                  <span className="px-1.5 py-0.5 bg-[#121420] text-zinc-400 text-[9px] font-bold border border-[#2e334a]">
+                    #ExamPrep
+                  </span>
+                </div>
+
+                <button className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1 shadow-glow-cyan hover:scale-105 transition-all">
+                  <span>OPEN NOTE</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
 export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
   subStep = 0,
   onSubStepChange,
 }) => {
   const currentStep = Math.min(2, Math.max(0, subStep));
-
-  // --- AUTOMATION 2: JSON Universal Translator (Python / JS / iOS) ---
-  const [activeLang, setActiveLang] = useState<'js' | 'python' | 'swift'>('js');
-  useEffect(() => {
-    if (currentStep !== 1) return;
-    const interval = setInterval(() => {
-      setActiveLang(prev => (prev === 'js' ? 'python' : prev === 'python' ? 'swift' : 'js'));
-    }, 2400);
-    return () => clearInterval(interval);
-  }, [currentStep]);
 
   // --- AUTOMATION 3: The 4 Golden Verbs (GET -> POST -> PUT -> DELETE) ---
   const [activeVerb, setActiveVerb] = useState<'GET' | 'POST' | 'PUT' | 'DELETE'>('GET');
@@ -467,80 +579,9 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
               <MessengerPackingOffloadGraphic />
             )}
 
-            {/* AUTOMATION 2: JSON Multi-Language Interoperability */}
+            {/* AUTOMATION 2: JSON Payload Morphing into an HTML/CSS UI Card */}
             {currentStep === 1 && (
-              <div className="w-full max-w-md mx-auto space-y-3">
-                <div className="p-4 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel text-xs space-y-3">
-                  {/* Language Tab Switcher */}
-                  <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-[11px]">
-                    <span className="text-zinc-400 font-bold">PARSING ENGINE:</span>
-                    <div className="flex gap-2">
-                      <span className={`px-2 py-0.5 border ${activeLang === 'js' ? 'border-[#55FFFF] text-[#55FFFF] bg-[#55FFFF]/15 font-bold' : 'border-transparent text-zinc-500'}`}>JS</span>
-                      <span className={`px-2 py-0.5 border ${activeLang === 'python' ? 'border-[#FFAA00] text-[#FFAA00] bg-[#FFAA00]/15 font-bold' : 'border-transparent text-zinc-500'}`}>Python</span>
-                      <span className={`px-2 py-0.5 border ${activeLang === 'swift' ? 'border-[#FF5555] text-[#FF5555] bg-[#FF5555]/15 font-bold' : 'border-transparent text-zinc-500'}`}>iOS Swift</span>
-                    </div>
-                  </div>
-
-                  {/* Active Code Parsing Box */}
-                  <div className="p-3 bg-[#090a10] border border-[#2e334a] font-mono text-xs">
-                    <AnimatePresence mode="wait">
-                      {activeLang === 'js' && (
-                        <motion.div
-                          key="code-js"
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -5 }}
-                          className="space-y-1"
-                        >
-                          <span className="text-[10px] text-[#55FFFF] block font-bold">// JavaScript Web App</span>
-                          <code className="text-zinc-200 block">
-                            const data = await res.json();<br />
-                            console.log(data.title); <span className="text-[#55FF55]">→ "Calculus Notes"</span>
-                          </code>
-                        </motion.div>
-                      )}
-                      {activeLang === 'python' && (
-                        <motion.div
-                          key="code-py"
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -5 }}
-                          className="space-y-1"
-                        >
-                          <span className="text-[10px] text-[#FFAA00] block font-bold"># Python Backend Worker</span>
-                          <code className="text-zinc-200 block">
-                            data = response.json()<br />
-                            print(data["title"]) <span className="text-[#55FF55]">→ "Calculus Notes"</span>
-                          </code>
-                        </motion.div>
-                      )}
-                      {activeLang === 'swift' && (
-                        <motion.div
-                          key="code-swift"
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -5 }}
-                          className="space-y-1"
-                        >
-                          <span className="text-[10px] text-[#FF5555] block font-bold">// Swift iPhone App</span>
-                          <code className="text-zinc-200 block">
-                            let note = try decoder.decode(Note.self)<br />
-                            Text(note.title) <span className="text-[#55FF55]">→ "Calculus Notes"</span>
-                          </code>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  <div className="p-2 bg-[#181b2c] border border-[#55FFFF]/40 text-center text-[#55FF55] text-xs font-bold">
-                    ✓ Same JSON payload decoded across every platform with 0 conversion errors.
-                  </div>
-                </div>
-
-                <p className="text-center text-[11px] text-zinc-400">
-                  🌐 JSON provides 100% universal interoperability across all devices.
-                </p>
-              </div>
+              <JsonToUiMorphGraphic />
             )}
 
             {/* AUTOMATION 3: The 4 Golden Verbs Live Simulation */}
