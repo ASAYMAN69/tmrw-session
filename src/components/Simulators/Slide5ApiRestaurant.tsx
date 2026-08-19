@@ -37,11 +37,11 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (stage === 0) {
-      // 4 Chips merging into 1 box (2.3s)
+      // 4 Chips merge in 0.9s, then sealed box stays on screen for 1.7s (Total 2.6s)
       timer = setTimeout(() => {
         sound.packetPing?.();
         setStage(1);
-      }, 2300);
+      }, 2600);
     } else if (stage === 1) {
       // Accelerating Left -> Right Transit (1.8s)
       timer = setTimeout(() => {
@@ -113,7 +113,7 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
                 <motion.div
                   initial={{ x: -70, y: -25, opacity: 1, scale: 1 }}
                   animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: 'easeInOut' }}
                   className="absolute px-2 py-1 bg-[#090a10] border border-[#FFAA00] text-[#FFAA00] text-[10px] font-bold z-10"
                 >
                   1. User: Alex (101)
@@ -123,7 +123,7 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
                 <motion.div
                   initial={{ x: 70, y: -25, opacity: 1, scale: 1 }}
                   animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: 'easeInOut' }}
                   className="absolute px-2 py-1 bg-[#090a10] border border-[#55FFFF] text-[#55FFFF] text-[10px] font-bold z-10"
                 >
                   2. Title: "Math HW"
@@ -133,7 +133,7 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
                 <motion.div
                   initial={{ x: -70, y: 25, opacity: 1, scale: 1 }}
                   animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: 'easeInOut' }}
                   className="absolute px-2 py-1 bg-[#090a10] border border-[#55FF55] text-[#55FF55] text-[10px] font-bold z-10"
                 >
                   3. Token: Bearer JWT
@@ -143,20 +143,20 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
                 <motion.div
                   initial={{ x: 70, y: 25, opacity: 1, scale: 1 }}
                   animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: 'easeInOut' }}
                   className="absolute px-2 py-1 bg-[#090a10] border border-[#FF5555] text-[#FF5555] text-[10px] font-bold z-10"
                 >
                   4. POST /api/notes
                 </motion.div>
 
-                {/* The 1 Unified Target Box that emerges */}
+                {/* The 1 Unified Target Box that emerges and stays */}
                 <motion.div
                   initial={{ scale: 0.4, opacity: 0 }}
-                  animate={{ scale: [0.4, 1.1, 1], opacity: 1 }}
-                  transition={{ delay: 1.3, duration: 0.6 }}
+                  animate={{ scale: [0.4, 1.08, 1], opacity: 1 }}
+                  transition={{ delay: 0.7, duration: 0.4 }}
                   className="p-3 bg-[#181b2c] border-2 border-[#FFAA00] flex items-center gap-2 text-xs font-black text-white shadow-glow-diamond"
                 >
-                  <Package className="w-5 h-5 text-[#FFAA00] animate-bounce" />
+                  <Package className="w-5 h-5 text-[#FFAA00]" />
                   <span>1 SEALED JSON PACKET (4 FIELDS)</span>
                 </motion.div>
               </div>
