@@ -94,8 +94,8 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
 
   // --- AUTOMATION 3: Live 4-Operation CRUD Loop Engine ---
   const [crudIndex, setCrudIndex] = useState<number>(0);
+  const [isExecuting, setIsExecuting] = useState<boolean>(false);
   const [updateText, setUpdateText] = useState<string>('Physics Lab');
-  const [isDeletingText, setIsDeletingText] = useState<boolean>(false);
 
   // Table rows lifecycle for the 4-phase loop
   const baselineRows: SqlRow[] = [
@@ -109,78 +109,111 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
   useEffect(() => {
     if (currentStep !== 2) return;
 
-    let timer: NodeJS.Timeout;
+    // Reset executing state for the 1.0s grace period
+    setIsExecuting(false);
+    let graceTimer: NodeJS.Timeout;
+    let actionTimer: NodeJS.Timeout;
+    let intervalTimer: NodeJS.Timeout;
+
     const activeStep = CRUD_STEPS[crudIndex];
 
     if (activeStep.type === 'SELECT') {
-      sound.packetPing?.();
       setTableRows(baselineRows);
       setUpdateText('Physics Lab');
-      setIsDeletingText(false);
-      timer = setTimeout(() => {
-        setCrudIndex(1); // Move to INSERT
-      }, 3400);
-    } else if (activeStep.type === 'INSERT') {
-      sound.success?.();
-      // Add row 104 at the top
-      setTableRows([
-        { id: 104, user_id: 'usr_101', title: 'Chemistry Lab' },
-        ...baselineRows
-      ]);
-      timer = setTimeout(() => {
-        setCrudIndex(2); // Move to UPDATE
-      }, 3400);
-    } else if (activeStep.type === 'UPDATE') {
-      sound.click?.();
-      // Start typewriter backspace and replacement on Row 102
-      const original = 'Physics Lab';
-      const replacement = 'Quantum Physics';
-      let charIdx = original.length;
 
-      // Phase A: Backspacing
-      const backspaceInterval = setInterval(() => {
-        if (charIdx > 0) {
-          charIdx--;
-          setUpdateText(original.slice(0, charIdx));
-          setIsDeletingText(true);
-        } else {
-          clearInterval(backspaceInterval);
-          setIsDeletingText(false);
-
-          // Phase B: Typing replacement after a brief pause
-          setTimeout(() => {
-            let writeIdx = 0;
-            const writeInterval = setInterval(() => {
-              if (writeIdx <= replacement.length) {
-                setUpdateText(replacement.slice(0, writeIdx));
-                writeIdx++;
-              } else {
-                clearInterval(writeInterval);
-                sound.success?.();
-              }
-            }, 60);
-          }, 200);
-        }
-      }, 50);
-
-      timer = setTimeout(() => {
-        clearInterval(backspaceInterval);
-        setCrudIndex(3); // Move to DELETE
-      }, 4500);
-    } else if (activeStep.type === 'DELETE') {
-      sound.packetPing?.();
-      // Remove row 103
-      timer = setTimeout(() => {
-        setTableRows(prev => prev.filter(r => r.id !== 103));
-        sound.slide?.();
-        // Wait and then loop back to SELECT
-        setTimeout(() => {
-          setCrudIndex(0);
-        }, 1800);
+      // 1.0s Grace Period before executing SELECT
+      graceTimer = setTimeout(() => {
+        setIsExecuting(true);
+        sound.packetPing?.();
       }, 1000);
+
+      actionTimer = setTimeout(() => {
+        setCrudIndex(1); // Move to INSERT
+      }, 3800);
+    } else if (activeStep.type === 'INSERT') {
+      setTableRows(baselineRows);
+
+      // 1.0s Grace Period before executing INSERT
+      graceTimer = setTimeout(() => {
+        setIsExecuting(true);
+        sound.success?.();
+        setTableRows([
+          { id: 104, user_id: 'usr_101', title: 'Chemistry Lab' },
+          ...baselineRows
+        ]);
+      }, 1000);
+
+      actionTimer = setTimeout(() => {
+        setCrudIndex(2); // Move to UPDATE
+      }, 3800);
+    } else if (activeStep.type === 'UPDATE') {
+      setTableRows(baselineRows);
+      setUpdateText('Physics Lab');
+
+      // 1.0s Grace Period before executing UPDATE typewriter
+      graceTimer = setTimeout(() => {
+        setIsExecuting(true);
+        sound.click?.();
+
+        const original = 'Physics Lab';
+        const replacement = 'Quantum Physics';
+        let charIdx = original.length;
+
+        // Phase A: Backspacing
+        const backspaceInterval = setInterval(() => {
+          if (charIdx > 0) {
+            charIdx--;
+            setUpdateText(original.slice(0, charIdx));
+          } else {
+            clearInterval(backspaceInterval);
+
+            // Phase B: Typing replacement
+            setTimeout(() => {
+              let writeIdx = 0;
+              const writeInterval = setInterval(() => {
+                if (writeIdx <= replacement.length) {
+                  setUpdateText(replacement.slice(0, writeIdx));
+                  writeIdx++;
+                } else {
+                  clearInterval(writeInterval);
+                  sound.success?.();
+                }
+              }, 55);
+            }, 180);
+          }
+        }, 45);
+
+        intervalTimer = backspaceInterval;
+      }, 1000);
+
+      actionTimer = setTimeout(() => {
+        setCrudIndex(3); // Move to DELETE
+      }, 4800);
+    } else if (activeStep.type === 'DELETE') {
+      setTableRows(baselineRows);
+
+      // 1.0s Grace Period before triggering red delete flash
+      graceTimer = setTimeout(() => {
+        setIsExecuting(true);
+        sound.packetPing?.();
+
+        // After 700ms of warning flash, purge the row from table
+        setTimeout(() => {
+          setTableRows(prev => prev.filter(r => r.id !== 103));
+          sound.slide?.();
+        }, 700);
+      }, 1000);
+
+      actionTimer = setTimeout(() => {
+        setCrudIndex(0); // Loop back to SELECT
+      }, 3800);
     }
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(graceTimer);
+      clearTimeout(actionTimer);
+      if (intervalTimer) clearInterval(intervalTimer);
+    };
   }, [currentStep, crudIndex]);
 
   const currentCrud = CRUD_STEPS[crudIndex];
@@ -529,10 +562,10 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
                     <motion.div layout className="space-y-1">
                       <AnimatePresence initial={false}>
                         {tableRows.map((row) => {
-                          const isSelectedMatch = currentCrud.type === 'SELECT' && row.user_id === 'usr_101';
-                          const isTargetUpdate = currentCrud.type === 'UPDATE' && row.id === 102;
-                          const isTargetDelete = currentCrud.type === 'DELETE' && row.id === 103;
-                          const isNewInsert = currentCrud.type === 'INSERT' && row.id === 104;
+                          const isSelectedMatch = isExecuting && currentCrud.type === 'SELECT' && row.user_id === 'usr_101';
+                          const isTargetUpdate = isExecuting && currentCrud.type === 'UPDATE' && row.id === 102;
+                          const isTargetDelete = isExecuting && currentCrud.type === 'DELETE' && row.id === 103;
+                          const isNewInsert = isExecuting && currentCrud.type === 'INSERT' && row.id === 104;
 
                           return (
                             <motion.div
@@ -600,8 +633,8 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
                       color: currentCrud.color
                     }}
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>{currentCrud.result}</span>
+                    <CheckCircle2 className={`w-3.5 h-3.5 ${!isExecuting ? 'animate-spin opacity-50' : ''}`} />
+                    <span>{isExecuting ? currentCrud.result : '⚡ PARSING & COMPILING QUERY...'}</span>
                   </div>
                 </div>
               </div>
