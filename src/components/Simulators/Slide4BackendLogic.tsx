@@ -161,7 +161,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                 <>
                   <div className="flex items-center gap-2.5">
                     <span className="text-xs sm:text-sm font-black text-[#FFAA00] px-2.5 py-0.5 bg-[#FFAA00]/15 border border-[#FFAA00]/40">
-                      #01 (1.1)
+                      #1.1
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       Authentication: Are They Legitimate?
@@ -195,7 +195,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                 <>
                   <div className="flex items-center gap-2.5">
                     <span className="text-xs sm:text-sm font-black text-[#55FFFF] px-2.5 py-0.5 bg-[#55FFFF]/15 border border-[#55FFFF]/40">
-                      #01 (1.2)
+                      #1.2
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       Authentication: What Can They Access?
