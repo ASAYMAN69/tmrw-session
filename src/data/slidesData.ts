@@ -59,11 +59,11 @@ export const SLIDES: SlideData[] = [
     subtitle: 'The messenger connecting your frontend to your backend',
     category: 'Backend',
     bigStatement: "API = A structured way for different software systems to communicate.",
-    funLine: "You (Browser) → Waiter (API) → Kitchen (Backend) → Pantry (Database)",
-    maxSubSteps: 4,
+    maxSubSteps: 3,
     presenterNotes: [
-      "Walk through the restaurant analogy step by step.",
-      "Show how an HTTP request travels across the wire and delivers JSON data."
+      "Point 1: The Messenger - Restaurant waiter analogy & HTTP request cycle.",
+      "Point 2: Universal Language - Why JSON connects Python, JS, Swift, and Rust.",
+      "Point 3: The 4 Golden Verbs - GET (Read), POST (Create), PUT (Update), DELETE (Delete)."
     ]
   },
   {
