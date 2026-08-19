@@ -19,7 +19,8 @@ import {
   Package,
   HardDrive,
   Cpu,
-  Zap
+  Zap,
+  Key
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -28,220 +29,268 @@ interface Slide5Props {
   onSubStepChange?: (subStep: number) => void;
 }
 
-// Dedicated High-Impact Motion Graphic for Step 1: Packing -> API Motion -> DB Rack Offload
+// High-Impact Seamless Motion Graphic: 4 Items Merged -> Forward Accelerating Packet -> DB Rack Offload
 const MessengerPackingOffloadGraphic: React.FC = () => {
-  // Phases: 0 = Packing, 1 = API in Motion, 2 = DB Offload into Racks
-  const [phase, setPhase] = useState<number>(0);
+  // Stage: 0 = 4 chips merging into 1 box, 1 = Accelerating transit Left -> Right, 2 = Offloading to DB racks
+  const [stage, setStage] = useState<number>(0);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (phase === 0) {
-      // Packing for 2.2s
+    if (stage === 0) {
+      // 4 Chips merging into 1 box (2.3s)
       timer = setTimeout(() => {
         sound.packetPing?.();
-        setPhase(1);
-      }, 2200);
-    } else if (phase === 1) {
-      // In Motion for 2.0s
+        setStage(1);
+      }, 2300);
+    } else if (stage === 1) {
+      // Accelerating Left -> Right Transit (1.8s)
       timer = setTimeout(() => {
-        sound.click?.();
-        setPhase(2);
-      }, 2000);
-    } else if (phase === 2) {
-      // Offload & Saved for 2.6s, then loop back
+        sound.success?.();
+        setStage(2);
+      }, 1800);
+    } else if (stage === 2) {
+      // Offloading into 4 server racks (3.0s), then restart
       timer = setTimeout(() => {
-        setPhase(0);
-      }, 2600);
+        setStage(0);
+      }, 3000);
     }
     return () => clearTimeout(timer);
-  }, [phase]);
+  }, [stage]);
 
   return (
     <div className="w-full max-w-md mx-auto space-y-3 font-mono">
-      {/* Active Phase Badge Indicator */}
-      <div className="p-2 bg-[#121420] border border-[#2e334a] flex items-center justify-between text-xs font-bold">
-        <span className="text-zinc-400 text-[10px] uppercase">MESSENGER PIPELINE:</span>
-        <span
-          className={`text-xs font-black ${
-            phase === 0
-              ? 'text-[#FFAA00]'
-              : phase === 1
-              ? 'text-[#55FFFF]'
-              : 'text-[#55FF55]'
+      {/* 3-Station Pipeline Tracker */}
+      <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-bold">
+        <div
+          className={`p-1.5 border-2 transition-all ${
+            stage === 0
+              ? 'bg-[#1e2640] border-[#FFAA00] text-[#FFAA00] shadow-glow-diamond'
+              : 'bg-[#090a10] border-[#22273a] text-zinc-500'
           }`}
         >
-          {phase === 0 && '1. PACKING DATA PAYLOAD'}
-          {phase === 1 && '2. API ACTIVATED (IN TRANSIT)'}
-          {phase === 2 && '3. OFFLOADING TO SERVER RACKS'}
-        </span>
+          <span>1. PACK 4 FIELDS</span>
+        </div>
+        <div
+          className={`p-1.5 border-2 transition-all ${
+            stage === 1
+              ? 'bg-[#1e2640] border-[#55FFFF] text-[#55FFFF] shadow-glow-diamond'
+              : 'bg-[#090a10] border-[#22273a] text-zinc-500'
+          }`}
+        >
+          <span>2. API TRANSIT &gt;&gt;</span>
+        </div>
+        <div
+          className={`p-1.5 border-2 transition-all ${
+            stage === 2
+              ? 'bg-[#1e2640] border-[#55FF55] text-[#55FF55] shadow-glow-diamond'
+              : 'bg-[#090a10] border-[#22273a] text-zinc-500'
+          }`}
+        >
+          <span>3. DB RACK OFFLOAD</span>
+        </div>
       </div>
 
       {/* Main Dynamic Viewport Box */}
-      <div className="p-4 bg-[#121420] border-2 border-[#FFAA00] shadow-pixel min-h-[220px] flex flex-col justify-between">
+      <div className="p-4 bg-[#121420] border-2 border-[#FFAA00] shadow-pixel min-h-[240px] flex flex-col justify-between">
         <AnimatePresence mode="wait">
-          {/* PHASE 0: BUNCH OF INFO BEING PACKED INTO A BOX */}
-          {phase === 0 && (
+          {/* STAGE 0: ALL 4 DATA CHIPS MERGING INTO 1 SINGLE BOX */}
+          {stage === 0 && (
             <motion.div
-              key="phase-pack"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              key="stage-merge"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="space-y-3"
             >
-              <div className="text-[11px] text-zinc-400 font-bold flex items-center justify-between">
+              <div className="flex items-center justify-between text-[11px] font-bold text-zinc-400">
                 <span>CLIENT BROWSER:</span>
-                <span className="text-[#FFAA00]">COMPRESSING RAW FIELDS</span>
+                <span className="text-[#FFAA00] animate-pulse">4 FIELDS MERGING INTO 1 PACKET</span>
               </div>
 
-              {/* 3 Raw Info Chips compressing */}
-              <div className="grid grid-cols-3 gap-1.5 text-[10px] font-bold">
+              {/* 4 Data Chips Converging */}
+              <div className="relative h-24 flex items-center justify-center">
+                {/* Chip 1: User */}
                 <motion.div
-                  animate={{ y: [0, 6, 0], scale: [1, 0.95, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2 }}
-                  className="p-2 bg-[#090a10] border border-[#FFAA00]/60 text-[#FFAA00] text-center"
+                  initial={{ x: -70, y: -25, opacity: 1, scale: 1 }}
+                  animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  className="absolute px-2 py-1 bg-[#090a10] border border-[#FFAA00] text-[#FFAA00] text-[10px] font-bold z-10"
                 >
-                  <span className="block text-[8px] text-zinc-500">USER</span>
-                  Alex (101)
+                  1. User: Alex (101)
                 </motion.div>
+
+                {/* Chip 2: Title */}
                 <motion.div
-                  animate={{ y: [0, 6, 0], scale: [1, 0.95, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2, delay: 0.1 }}
-                  className="p-2 bg-[#090a10] border border-[#55FFFF]/60 text-[#55FFFF] text-center"
+                  initial={{ x: 70, y: -25, opacity: 1, scale: 1 }}
+                  animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  className="absolute px-2 py-1 bg-[#090a10] border border-[#55FFFF] text-[#55FFFF] text-[10px] font-bold z-10"
                 >
-                  <span className="block text-[8px] text-zinc-500">NOTE TITLE</span>
-                  Math HW #4
+                  2. Title: "Math HW"
                 </motion.div>
+
+                {/* Chip 3: Token */}
                 <motion.div
-                  animate={{ y: [0, 6, 0], scale: [1, 0.95, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.2, delay: 0.2 }}
-                  className="p-2 bg-[#090a10] border border-[#55FF55]/60 text-[#55FF55] text-center"
+                  initial={{ x: -70, y: 25, opacity: 1, scale: 1 }}
+                  animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  className="absolute px-2 py-1 bg-[#090a10] border border-[#55FF55] text-[#55FF55] text-[10px] font-bold z-10"
                 >
-                  <span className="block text-[8px] text-zinc-500">AUTH TOKEN</span>
-                  Bearer JWT
+                  3. Token: Bearer JWT
+                </motion.div>
+
+                {/* Chip 4: Action */}
+                <motion.div
+                  initial={{ x: 70, y: 25, opacity: 1, scale: 1 }}
+                  animate={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 1.4, delay: 0.4, ease: 'easeInOut' }}
+                  className="absolute px-2 py-1 bg-[#090a10] border border-[#FF5555] text-[#FF5555] text-[10px] font-bold z-10"
+                >
+                  4. POST /api/notes
+                </motion.div>
+
+                {/* The 1 Unified Target Box that emerges */}
+                <motion.div
+                  initial={{ scale: 0.4, opacity: 0 }}
+                  animate={{ scale: [0.4, 1.1, 1], opacity: 1 }}
+                  transition={{ delay: 1.3, duration: 0.6 }}
+                  className="p-3 bg-[#181b2c] border-2 border-[#FFAA00] flex items-center gap-2 text-xs font-black text-white shadow-glow-diamond"
+                >
+                  <Package className="w-5 h-5 text-[#FFAA00] animate-bounce" />
+                  <span>1 SEALED JSON PACKET (4 FIELDS)</span>
                 </motion.div>
               </div>
 
-              {/* Compressed Target Package */}
-              <motion.div
-                animate={{ scale: [0.97, 1.03, 0.97] }}
-                transition={{ repeat: Infinity, duration: 1 }}
-                className="p-2.5 bg-[#090a10] border-2 border-dashed border-[#FFAA00] flex items-center justify-center gap-2 text-xs font-bold text-white"
-              >
-                <Package className="w-5 h-5 text-[#FFAA00] animate-bounce" />
-                <span>PACKING INTO [POST /api/notes.json]</span>
-              </motion.div>
+              <p className="text-[10px] text-center text-zinc-400">
+                📦 All 4 fields compressed into a single HTTP payload envelope.
+              </p>
             </motion.div>
           )}
 
-          {/* PHASE 1: API ACTIVATED & IN RAPID TRANSIT */}
-          {phase === 1 && (
+          {/* STAGE 1: ACCELERATING TRANSIT LEFT -> RIGHT (DOES NOT COME BACK) */}
+          {stage === 1 && (
             <motion.div
-              key="phase-transit"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
+              key="stage-transit"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="space-y-4 my-auto"
             >
-              <div className="flex items-center justify-between text-[11px] text-zinc-400 font-bold">
-                <span>API HIGHWAY TRANSIT:</span>
-                <span className="text-[#55FFFF] animate-pulse">COURIER ACTIVE</span>
+              <div className="flex items-center justify-between text-[11px] font-bold text-zinc-400">
+                <span>API COURIER PIPE:</span>
+                <span className="text-[#55FFFF]">FORWARD TRANSIT &gt;&gt;</span>
               </div>
 
-              {/* Highway motion conduit */}
+              {/* Accelerating forward track */}
               <div className="p-3 bg-[#090a10] border border-[#55FFFF] relative overflow-hidden">
-                <div className="flex items-center justify-between text-xs font-mono font-bold text-zinc-400">
-                  <span>[BROWSER]</span>
-                  <span className="text-[#55FFFF] text-[10px] animate-pulse">&gt;&gt;&gt; HTTP/2 TCP &gt;&gt;&gt;</span>
-                  <span>[BACKEND]</span>
+                <div className="flex items-center justify-between text-xs font-mono font-bold text-zinc-400 pb-2 border-b border-[#2e334a]">
+                  <span className="text-[#FFAA00]">[STAGE 1: PACKAGED]</span>
+                  <span className="text-[#55FFFF] text-[10px] animate-pulse">&gt;&gt;&gt; ACCELERATING &gt;&gt;&gt;</span>
+                  <span className="text-[#55FF55]">[STAGE 3: DATABASE]</span>
                 </div>
 
-                {/* Gliding Packet with motion trail */}
-                <div className="mt-2.5 w-full bg-[#181b2c] h-7 relative flex items-center px-1 overflow-hidden">
+                {/* Single-direction accelerating packet */}
+                <div className="mt-3 w-full bg-[#181b2c] h-8 relative flex items-center overflow-hidden">
                   <motion.div
-                    animate={{ x: [0, 240, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
-                    className="px-2.5 py-1 bg-[#55FFFF] text-black text-[10px] font-black flex items-center gap-1 shadow-glow-cyan shrink-0"
+                    initial={{ x: -10 }}
+                    animate={{ x: 300 }}
+                    transition={{
+                      duration: 1.5,
+                      ease: [0.7, 0, 0.84, 0] // Strong exponential forward acceleration
+                    }}
+                    className="px-3 py-1 bg-[#55FFFF] text-black text-[10px] font-black flex items-center gap-1.5 shadow-glow-cyan shrink-0"
                   >
-                    <Package className="w-3.5 h-3.5" />
-                    <span>PAYLOAD.JSON</span>
+                    <Package className="w-4 h-4" />
+                    <span>PAYLOAD.JSON (4 FIELDS)</span>
                   </motion.div>
                 </div>
               </div>
 
               <p className="text-[10px] text-center text-[#55FFFF] font-bold">
-                ⚡ API Waiter securely transports headers + body across the network.
+                🚀 The API courier accelerates the packet directly across the wire into the backend.
               </p>
             </motion.div>
           )}
 
-          {/* PHASE 2: DATABASE OFFLOADING DIRECTLY INTO RACKS */}
-          {phase === 2 && (
+          {/* STAGE 2: DATABASE OFFLOADING DIRECTLY INTO 4 SERVER RACK SLOTS */}
+          {stage === 2 && (
             <motion.div
-              key="phase-offload"
+              key="stage-offload"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="space-y-2.5"
+              className="space-y-2"
             >
-              <div className="flex items-center justify-between text-[11px] text-zinc-400 font-bold">
+              <div className="flex items-center justify-between text-[11px] font-bold text-zinc-400">
                 <div className="flex items-center gap-1.5 text-[#55FF55]">
                   <Database className="w-4 h-4" />
                   <span>DATABASE SERVER RACKS:</span>
                 </div>
-                <span className="text-[#55FF55] font-black text-[10px]">SAVED TO DISK</span>
+                <span className="text-[#55FF55] font-black text-[10px]">OFFLOADING ALL 4</span>
               </div>
 
-              {/* 3 Server Rack Slots getting offloaded data */}
-              <div className="space-y-1.5">
-                {/* Rack Slot 1 */}
+              {/* 4 Server Rack Slots receiving offloaded data */}
+              <div className="space-y-1">
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="p-2 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
+                  className="p-1.5 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
                 >
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#55FF55] animate-ping" />
                     <HardDrive className="w-3.5 h-3.5 text-[#55FF55]" />
-                    <span className="text-white font-bold text-[11px]">RACK SLOT 01: [User: Alex 101]</span>
+                    <span className="text-white font-bold text-[11px]">RACK 1: [User: Alex (101)]</span>
                   </div>
-                  <span className="text-[#55FF55] font-black text-[10px]">COMMITTED</span>
+                  <span className="text-[#55FF55] font-black text-[10px]">SAVED</span>
                 </motion.div>
 
-                {/* Rack Slot 2 */}
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="p-2 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
+                  className="p-1.5 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
                 >
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#55FF55] animate-ping" />
                     <HardDrive className="w-3.5 h-3.5 text-[#55FF55]" />
-                    <span className="text-white font-bold text-[11px]">RACK SLOT 02: ["Math HW #4"]</span>
+                    <span className="text-white font-bold text-[11px]">RACK 2: [Title: "Math HW"]</span>
                   </div>
                   <span className="text-[#55FF55] font-black text-[10px]">INDEXED</span>
                 </motion.div>
 
-                {/* Rack Slot 3 */}
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="p-2 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
+                  className="p-1.5 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
                 >
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#55FF55] animate-ping" />
                     <HardDrive className="w-3.5 h-3.5 text-[#55FF55]" />
-                    <span className="text-white font-bold text-[11px]">RACK SLOT 03: [Row #9021]</span>
+                    <span className="text-white font-bold text-[11px]">RACK 3: [Token: Verified]</span>
                   </div>
-                  <span className="text-[#55FF55] font-black text-[10px]">PERSISTED</span>
+                  <span className="text-[#55FF55] font-black text-[10px]">AUTHENTICATED</span>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.55 }}
+                  className="p-1.5 bg-[#090a10] border border-[#55FF55] flex items-center justify-between text-xs"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#55FF55] animate-ping" />
+                    <HardDrive className="w-3.5 h-3.5 text-[#55FF55]" />
+                    <span className="text-white font-bold text-[11px]">RACK 4: [Row #9021 Inserted]</span>
+                  </div>
+                  <span className="text-[#55FF55] font-black text-[10px]">COMMITTED</span>
                 </motion.div>
               </div>
 
               <div className="p-1.5 bg-[#091f14] border border-[#55FF55]/60 text-center text-[#55FF55] text-[10px] font-black flex items-center justify-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>201 CREATED: ALL DATA OFFLOADED INTO PERSISTENT STORAGE</span>
+                <span>201 CREATED: ALL 4 FIELDS COMMITTED TO DISK</span>
               </div>
             </motion.div>
           )}
@@ -249,7 +298,7 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
       </div>
 
       <p className="text-center text-[11px] text-zinc-400">
-        ⚡ 1. Browser packs info ➔ 2. API carries payload ➔ 3. DB offloads into server racks.
+        ⚡ 4 fields merge into 1 box ➔ Accelerates right through API ➔ Offloads to DB racks.
       </p>
     </div>
   );
@@ -370,12 +419,12 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
 
                   <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-2">
                     <div className="flex items-start gap-2">
-                      <strong className="text-[#FFAA00] shrink-0">1. Packing Payload:</strong>
-                      <span className="text-zinc-200">The browser bundles user data (`title`, `user_id`, `token`) into a single JSON box.</span>
+                      <strong className="text-[#FFAA00] shrink-0">1. Packing 4 Fields:</strong>
+                      <span className="text-zinc-200">The browser merges user data (`title`, `user_id`, `token`, `method`) into 1 JSON package.</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <strong className="text-[#55FFFF] shrink-0">2. API Courier Transit:</strong>
-                      <span className="text-zinc-200">Carries the request across HTTP network pipes without client direct DB access.</span>
+                      <strong className="text-[#55FFFF] shrink-0">2. API Forward Transit:</strong>
+                      <span className="text-zinc-200">Accelerates the packet across HTTP/2 network pipes directly to the backend.</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <strong className="text-[#55FF55] shrink-0">3. Offload to Racks:</strong>
@@ -481,7 +530,7 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
 
           {/* Dynamic Animation Viewport - Centered Vertically & Horizontally */}
           <div className="flex-1 flex flex-col items-center justify-center py-6 w-full my-auto">
-            {/* AUTOMATION 1: Packing -> API Activated in Motion -> DB Rack Offload */}
+            {/* AUTOMATION 1: 4 Items Merged -> Accelerating Transit -> DB Rack Offload */}
             {currentStep === 0 && (
               <MessengerPackingOffloadGraphic />
             )}
