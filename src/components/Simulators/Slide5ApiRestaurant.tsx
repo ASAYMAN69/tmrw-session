@@ -19,7 +19,6 @@ import {
   Package,
   HardDrive,
   User,
-  Tag,
   ExternalLink,
   BookOpen
 } from 'lucide-react';
@@ -32,7 +31,6 @@ interface Slide5Props {
 
 // Clean Minimalist Motion Graphic: 4 Items Merged -> Forward Transit -> DB Rack Storage
 const MessengerPackingOffloadGraphic: React.FC = () => {
-  // Stage: 0 = Merging into 1 box, 1 = Forward transit, 2 = DB rack storage
   const [stage, setStage] = useState<number>(0);
 
   useEffect(() => {
@@ -240,81 +238,81 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
   );
 };
 
-// Crazy Motion Graphic: Raw JSON Payload Morphing into an HTML/CSS UI Card
+// Real 1-to-1 JSON-to-UI Morphing Engine
 const JsonToUiMorphGraphic: React.FC = () => {
-  // Mode: 'json' (raw text) -> 'morph' (data unpacking) -> 'card' (rendered HTML/CSS modal card)
-  const [viewMode, setViewMode] = useState<'json' | 'card'>('json');
+  // Mode: 'json' (raw text) -> 'card' (rendered HTML/CSS modal card)
+  const [isRendered, setIsRendered] = useState<boolean>(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setViewMode(prev => {
-        if (prev === 'json') {
+      setIsRendered(prev => {
+        if (!prev) {
           sound.success?.();
-          return 'card';
+          return true;
         } else {
           sound.packetPing?.();
-          return 'json';
+          return false;
         }
       });
-    }, 2800);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="w-full max-w-md mx-auto font-mono">
-      <div className="p-5 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel min-h-[240px] flex flex-col justify-center">
+      <div className="p-5 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel min-h-[260px] flex flex-col justify-center relative overflow-hidden">
+        {/* Laser Scanline Beam during Morph */}
+        <motion.div
+          key={isRendered ? 'to-card' : 'to-json'}
+          initial={{ top: '0%', opacity: 1 }}
+          animate={{ top: '100%', opacity: 0 }}
+          transition={{ duration: 0.65, ease: 'easeInOut' }}
+          className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#55FFFF] to-transparent shadow-glow-cyan z-20 pointer-events-none"
+        />
+
         <AnimatePresence mode="wait">
-          {/* STATE 1: RAW JSON TEXT RECEIVED OVER HTTP */}
-          {viewMode === 'json' && (
+          {/* 1. RAW JSON TEXT (1-to-1 EXACT KEYS) */}
+          {!isRendered && (
             <motion.div
               key="json-view"
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.25 }}
-              className="p-4 bg-[#090a10] border border-[#55FFFF]/60 shadow-pixel space-y-2 font-mono text-xs"
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.3 }}
+              className="p-3.5 bg-[#090a10] border border-[#55FFFF]/60 shadow-pixel space-y-1.5 text-xs font-mono"
             >
-              <div className="flex items-center justify-between border-b border-[#2e334a] pb-1.5 text-[10px]">
-                <span className="text-zinc-400 font-bold">RAW HTTP JSON PAYLOAD:</span>
-                <span className="text-[#55FFFF] font-bold animate-pulse">application/json</span>
-              </div>
-
-              <div className="text-[#55FFFF] text-xs leading-relaxed">
+              <div className="text-[#55FFFF] leading-relaxed">
                 &#123;<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"id"</span>: <span className="text-[#55FF55]">101</span>,<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Chapter 4"</span>,<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"author"</span>: <span className="text-[#FF8888]">"Alex"</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"user"</span>: <span className="text-[#FF8888]">"Alex (usr_101)"</span>,<br />
                 &nbsp;&nbsp;<span className="text-[#FFAA00]">"badge"</span>: <span className="text-[#55FF55]">"PRO STUDENT"</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Chapter 4"</span>,<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"tags"</span>: [<span className="text-[#55FFFF]">"#Math"</span>, <span className="text-[#55FFFF]">"#ExamPrep"</span>],<br />
+                &nbsp;&nbsp;<span className="text-[#FFAA00]">"buttonText"</span>: <span className="text-[#FF8888]">"OPEN NOTE"</span>,<br />
                 &nbsp;&nbsp;<span className="text-[#FFAA00]">"status"</span>: <span className="text-[#55FF55]">200</span><br />
                 &#125;
-              </div>
-
-              <div className="pt-1 text-[10px] text-center text-zinc-400 font-bold">
-                ⬇ Browser receives raw JSON text ➔ React compiles into HTML/CSS ⬇
               </div>
             </motion.div>
           )}
 
-          {/* STATE 2: POLISHED RENDERED HTML/CSS CYBER CARD */}
-          {viewMode === 'card' && (
+          {/* 2. RENDERED HTML/CSS CARD (EVERY SINGLE PIECE FROM JSON) */}
+          {isRendered && (
             <motion.div
               key="card-view"
-              initial={{ opacity: 0, scale: 0.92, y: 8 }}
+              initial={{ opacity: 0, scale: 0.94, y: 6 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.92, y: -8 }}
+              exit={{ opacity: 0, scale: 0.94, y: -6 }}
               transition={{ duration: 0.35, ease: 'easeOut' }}
               className="p-4 bg-[#181b2c] border-2 border-[#55FF55] shadow-glow-diamond space-y-3"
             >
-              {/* Card Header with User & Badge */}
+              {/* Header: user + badge */}
               <div className="flex items-center justify-between border-b border-[#2e334a] pb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-[#55FFFF]/20 border border-[#55FFFF] flex items-center justify-center text-[#55FFFF]">
-                    <User className="w-4 h-4" />
+                  <div className="w-6 h-6 bg-[#55FFFF]/20 border border-[#55FFFF] flex items-center justify-center text-[#55FFFF]">
+                    <User className="w-3.5 h-3.5" />
                   </div>
-                  <div>
-                    <span className="text-white font-black text-xs block">Alex (usr_101)</span>
-                    <span className="text-[9px] text-zinc-400">Verified Note Owner</span>
-                  </div>
+                  <span className="text-white font-black text-xs">
+                    Alex (usr_101)
+                  </span>
                 </div>
 
                 <span className="px-2 py-0.5 bg-[#55FF55]/20 border border-[#55FF55] text-[#55FF55] text-[10px] font-black">
@@ -322,30 +320,27 @@ const JsonToUiMorphGraphic: React.FC = () => {
                 </span>
               </div>
 
-              {/* Note Content Block */}
+              {/* Body: title + status */}
               <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-[#55FFFF]" />
-                  <div>
-                    <h4 className="text-sm font-black text-white">Calculus Chapter 4</h4>
-                    <span className="text-[10px] text-zinc-400">Integrals & Derivative Notes</span>
-                  </div>
+                  <h4 className="text-sm font-black text-white">Calculus Chapter 4</h4>
                 </div>
                 <span className="text-[10px] font-mono text-[#55FF55] font-bold">200 OK</span>
               </div>
 
-              {/* Card Footer Button */}
+              {/* Footer: tags + buttonText */}
               <div className="flex items-center justify-between pt-1">
-                <div className="flex gap-1">
-                  <span className="px-1.5 py-0.5 bg-[#121420] text-zinc-400 text-[9px] font-bold border border-[#2e334a]">
+                <div className="flex gap-1.5">
+                  <span className="px-2 py-0.5 bg-[#121420] text-[#55FFFF] text-[9px] font-bold border border-[#55FFFF]/40">
                     #Math
                   </span>
-                  <span className="px-1.5 py-0.5 bg-[#121420] text-zinc-400 text-[9px] font-bold border border-[#2e334a]">
+                  <span className="px-2 py-0.5 bg-[#121420] text-[#55FFFF] text-[9px] font-bold border border-[#55FFFF]/40">
                     #ExamPrep
                   </span>
                 </div>
 
-                <button className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1 shadow-glow-cyan hover:scale-105 transition-all">
+                <button className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1 shadow-glow-cyan">
                   <span>OPEN NOTE</span>
                   <ExternalLink className="w-3 h-3" />
                 </button>
@@ -502,9 +497,11 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
                     <span className="text-[10px] text-zinc-400 font-bold block mb-1">STANDARD JSON PAYLOAD STRUCTURE:</span>
                     <div className="text-[#55FFFF]">
                       &#123;<br />
-                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"id"</span>: <span className="text-[#55FF55]">101</span>,<br />
-                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Notes"</span>,<br />
-                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"isVerified"</span>: <span className="text-[#55FF55]">true</span><br />
+                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"user"</span>: <span className="text-[#FF8888]">"Alex (usr_101)"</span>,<br />
+                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"badge"</span>: <span className="text-[#55FF55]">"PRO STUDENT"</span>,<br />
+                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Chapter 4"</span>,<br />
+                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"tags"</span>: [<span className="text-[#55FFFF]">"#Math"</span>, <span className="text-[#55FFFF]">"#ExamPrep"</span>],<br />
+                      &nbsp;&nbsp;<span className="text-[#FFAA00]">"buttonText"</span>: <span className="text-[#FF8888]">"OPEN NOTE"</span><br />
                       &#125;
                     </div>
                   </div>
@@ -579,7 +576,7 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
               <MessengerPackingOffloadGraphic />
             )}
 
-            {/* AUTOMATION 2: JSON Payload Morphing into an HTML/CSS UI Card */}
+            {/* AUTOMATION 2: JSON Payload Morphing into an HTML/CSS UI Card (1-to-1 Match) */}
             {currentStep === 1 && (
               <JsonToUiMorphGraphic />
             )}
