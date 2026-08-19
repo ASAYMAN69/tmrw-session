@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Database,
@@ -6,14 +6,15 @@ import {
   Cpu,
   RefreshCw,
   Table,
-  Layers,
-  Terminal,
   CheckCircle2,
   Server,
-  PlusCircle,
   Lightbulb,
+  PlusCircle,
+  Trash2,
+  Edit3,
   Search,
-  Sparkles
+  Sparkles,
+  ArrowDown
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -21,6 +22,44 @@ interface Slide6Props {
   subStep?: number;
   onSubStepChange?: (subStep: number) => void;
 }
+
+interface SqlRow {
+  id: number;
+  user_id: string;
+  title: string;
+}
+
+// 4 Loopable CRUD Steps
+const CRUD_STEPS = [
+  {
+    type: 'SELECT' as const,
+    sql: "SELECT * FROM notes WHERE user_id = 'usr_101';",
+    color: '#55FFFF',
+    badge: '01. SELECT (READ)',
+    result: '✓ 2 rows matched (0.6ms)'
+  },
+  {
+    type: 'INSERT' as const,
+    sql: "INSERT INTO notes (id, user_id, title) VALUES (104, 'usr_101', 'Chemistry Lab');",
+    color: '#55FF55',
+    badge: '02. INSERT (CREATE)',
+    result: '✓ 1 row inserted (id: 104)'
+  },
+  {
+    type: 'UPDATE' as const,
+    sql: "UPDATE notes SET title = 'Quantum Physics' WHERE id = 102;",
+    color: '#FFAA00',
+    badge: '03. UPDATE (MODIFY)',
+    result: '✓ 1 row updated (affected: 1)'
+  },
+  {
+    type: 'DELETE' as const,
+    sql: "DELETE FROM notes WHERE id = 103;",
+    color: '#FF5555',
+    badge: '04. DELETE (PURGE)',
+    result: '✓ 1 row deleted'
+  }
+];
 
 export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
   subStep = 0,
@@ -36,7 +75,6 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
   const triggerReload = () => {
     sound.packetPing?.();
     setIsReloading(true);
-    // RAM clears to empty, DB retains everything
     setRamNotes([]);
     setTimeout(() => {
       setIsReloading(false);
@@ -54,34 +92,98 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
     return () => clearInterval(interval);
   }, [currentStep]);
 
-  // --- AUTOMATION 3: Live SQL Query Execution ---
-  const [queryIndex, setQueryIndex] = useState<number>(0);
-  const queries = [
-    {
-      sql: 'INSERT INTO notes (title, user_id) VALUES ("Biology Notes", 101);',
-      result: '✓ 1 row inserted (id: 103)',
-      color: '#55FF55'
-    },
-    {
-      sql: 'SELECT * FROM notes WHERE user_id = 101 ORDER BY created_at DESC;',
-      result: '✓ 3 rows returned in 1.2ms',
-      color: '#55FFFF'
-    },
-    {
-      sql: 'UPDATE notes SET title = "Bio Ch 4" WHERE id = 103;',
-      result: '✓ 1 row updated',
-      color: '#FFAA00'
-    }
+  // --- AUTOMATION 3: Live 4-Operation CRUD Loop Engine ---
+  const [crudIndex, setCrudIndex] = useState<number>(0);
+  const [updateText, setUpdateText] = useState<string>('Physics Lab');
+  const [isDeletingText, setIsDeletingText] = useState<boolean>(false);
+
+  // Table rows lifecycle for the 4-phase loop
+  const baselineRows: SqlRow[] = [
+    { id: 101, user_id: 'usr_101', title: 'Calculus Ch 4' },
+    { id: 102, user_id: 'usr_101', title: 'Physics Lab' },
+    { id: 103, user_id: 'usr_102', title: 'Biology Intro' }
   ];
+
+  const [tableRows, setTableRows] = useState<SqlRow[]>(baselineRows);
 
   useEffect(() => {
     if (currentStep !== 2) return;
-    const interval = setInterval(() => {
-      setQueryIndex(prev => (prev + 1) % queries.length);
+
+    let timer: NodeJS.Timeout;
+    const activeStep = CRUD_STEPS[crudIndex];
+
+    if (activeStep.type === 'SELECT') {
+      sound.packetPing?.();
+      setTableRows(baselineRows);
+      setUpdateText('Physics Lab');
+      setIsDeletingText(false);
+      timer = setTimeout(() => {
+        setCrudIndex(1); // Move to INSERT
+      }, 3400);
+    } else if (activeStep.type === 'INSERT') {
+      sound.success?.();
+      // Add row 104 at the top
+      setTableRows([
+        { id: 104, user_id: 'usr_101', title: 'Chemistry Lab' },
+        ...baselineRows
+      ]);
+      timer = setTimeout(() => {
+        setCrudIndex(2); // Move to UPDATE
+      }, 3400);
+    } else if (activeStep.type === 'UPDATE') {
       sound.click?.();
-    }, 2400);
-    return () => clearInterval(interval);
-  }, [currentStep, queries.length]);
+      // Start typewriter backspace and replacement on Row 102
+      const original = 'Physics Lab';
+      const replacement = 'Quantum Physics';
+      let charIdx = original.length;
+
+      // Phase A: Backspacing
+      const backspaceInterval = setInterval(() => {
+        if (charIdx > 0) {
+          charIdx--;
+          setUpdateText(original.slice(0, charIdx));
+          setIsDeletingText(true);
+        } else {
+          clearInterval(backspaceInterval);
+          setIsDeletingText(false);
+
+          // Phase B: Typing replacement after a brief pause
+          setTimeout(() => {
+            let writeIdx = 0;
+            const writeInterval = setInterval(() => {
+              if (writeIdx <= replacement.length) {
+                setUpdateText(replacement.slice(0, writeIdx));
+                writeIdx++;
+              } else {
+                clearInterval(writeInterval);
+                sound.success?.();
+              }
+            }, 60);
+          }, 200);
+        }
+      }, 50);
+
+      timer = setTimeout(() => {
+        clearInterval(backspaceInterval);
+        setCrudIndex(3); // Move to DELETE
+      }, 4500);
+    } else if (activeStep.type === 'DELETE') {
+      sound.packetPing?.();
+      // Remove row 103
+      timer = setTimeout(() => {
+        setTableRows(prev => prev.filter(r => r.id !== 103));
+        sound.slide?.();
+        // Wait and then loop back to SELECT
+        setTimeout(() => {
+          setCrudIndex(0);
+        }, 1800);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentStep, crudIndex]);
+
+  const currentCrud = CRUD_STEPS[crudIndex];
 
   return (
     <div className="w-full flex flex-col gap-3.5 font-mono select-none">
@@ -226,36 +328,36 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
                       #03
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
-                      SQL Queries: Talking to the Database
+                      SQL Queries: CRUD in Action
                     </h3>
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    <strong>SQL (Structured Query Language)</strong> is the universal query language used to interact with relational databases.
+                    <strong>SQL (Structured Query Language)</strong> performs 4 core actions (Create, Read, Update, Delete) on database tables:
                   </p>
 
                   <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                    <div className="p-2 bg-[#090a10] border border-[#55FF55]/60">
+                    <div className={`p-2 border transition-all ${currentCrud.type === 'INSERT' ? 'bg-[#55FF55]/20 border-[#55FF55]' : 'bg-[#090a10] border-[#2e334a]'}`}>
                       <strong className="text-[#55FF55] block">INSERT</strong>
-                      <span className="text-zinc-300 text-[10px]">Add new row</span>
+                      <span className="text-zinc-300 text-[10px]">Add new row at top</span>
                     </div>
-                    <div className="p-2 bg-[#090a10] border border-[#55FFFF]/60">
+                    <div className={`p-2 border transition-all ${currentCrud.type === 'SELECT' ? 'bg-[#55FFFF]/20 border-[#55FFFF]' : 'bg-[#090a10] border-[#2e334a]'}`}>
                       <strong className="text-[#55FFFF] block">SELECT</strong>
-                      <span className="text-zinc-300 text-[10px]">Find & filter rows</span>
+                      <span className="text-zinc-300 text-[10px]">Filter & match rows</span>
                     </div>
-                    <div className="p-2 bg-[#090a10] border border-[#FFAA00]/60">
+                    <div className={`p-2 border transition-all ${currentCrud.type === 'UPDATE' ? 'bg-[#FFAA00]/20 border-[#FFAA00]' : 'bg-[#090a10] border-[#2e334a]'}`}>
                       <strong className="text-[#FFAA00] block">UPDATE</strong>
-                      <span className="text-zinc-300 text-[10px]">Modify row values</span>
+                      <span className="text-zinc-300 text-[10px]">Modify row text values</span>
                     </div>
-                    <div className="p-2 bg-[#090a10] border border-[#FF5555]/60">
+                    <div className={`p-2 border transition-all ${currentCrud.type === 'DELETE' ? 'bg-[#FF5555]/20 border-[#FF5555]' : 'bg-[#090a10] border-[#2e334a]'}`}>
                       <strong className="text-[#FF5555] block">DELETE</strong>
-                      <span className="text-zinc-300 text-[10px]">Purge row</span>
+                      <span className="text-zinc-300 text-[10px]">Purge row from disk</span>
                     </div>
                   </div>
 
                   <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
                     <Lightbulb className="w-4 h-4 text-[#55FF55] shrink-0" />
-                    <span><strong>Takeaway:</strong> Backend server runs SQL queries in milliseconds to fetch precisely what is needed.</span>
+                    <span><strong>Takeaway:</strong> Backend server executes SQL queries in milliseconds to fetch or modify data.</span>
                   </div>
                 </>
               )}
@@ -391,41 +493,115 @@ export const Slide6DatabaseMemory: React.FC<Slide6Props> = ({
               </div>
             )}
 
-            {/* AUTOMATION 3: Live SQL Query Execution */}
+            {/* AUTOMATION 3: Live 4-Operation CRUD Loop Engine (SELECT, INSERT, UPDATE, DELETE) */}
             {currentStep === 2 && (
               <div className="w-full max-w-md mx-auto space-y-3 font-mono">
-                <div className="p-4 bg-[#121420] border-2 border-[#55FF55] shadow-pixel space-y-3">
+                <div
+                  className="p-4 bg-[#121420] border-2 shadow-pixel space-y-3 transition-colors duration-300"
+                  style={{ borderColor: currentCrud.color }}
+                >
                   <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-xs">
-                    <span className="text-zinc-400 font-bold">SQL CONSOLE EXECUTION</span>
-                    <span className="text-[#55FF55] font-bold">PORT 5432</span>
+                    <span className="text-zinc-400 font-bold">SQL CRUD ENGINE</span>
+                    <span
+                      className="px-2 py-0.5 text-xs font-black border"
+                      style={{ color: currentCrud.color, borderColor: currentCrud.color, backgroundColor: `${currentCrud.color}20` }}
+                    >
+                      {currentCrud.badge}
+                    </span>
                   </div>
 
                   {/* SQL Execution Window */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={queryIndex}
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.96 }}
-                      className="p-3 bg-[#090a10] border border-[#2e334a] space-y-2 text-xs font-mono"
-                    >
-                      <div className="text-zinc-400 text-[10px] font-bold">QUERY IN:</div>
-                      <code className="text-[#55FFFF] block font-bold">
-                        {queries[queryIndex].sql}
-                      </code>
+                  <div className="p-2.5 bg-[#090a10] border border-[#2e334a] space-y-1.5 text-xs font-mono">
+                    <div className="text-zinc-400 text-[10px] font-bold">QUERY IN:</div>
+                    <code className="block font-bold text-xs leading-relaxed" style={{ color: currentCrud.color }}>
+                      {currentCrud.sql}
+                    </code>
+                  </div>
 
-                      <div className="pt-2 border-t border-[#2e334a] flex items-center justify-between">
-                        <span className="text-zinc-400 text-[10px]">OUTPUT:</span>
-                        <span className="text-[#55FF55] font-bold text-xs">
-                          {queries[queryIndex].result}
-                        </span>
-                      </div>
+                  {/* Live Reactive Table */}
+                  <div className="p-2 bg-[#090a10] border border-[#2e334a] space-y-1 text-xs">
+                    <div className="grid grid-cols-4 gap-1 text-[10px] font-bold text-zinc-500 pb-1 border-b border-[#2e334a]">
+                      <span>ID</span>
+                      <span>USER</span>
+                      <span className="col-span-2">TITLE</span>
+                    </div>
+
+                    <motion.div layout className="space-y-1">
+                      <AnimatePresence initial={false}>
+                        {tableRows.map((row) => {
+                          const isSelectedMatch = currentCrud.type === 'SELECT' && row.user_id === 'usr_101';
+                          const isTargetUpdate = currentCrud.type === 'UPDATE' && row.id === 102;
+                          const isTargetDelete = currentCrud.type === 'DELETE' && row.id === 103;
+                          const isNewInsert = currentCrud.type === 'INSERT' && row.id === 104;
+
+                          return (
+                            <motion.div
+                              key={row.id}
+                              layout
+                              initial={{ opacity: 0, y: -12, scale: 0.95 }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                backgroundColor: isSelectedMatch
+                                  ? 'rgba(85, 255, 255, 0.15)'
+                                  : isNewInsert
+                                  ? 'rgba(85, 255, 85, 0.15)'
+                                  : isTargetUpdate
+                                  ? 'rgba(255, 170, 0, 0.15)'
+                                  : isTargetDelete
+                                  ? 'rgba(255, 85, 85, 0.25)'
+                                  : 'transparent'
+                              }}
+                              exit={{ opacity: 0, scale: 0.8, x: 20 }}
+                              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                              className={`grid grid-cols-4 gap-1 p-1 text-[11px] font-mono border transition-all ${
+                                isSelectedMatch
+                                  ? 'border-[#55FFFF] text-white font-bold'
+                                  : isNewInsert
+                                  ? 'border-[#55FF55] text-[#55FF55] font-bold shadow-glow-diamond'
+                                  : isTargetUpdate
+                                  ? 'border-[#FFAA00] text-white font-bold'
+                                  : isTargetDelete
+                                  ? 'border-[#FF5555] text-[#FF8888] font-bold'
+                                  : 'border-transparent text-zinc-300'
+                              }`}
+                            >
+                              <span className="text-[#FFAA00]">{row.id}</span>
+                              <span>{row.user_id}</span>
+                              <span className="col-span-2 flex items-center gap-1">
+                                {isTargetUpdate ? (
+                                  <span className="text-[#FFAA00] font-bold flex items-center">
+                                    {updateText}
+                                    <span className="animate-pulse inline-block ml-0.5 text-[#FFAA00]">|</span>
+                                  </span>
+                                ) : (
+                                  <span>{row.title}</span>
+                                )}
+                                {isNewInsert && (
+                                  <span className="text-[9px] px-1 bg-[#55FF55] text-black font-black ml-auto">
+                                    NEW
+                                  </span>
+                                )}
+                              </span>
+                            </motion.div>
+                          );
+                        })}
+                      </AnimatePresence>
                     </motion.div>
-                  </AnimatePresence>
+                  </div>
 
-                  <div className="p-2 bg-[#091f14] border border-[#55FF55]/50 text-center text-[#55FF55] text-xs font-bold flex items-center justify-center gap-1">
+                  {/* Execution Result Bar */}
+                  <div
+                    className="p-2 border text-center text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    style={{
+                      borderColor: `${currentCrud.color}50`,
+                      backgroundColor: `${currentCrud.color}15`,
+                      color: currentCrud.color
+                    }}
+                  >
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>ACID Compliant Transaction Safe</span>
+                    <span>{currentCrud.result}</span>
                   </div>
                 </div>
               </div>
