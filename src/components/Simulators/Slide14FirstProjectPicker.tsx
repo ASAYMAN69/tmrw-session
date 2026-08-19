@@ -23,93 +23,93 @@ interface Slide14Props {
 const QUESTS = [
   {
     id: 1,
-    title: 'Developer Portfolio & Resume',
-    time: '1-2 Days',
-    stack: 'React + Tailwind + Vercel',
-    category: 'Portfolio',
-    desc: 'Showcase your biography, skills, GitHub repositories, and an interactive dark/light mode toggle.',
-    color: '#FFAA00'
-  },
-  {
-    id: 2,
-    title: 'Student Homework & Exam Tracker',
-    time: '2-3 Days',
-    stack: 'React + Supabase / PostgreSQL',
-    category: 'Productivity',
-    desc: 'Add assignments with course tags, due dates, priority filters, and persistent completion checkboxes.',
+    title: 'Interactive Birthday Wish Card',
+    time: '1-2 Hours',
+    stack: 'HTML + CSS + Confetti JS',
+    category: 'Fun & Creative',
+    desc: 'An animated digital envelope that opens with floating balloons, custom message, and a confetti explosion.',
     color: '#55FFFF'
   },
   {
+    id: 2,
+    title: 'Cookie Clicker Mini-Game',
+    time: '1-2 Hours',
+    stack: 'HTML + JavaScript',
+    category: 'Games',
+    desc: 'Click a giant cookie to earn points, buy +1 auto-clicker upgrades, and beat your personal high score.',
+    color: '#FFAA00'
+  },
+  {
     id: 3,
-    title: 'Coffee Brew Ratio & Pour Timer',
-    time: '1-2 Days',
-    stack: 'React + Web Audio API',
-    category: 'Utility Tool',
-    desc: 'Input coffee beans in grams, automatically compute water ratio, and play audible countdown beeps.',
+    title: 'Random Joke & Quote Generator',
+    time: '1-2 Hours',
+    stack: 'HTML + JS + Free API',
+    category: 'Fun & Creative',
+    desc: 'Click a button to generate funny programmer jokes or motivational quotes with 1-click copy.',
     color: '#55FF55'
   },
   {
     id: 4,
-    title: 'Daily Expense & Subscription Log',
-    time: '2-4 Days',
-    stack: 'React + Express API + DB',
-    category: 'Finance',
-    desc: 'Record daily purchases by category (Food, Tech, Books) and calculate total monthly spending metrics.',
-    color: '#FFAA00'
-  },
-  {
-    id: 5,
-    title: 'Movie & Anime Watchlist Hub',
-    time: '2-3 Days',
-    stack: 'React + TMDB / Public API',
-    category: 'Entertainment',
-    desc: 'Search for movies and shows, view ratings, trailer embeds, and bookmark favorites to local storage.',
+    title: 'My Favorite Anime / Character Cards',
+    time: '1 Afternoon',
+    stack: 'HTML + CSS Flexbox',
+    category: 'Showcase',
+    desc: 'A responsive grid of your top favorite anime or game characters with image cards, badges, and stats.',
     color: '#55FFFF'
   },
   {
+    id: 5,
+    title: 'Rock, Paper, Scissors vs Computer',
+    time: '1-2 Hours',
+    stack: 'HTML + JavaScript',
+    category: 'Games',
+    desc: 'Play rounds against the computer with win/loss streak counters and animated hand victory banners.',
+    color: '#FFAA00'
+  },
+  {
     id: 6,
-    title: 'Markdown Note Vault & Live Editor',
-    time: '2-3 Days',
-    stack: 'React + Markdown Parser',
-    category: 'Productivity',
-    desc: 'Split-screen real-time markdown editor with syntax highlighting, tag search, and one-click copy.',
+    title: 'Simple Digital Calculator',
+    time: '1 Afternoon',
+    stack: 'HTML + CSS Grid + JS',
+    category: 'Tools',
+    desc: 'A sleek digital keypad calculator for quick math operations (+, -, *, /) with a reset clear button.',
     color: '#55FF55'
   },
   {
     id: 7,
-    title: 'Pomodoro Focus Room + Lo-Fi Audio',
-    time: '1-2 Days',
-    stack: 'React + Audio Player',
-    category: 'Wellness',
-    desc: '25-minute focus session timer with customizable break intervals and relaxing background sound loops.',
-    color: '#FFAA00'
-  },
-  {
-    id: 8,
-    title: 'Interactive Web Dev Quiz Arena',
-    time: '2-3 Days',
-    stack: 'React + OpenTrivia API',
-    category: 'Gaming',
-    desc: '10-question rapid quiz with countdown clock, instant feedback, score multiplier, and end celebration.',
+    title: 'Personal Link-in-Bio Page',
+    time: '1-2 Hours',
+    stack: 'HTML + CSS + Vercel',
+    category: 'Portfolio',
+    desc: 'Put all your social links (Instagram, GitHub, Discord, YouTube) on one clean, mobile-friendly webpage.',
     color: '#55FFFF'
   },
   {
+    id: 8,
+    title: 'Digital Clock & Study Stopwatch',
+    time: '1-2 Hours',
+    stack: 'HTML + JavaScript',
+    category: 'Tools',
+    desc: 'Live real-time glowing digital clock with a built-in start/pause study stopwatch for focus sessions.',
+    color: '#FFAA00'
+  },
+  {
     id: 9,
-    title: 'Linktree-Style Personal Bio Page',
-    time: '1 Day',
-    stack: 'HTML + Tailwind CSS',
-    category: 'Social',
-    desc: 'Custom-branded responsive links hub with social media icons, animated hover cards, and avatar.',
+    title: 'Random Color Palette Generator',
+    time: '1-2 Hours',
+    stack: 'HTML + JavaScript',
+    category: 'Design Tools',
+    desc: 'Press the spacebar to generate 5 matching aesthetic hex colors with instant click-to-copy codes.',
     color: '#55FF55'
   },
   {
     id: 10,
-    title: 'Live Currency & Crypto Exchange',
-    time: '1-2 Days',
-    stack: 'React + ExchangeRate API',
-    category: 'Finance',
-    desc: 'Real-time exchange rate calculator for 30+ fiat currencies and crypto tokens with instant search.',
-    color: '#FFAA00'
+    title: 'Daily Checklist & To-Do List',
+    time: '1 Afternoon',
+    stack: 'HTML + JS (LocalStorage)',
+    category: 'Productivity',
+    desc: 'Type a task, press Enter to add, click to strike through, and save everything in your browser permanently.',
+    color: '#55FFFF'
   }
 ];
 
@@ -148,16 +148,6 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
     }, 70);
   };
 
-  const handlePrev = () => {
-    sound.click();
-    setQuestIndex((prev) => (prev > 0 ? prev - 1 : QUESTS.length - 1));
-  };
-
-  const handleNext = () => {
-    sound.click();
-    setQuestIndex((prev) => (prev < QUESTS.length - 1 ? prev + 1 : 0));
-  };
-
   return (
     <div className="w-full flex flex-col gap-3.5 font-mono select-none">
       {/* 3 Main Points Top Hotbar */}
@@ -176,7 +166,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
               <Clock className="w-5 h-5 text-[#FFAA00]" />
               <span className="text-xs sm:text-sm font-black">01. SCOPE & TIME</span>
             </div>
-            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">1-4 Day Rule</span>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">1-Afternoon Rule</span>
           </button>
 
           {/* Point 2: Generator */}
@@ -192,7 +182,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
               <Dices className="w-5 h-5 text-[#55FFFF]" />
               <span className="text-xs sm:text-sm font-black">02. IDEA ROLLER</span>
             </div>
-            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">{QUESTS.length} Ideas Ready</span>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Beginner Ideas</span>
           </button>
 
           {/* Point 3: Done Checklist */}
@@ -208,7 +198,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
               <Rocket className="w-5 h-5 text-[#55FF55]" />
               <span className="text-xs sm:text-sm font-black">03. DEFINITION OF DONE</span>
             </div>
-            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Ship to Prod</span>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Ship to Live URL</span>
           </button>
         </div>
       </div>
@@ -234,27 +224,27 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                       #01
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
-                      The 1-4 Day Project Rule
+                      The 1-Afternoon Project Rule
                     </h3>
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    The #1 reason beginners quit coding is <strong>scope creep</strong> — trying to build a giant platform on day one.
+                    The #1 reason beginners quit coding is trying to build a giant platform on day one. Start tiny!
                   </p>
 
                   <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-2">
                     <div className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#55FF55] shrink-0" />
                       <div>
-                        <strong className="text-[#55FF55]">Great First Projects (1-4 Days):</strong>
-                        <p className="text-zinc-300">Portfolio resume, Pomodoro study timer, Quiz app, Simple notes list.</p>
+                        <strong className="text-[#55FF55]">Easy First Projects (1 Afternoon):</strong>
+                        <p className="text-zinc-300">Birthday Card, Cookie Clicker, Quote Generator, Simple Calculator.</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
                       <XCircle className="w-4 h-4 text-[#FF5555] shrink-0" />
                       <div>
-                        <strong className="text-[#FF5555]">Burnout Traps (Avoid):</strong>
-                        <p className="text-zinc-300">"The Next TikTok", 3D MMO Game, Multi-vendor Marketplace.</p>
+                        <strong className="text-[#FF5555]">Burnout Traps (Avoid for Now):</strong>
+                        <p className="text-zinc-300">"The Next TikTok", 3D MMO Game, Full E-Commerce Store.</p>
                       </div>
                     </div>
                   </div>
@@ -279,7 +269,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    Pick a project you can finish in 1-4 days. Each project uses the full circuit we learned today:
+                    Pick a fun project you can finish in a single afternoon. Each one is simple and rewarding:
                   </p>
 
                   <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-2 font-mono">
@@ -303,7 +293,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
 
                   <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
                     <Lightbulb className="w-4 h-4 text-[#55FFFF] shrink-0" />
-                    <span><strong>Takeaway:</strong> Build something you will personally use every day.</span>
+                    <span><strong>Takeaway:</strong> Build something fun that you can share with your friends immediately.</span>
                   </div>
                 </>
               )}
@@ -321,21 +311,21 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    How do you know when your project is officially complete and ready for your portfolio?
+                    How do you know when your project is officially complete and ready to share?
                   </p>
 
                   <div className="space-y-2 text-xs">
                     <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#55FF55]" />
-                      <span className="text-zinc-200">1. <strong>Working UI:</strong> The core feature works with zero console errors.</span>
+                      <span className="text-zinc-200">1. <strong>Working UI:</strong> The core feature works cleanly in the browser.</span>
                     </div>
                     <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#55FF55]" />
-                      <span className="text-zinc-200">2. <strong>Public GitHub Repo:</strong> Clean commits and a helpful README.md.</span>
+                      <span className="text-zinc-200">2. <strong>Public GitHub Repo:</strong> Saved on your personal GitHub account.</span>
                     </div>
                     <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#55FF55]" />
-                      <span className="text-zinc-200">3. <strong>Live Public URL:</strong> Hosted on Vercel/Netlify that anyone can click.</span>
+                      <span className="text-zinc-200">3. <strong>Live Public URL:</strong> Free link on Vercel/GitHub Pages you can text to friends.</span>
                     </div>
                   </div>
 
@@ -359,7 +349,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
           {/* Header */}
           <div className="flex items-center gap-2 pb-3 border-b border-[#2e334a] text-xs sm:text-sm font-bold text-zinc-300">
             <Server className="w-5 h-5 text-[#55FFFF]" />
-            <span>PROJECT LAUNCHPAD ROULETTE</span>
+            <span>BEGINNER PROJECT ROULETTE</span>
           </div>
 
           {/* Dynamic Animation Viewport - Centered Vertically & Horizontally */}
@@ -372,7 +362,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                   style={{ borderColor: currentQuest.color }}
                 >
                   <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-xs">
-                    <span className="text-zinc-400 font-bold">PROJECT GENERATOR</span>
+                    <span className="text-zinc-400 font-bold">STARTER PROJECT ROULETTE</span>
 
                     <button
                       onClick={rollQuest}
@@ -419,7 +409,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
 
                   <div className="p-2 bg-[#091f14] border border-[#55FF55]/60 text-center text-[#55FF55] text-xs font-bold flex items-center justify-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    <span>Spin the generator to pick your starter project blueprint!</span>
+                    <span>Spin the roulette to pick a fun 1-afternoon starter project!</span>
                   </div>
                 </div>
               </div>
