@@ -66,7 +66,13 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
   };
 
   return (
-    <div className="w-full max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-8 py-3 flex flex-col gap-3 pb-24 font-mono">
+    <div
+      className={
+        slide.id === 13
+          ? "w-full max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] font-mono"
+          : "w-full max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-8 py-3 flex flex-col gap-3 pb-24 font-mono"
+      }
+    >
       {/* Clean Minimal Slide Header */}
       {slide.id !== 13 && slide.id !== 14 && (
         <div className="flex flex-col gap-1">
@@ -91,7 +97,7 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
       )}
 
       {/* Main Interactive Stage */}
-      <div className="mt-1">
+      <div className={slide.id === 13 ? "w-full flex items-center justify-center" : "mt-1"}>
         {renderSimulator()}
       </div>
     </div>

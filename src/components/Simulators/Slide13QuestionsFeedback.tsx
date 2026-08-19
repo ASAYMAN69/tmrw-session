@@ -22,7 +22,7 @@ export const Slide13QuestionsFeedback: React.FC<Slide13Props> = ({
   }, [currentStep]);
 
   return (
-    <div className="w-full min-h-[60vh] flex items-center justify-center font-mono select-none px-4">
+    <div className="w-full flex items-center justify-center text-center font-mono select-none px-4">
       <AnimatePresence mode="wait">
         {currentStep === 0 ? (
           <motion.div
@@ -31,10 +31,10 @@ export const Slide13QuestionsFeedback: React.FC<Slide13Props> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -15 }}
             transition={{ type: 'spring', damping: 20, stiffness: 280 }}
-            className="text-center"
+            className="flex items-center justify-center text-center w-full"
           >
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white font-sans tracking-tight">
-              Any questions? <span className="text-[#55FFFF]">:P</span>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white font-sans tracking-tight text-center leading-tight">
+              Any questions? <span className="text-[#55FFFF] inline-block">:P</span>
             </h1>
           </motion.div>
         ) : (
@@ -44,10 +44,10 @@ export const Slide13QuestionsFeedback: React.FC<Slide13Props> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -15 }}
             transition={{ type: 'spring', damping: 20, stiffness: 280 }}
-            className="text-center"
+            className="flex items-center justify-center text-center w-full"
           >
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white font-sans tracking-tight">
-              Loved the session? <span className="text-[#55FF55]">:D</span>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white font-sans tracking-tight text-center leading-tight">
+              Loved the session? <span className="text-[#55FF55] inline-block">:D</span>
             </h1>
           </motion.div>
         )}
