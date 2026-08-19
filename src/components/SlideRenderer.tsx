@@ -1,9 +1,8 @@
 import React from 'react';
 import { SlideData } from '../types/presentation';
 
-// Import all 16 simulators
+// Import all 15 simulators
 import { Slide1JourneyMap } from './Simulators/Slide1JourneyMap';
-import { Slide2WhatMakesWebsite } from './Simulators/Slide2WhatMakesWebsite';
 import { Slide3FrontendSandbox } from './Simulators/Slide3FrontendSandbox';
 import { Slide4BackendLogic } from './Simulators/Slide4BackendLogic';
 import { Slide5ApiRestaurant } from './Simulators/Slide5ApiRestaurant';
@@ -37,34 +36,32 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
       case 1:
         return <Slide1JourneyMap subStep={subStep} onSubStepChange={onSubStepChange} />;
       case 2:
-        return <Slide2WhatMakesWebsite subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 3:
         return <Slide3FrontendSandbox subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 4:
+      case 3:
         return <Slide4BackendLogic subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 5:
+      case 4:
         return <Slide5ApiRestaurant subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 6:
+      case 5:
         return <Slide6DatabaseMemory subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 7:
+      case 6:
         return <Slide7AuthMatrix subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 8:
+      case 7:
         return <Slide8DomainHosting subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 9:
+      case 8:
         return <Slide9FullSystemCircuit subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 10:
+      case 9:
         return <Slide10StudentNotesStack subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 11:
+      case 10:
         return <Slide11RoadmapSteps subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 12:
+      case 11:
         return <Slide12ArchitectureCompare subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 13:
+      case 12:
         return <Slide13LearningTree subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 14:
+      case 13:
         return <Slide14FirstProjectPicker subStep={subStep} onSubStepChange={onSubStepChange} />;
-      case 15:
+      case 14:
         return <Slide15LaunchPad subStep={subStep} onSubStepChange={onSubStepChange} onRestart={onRestart} />;
-      case 16:
+      case 15:
         return <Slide16LiveMasterclass subStep={subStep} onSubStepChange={onSubStepChange} />;
       default:
         return <Slide1JourneyMap subStep={subStep} onSubStepChange={onSubStepChange} />;
@@ -74,7 +71,7 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
   return (
     <div className="w-full max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-8 py-3 flex flex-col gap-3 pb-24 font-mono">
       {/* Clean Minimal Slide Header */}
-      {slide.id !== 16 && (
+      {slide.id !== 15 && (
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-[#55FFFF] bg-[#121420] px-2 py-0.5 border border-[#2e334a]">

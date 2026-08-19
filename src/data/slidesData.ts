@@ -20,21 +20,6 @@ export const SLIDES: SlideData[] = [
   },
   {
     id: 2,
-    slug: 'what-makes-a-website',
-    title: 'What Actually Makes a Website?',
-    badge: 'Core Architecture',
-    subtitle: 'Deconstructing the pieces working behind your browser',
-    category: 'Foundation',
-    bigStatement: "A website is not one single thing. It is a collection of pieces working together.",
-    maxSubSteps: 4,
-    presenterNotes: [
-      "Ask the audience what they think happens when a URL is opened.",
-      "Highlight the separation of concerns: seeing vs computing vs storing.",
-      "Reassure them that modern web development is modular."
-    ]
-  },
-  {
-    id: 3,
     slug: 'frontend-what-you-see',
     title: 'Frontend: What You See',
     badge: 'Client-Side',
@@ -50,7 +35,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 4,
+    id: 3,
     slug: 'backend-the-logic',
     title: "Backend: The Stuff You Don't See",
     badge: 'Server-Side',
@@ -65,7 +50,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 5,
+    id: 4,
     slug: 'apis-how-everything-talks',
     title: 'APIs: How Everything Talks',
     badge: 'Communication Layer',
@@ -80,7 +65,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 6,
+    id: 5,
     slug: 'database-the-memory',
     title: 'Database: The Memory',
     badge: 'Data Persistence',
@@ -94,7 +79,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 7,
+    id: 6,
     slug: 'authentication-who-are-you',
     title: 'Authentication: "Who Are You?"',
     badge: 'Security & Access',
@@ -108,7 +93,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 8,
+    id: 7,
     slug: 'from-computer-to-internet',
     title: 'From Computer to Internet',
     badge: 'Networking & Web',
@@ -122,7 +107,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 9,
+    id: 8,
     slug: 'put-it-all-together',
     title: 'Put It All Together',
     badge: 'The Complete System',
@@ -136,7 +121,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 10,
+    id: 9,
     slug: 'a-real-example',
     title: "Let's Build a Student Notes Website",
     badge: 'Case Study',
@@ -150,7 +135,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 11,
+    id: 10,
     slug: 'your-actual-development-roadmap',
     title: 'Your Actual Development Roadmap',
     badge: 'Step-by-Step Guide',
@@ -165,7 +150,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 12,
+    id: 11,
     slug: 'do-i-always-need-everything',
     title: 'Do I Always Need Everything?',
     badge: 'Architectural Decisions',
@@ -179,7 +164,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 13,
+    id: 12,
     slug: 'what-you-learn-next',
     title: 'What You Learn Next',
     badge: 'Skill Progression',
@@ -194,7 +179,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 14,
+    id: 13,
     slug: 'your-first-project',
     title: 'Your First Project',
     badge: 'Actionable Challenge',
@@ -209,7 +194,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 15,
+    id: 14,
     slug: 'the-whole-journey',
     title: 'The Whole Journey',
     badge: 'Grand Finale & Launch',
@@ -223,7 +208,7 @@ export const SLIDES: SlideData[] = [
     ]
   },
   {
-    id: 16,
+    id: 15,
     slug: 'acc-codelaunch-bootcamp',
     title: 'ACC CodeLaunch 2026: Live Web Development Bootcamp',
     badge: 'Official Masterclass',
@@ -239,4 +224,3 @@ export const SLIDES: SlideData[] = [
     ]
   }
 ];
-
