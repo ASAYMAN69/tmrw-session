@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
-import { Calendar, Video, Sparkles, Terminal } from 'lucide-react';
+import { Calendar, Video, Sparkles } from 'lucide-react';
 
 interface Slide16Props {
   subStep?: number;
@@ -38,10 +38,8 @@ export const Slide16LiveMasterclass: React.FC<Slide16Props> = () => {
     >
       {/* 1. Header Bar: ACC CodeLaunch 2026 x Adamjee Cantonment College IT Club */}
       <motion.div variants={itemVariants} className="pixel-box p-3 bg-[#121420] flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#181b2c] border border-[#00FF66] flex items-center justify-center text-[#00FF66] shadow-pixel-sm">
-            <Terminal className="w-4 h-4" />
-          </div>
+        <div className="flex items-center gap-3">
+          <img src="/accit-banner.png" alt="ACC IT Club Logo" className="w-10 h-10 object-contain" />
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-pixel text-[10px] text-white">ACC CODELAUNCH</span>
