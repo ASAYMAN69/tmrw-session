@@ -238,7 +238,7 @@ const MessengerPackingOffloadGraphic: React.FC = () => {
   );
 };
 
-// Real 1-to-1 JSON-to-UI Morphing Engine
+// Real 1-to-1 JSON-to-UI Morphing Engine (Single Box Morph)
 const JsonToUiMorphGraphic: React.FC = () => {
   // Mode: 'json' (raw text) -> 'card' (rendered HTML/CSS modal card)
   const [isRendered, setIsRendered] = useState<boolean>(false);
@@ -259,96 +259,99 @@ const JsonToUiMorphGraphic: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-md mx-auto font-mono">
-      <div className="p-5 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel min-h-[260px] flex flex-col justify-center relative overflow-hidden">
-        {/* Laser Scanline Beam during Morph */}
-        <motion.div
-          key={isRendered ? 'to-card' : 'to-json'}
-          initial={{ top: '0%', opacity: 1 }}
-          animate={{ top: '100%', opacity: 0 }}
-          transition={{ duration: 0.65, ease: 'easeInOut' }}
-          className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#55FFFF] to-transparent shadow-glow-cyan z-20 pointer-events-none"
-        />
+    <div className="w-full max-w-md mx-auto font-mono relative overflow-hidden">
+      {/* Laser Scanline Beam during Morph */}
+      <motion.div
+        key={isRendered ? 'to-card' : 'to-json'}
+        initial={{ top: '0%', opacity: 1 }}
+        animate={{ top: '100%', opacity: 0 }}
+        transition={{ duration: 0.65, ease: 'easeInOut' }}
+        className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#55FFFF] to-transparent shadow-glow-cyan z-20 pointer-events-none"
+      />
 
-        <AnimatePresence mode="wait">
-          {/* 1. RAW JSON TEXT (1-to-1 EXACT KEYS) */}
-          {!isRendered && (
-            <motion.div
-              key="json-view"
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.3 }}
-              className="p-3.5 bg-[#090a10] border border-[#55FFFF]/60 shadow-pixel space-y-1.5 text-xs font-mono"
-            >
-              <div className="text-[#55FFFF] leading-relaxed">
-                &#123;<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"user"</span>: <span className="text-[#FF8888]">"Alex (usr_101)"</span>,<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"badge"</span>: <span className="text-[#55FF55]">"PRO STUDENT"</span>,<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Chapter 4"</span>,<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"tags"</span>: [<span className="text-[#55FFFF]">"#Math"</span>, <span className="text-[#55FFFF]">"#ExamPrep"</span>],<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"buttonText"</span>: <span className="text-[#FF8888]">"OPEN NOTE"</span>,<br />
-                &nbsp;&nbsp;<span className="text-[#FFAA00]">"status"</span>: <span className="text-[#55FF55]">200</span><br />
-                &#125;
-              </div>
-            </motion.div>
-          )}
+      <AnimatePresence mode="wait">
+        {/* 1. RAW JSON TEXT (1-to-1 EXACT KEYS) - SINGLE BOX */}
+        {!isRendered && (
+          <motion.div
+            key="json-view"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.3 }}
+            className="p-5 bg-[#090a10] border-2 border-[#55FFFF] shadow-pixel min-h-[250px] flex flex-col justify-center space-y-2 text-xs font-mono"
+          >
+            <div className="flex items-center justify-between border-b border-[#2e334a] pb-1.5 text-[10px]">
+              <span className="text-zinc-400 font-bold">RAW JSON:</span>
+              <span className="text-[#55FFFF] font-bold">application/json</span>
+            </div>
 
-          {/* 2. RENDERED HTML/CSS CARD (EVERY SINGLE PIECE FROM JSON) */}
-          {isRendered && (
-            <motion.div
-              key="card-view"
-              initial={{ opacity: 0, scale: 0.94, y: 6 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: -6 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="p-4 bg-[#181b2c] border-2 border-[#55FF55] shadow-glow-diamond space-y-3"
-            >
-              {/* Header: user + badge */}
-              <div className="flex items-center justify-between border-b border-[#2e334a] pb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-[#55FFFF]/20 border border-[#55FFFF] flex items-center justify-center text-[#55FFFF]">
-                    <User className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-white font-black text-xs">
-                    Alex (usr_101)
-                  </span>
+            <div className="text-[#55FFFF] leading-relaxed">
+              &#123;<br />
+              &nbsp;&nbsp;<span className="text-[#FFAA00]">"user"</span>: <span className="text-[#FF8888]">"Alex (usr_101)"</span>,<br />
+              &nbsp;&nbsp;<span className="text-[#FFAA00]">"badge"</span>: <span className="text-[#55FF55]">"PRO STUDENT"</span>,<br />
+              &nbsp;&nbsp;<span className="text-[#FFAA00]">"title"</span>: <span className="text-[#FF8888]">"Calculus Chapter 4"</span>,<br />
+              &nbsp;&nbsp;<span className="text-[#FFAA00]">"tags"</span>: [<span className="text-[#55FFFF]">"#Math"</span>, <span className="text-[#55FFFF]">"#ExamPrep"</span>],<br />
+              &nbsp;&nbsp;<span className="text-[#FFAA00]">"buttonText"</span>: <span className="text-[#FF8888]">"OPEN NOTE"</span>,<br />
+              &nbsp;&nbsp;<span className="text-[#FFAA00]">"status"</span>: <span className="text-[#55FF55]">200</span><br />
+              &#125;
+            </div>
+          </motion.div>
+        )}
+
+        {/* 2. RENDERED HTML/CSS CARD - SINGLE BOX */}
+        {isRendered && (
+          <motion.div
+            key="card-view"
+            initial={{ opacity: 0, scale: 0.94, y: 6 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: -6 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="p-5 bg-[#181b2c] border-2 border-[#55FF55] shadow-glow-diamond min-h-[250px] flex flex-col justify-between space-y-3"
+          >
+            {/* Header: user + badge */}
+            <div className="flex items-center justify-between border-b border-[#2e334a] pb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 bg-[#55FFFF]/20 border border-[#55FFFF] flex items-center justify-center text-[#55FFFF]">
+                  <User className="w-4 h-4" />
                 </div>
-
-                <span className="px-2 py-0.5 bg-[#55FF55]/20 border border-[#55FF55] text-[#55FF55] text-[10px] font-black">
-                  PRO STUDENT
+                <span className="text-white font-black text-xs">
+                  Alex (usr_101)
                 </span>
               </div>
 
-              {/* Body: title + status */}
-              <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-[#55FFFF]" />
-                  <h4 className="text-sm font-black text-white">Calculus Chapter 4</h4>
-                </div>
-                <span className="text-[10px] font-mono text-[#55FF55] font-bold">200 OK</span>
+              <span className="px-2.5 py-0.5 bg-[#55FF55]/20 border border-[#55FF55] text-[#55FF55] text-[10px] font-black">
+                PRO STUDENT
+              </span>
+            </div>
+
+            {/* Body: title + status */}
+            <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-[#55FFFF]" />
+                <h4 className="text-sm font-black text-white">Calculus Chapter 4</h4>
+              </div>
+              <span className="text-[10px] font-mono text-[#55FF55] font-bold">200 OK</span>
+            </div>
+
+            {/* Footer: tags + buttonText */}
+            <div className="flex items-center justify-between pt-1">
+              <div className="flex gap-1.5">
+                <span className="px-2 py-0.5 bg-[#121420] text-[#55FFFF] text-[9px] font-bold border border-[#55FFFF]/40">
+                  #Math
+                </span>
+                <span className="px-2 py-0.5 bg-[#121420] text-[#55FFFF] text-[9px] font-bold border border-[#55FFFF]/40">
+                  #ExamPrep
+                </span>
               </div>
 
-              {/* Footer: tags + buttonText */}
-              <div className="flex items-center justify-between pt-1">
-                <div className="flex gap-1.5">
-                  <span className="px-2 py-0.5 bg-[#121420] text-[#55FFFF] text-[9px] font-bold border border-[#55FFFF]/40">
-                    #Math
-                  </span>
-                  <span className="px-2 py-0.5 bg-[#121420] text-[#55FFFF] text-[9px] font-bold border border-[#55FFFF]/40">
-                    #ExamPrep
-                  </span>
-                </div>
-
-                <button className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1 shadow-glow-cyan">
-                  <span>OPEN NOTE</span>
-                  <ExternalLink className="w-3 h-3" />
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              <button className="px-3.5 py-1.5 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1 shadow-glow-cyan">
+                <span>OPEN NOTE</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
