@@ -20,7 +20,8 @@ import {
   HardDrive,
   User,
   ExternalLink,
-  BookOpen
+  BookOpen,
+  RefreshCw
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -654,9 +655,10 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
                   </div>
                 </div>
 
-                <p className="text-center text-[11px] text-zinc-400">
-                  🔄 Cycling automatically through GET, POST, PUT, and DELETE operations.
-                </p>
+                <div className="flex items-center justify-center gap-1.5 text-[11px] text-zinc-400">
+                  <RefreshCw className="w-3 h-3 text-[#55FF55] animate-spin" />
+                  <span>Cycling through GET, POST, PUT, and DELETE</span>
+                </div>
               </div>
             )}
           </div>
