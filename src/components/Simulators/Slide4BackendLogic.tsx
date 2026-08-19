@@ -12,8 +12,7 @@ import {
   XCircle,
   FolderLock,
   Server,
-  Zap,
-  RefreshCw
+  Zap
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -26,32 +25,27 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
   subStep = 0,
   onSubStepChange,
 }) => {
-  const currentStep = Math.min(3, Math.max(0, subStep));
+  const currentStep = Math.min(2, Math.max(0, subStep));
 
-  // Automation state for Step 0 (Legitimacy Check)
+  // Point 1 Automation: Alternates between Legitimacy Scanner and Workspace Routing
+  const [authStage, setAuthStage] = useState<'scan' | 'workspace'>('scan');
   const [authCycle, setAuthCycle] = useState<'legit' | 'imposter'>('legit');
+  const [activeUser, setActiveUser] = useState<'alex' | 'sam'>('alex');
+
   useEffect(() => {
     if (currentStep !== 0) return;
     const interval = setInterval(() => {
+      setAuthStage(prev => (prev === 'scan' ? 'workspace' : 'scan'));
       setAuthCycle(prev => (prev === 'legit' ? 'imposter' : 'legit'));
+      setActiveUser(prev => (prev === 'alex' ? 'sam' : 'alex'));
     }, 3200);
     return () => clearInterval(interval);
   }, [currentStep]);
 
-  // Automation state for Step 1 (Workspace Isolation)
-  const [activeUser, setActiveUser] = useState<'alex' | 'sam'>('alex');
-  useEffect(() => {
-    if (currentStep !== 1) return;
-    const interval = setInterval(() => {
-      setActiveUser(prev => (prev === 'alex' ? 'sam' : 'alex'));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [currentStep]);
-
-  // Automation state for Step 2 (Business Logic)
+  // Point 2 Automation: Price calculation phases
   const [calcPhase, setCalcPhase] = useState<number>(0);
   useEffect(() => {
-    if (currentStep !== 2) return;
+    if (currentStep !== 1) return;
     const interval = setInterval(() => {
       setCalcPhase(prev => (prev + 1) % 3);
     }, 2200);
@@ -60,70 +54,59 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
 
   return (
     <div className="w-full flex flex-col gap-3.5 font-mono select-none">
-      {/* 4-Step Top Hotbar Selector */}
+      {/* 3-Point Top Hotbar Selector */}
       <div className="bg-[#121420] border-2 border-[#2e334a] p-1.5 shadow-pixel">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <button
             onClick={() => { sound.click(); onSubStepChange?.(0); }}
-            className={`py-2 px-2.5 flex items-center justify-between cursor-pointer border-2 transition-all ${
+            className={`py-2.5 px-3 flex items-center justify-between cursor-pointer border-2 transition-all ${
               currentStep === 0
                 ? 'bg-[#1e2640] border-[#FFAA00] text-[#FFAA00] shadow-pixel scale-[1.02]'
                 : 'bg-[#090a10] border-[#22273a] text-zinc-400 hover:text-white'
             }`}
           >
-            <div className="flex items-center gap-1.5 truncate">
-              <Key className="w-4 h-4 text-[#FFAA00] shrink-0" />
-              <span className="text-xs sm:text-sm font-black truncate">#01. ARE THEY LEGIT?</span>
+            <div className="flex items-center gap-2">
+              <Key className="w-5 h-5 text-[#FFAA00]" />
+              <span className="text-xs sm:text-sm font-black">01. AUTHENTICATION</span>
             </div>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Identity & Workspaces</span>
           </button>
 
           <button
             onClick={() => { sound.click(); onSubStepChange?.(1); }}
-            className={`py-2 px-2.5 flex items-center justify-between cursor-pointer border-2 transition-all ${
+            className={`py-2.5 px-3 flex items-center justify-between cursor-pointer border-2 transition-all ${
               currentStep === 1
                 ? 'bg-[#1e2640] border-[#55FFFF] text-[#55FFFF] shadow-pixel scale-[1.02]'
                 : 'bg-[#090a10] border-[#22273a] text-zinc-400 hover:text-white'
             }`}
           >
-            <div className="flex items-center gap-1.5 truncate">
-              <Users className="w-4 h-4 text-[#55FFFF] shrink-0" />
-              <span className="text-xs sm:text-sm font-black truncate">#02. WORKSPACES</span>
+            <div className="flex items-center gap-2">
+              <Calculator className="w-5 h-5 text-[#55FFFF]" />
+              <span className="text-xs sm:text-sm font-black">02. BUSINESS LOGIC</span>
             </div>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Rules & Calculations</span>
           </button>
 
           <button
             onClick={() => { sound.click(); onSubStepChange?.(2); }}
-            className={`py-2 px-2.5 flex items-center justify-between cursor-pointer border-2 transition-all ${
+            className={`py-2.5 px-3 flex items-center justify-between cursor-pointer border-2 transition-all ${
               currentStep === 2
-                ? 'bg-[#1e2640] border-[#0088FF] text-[#0088FF] shadow-pixel scale-[1.02]'
-                : 'bg-[#090a10] border-[#22273a] text-zinc-400 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center gap-1.5 truncate">
-              <Calculator className="w-4 h-4 text-[#0088FF] shrink-0" />
-              <span className="text-xs sm:text-sm font-black truncate">#03. BUSINESS LOGIC</span>
-            </div>
-          </button>
-
-          <button
-            onClick={() => { sound.click(); onSubStepChange?.(3); }}
-            className={`py-2 px-2.5 flex items-center justify-between cursor-pointer border-2 transition-all ${
-              currentStep === 3
                 ? 'bg-[#1e2640] border-[#55FF55] text-[#55FF55] shadow-pixel scale-[1.02]'
                 : 'bg-[#090a10] border-[#22273a] text-zinc-400 hover:text-white'
             }`}
           >
-            <div className="flex items-center gap-1.5 truncate">
-              <ShieldCheck className="w-4 h-4 text-[#55FF55] shrink-0" />
-              <span className="text-xs sm:text-sm font-black truncate">#04. SECURITY GUARD</span>
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-[#55FF55]" />
+              <span className="text-xs sm:text-sm font-black">03. SECURITY GUARD</span>
             </div>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Threat Filter</span>
           </button>
         </div>
       </div>
 
-      {/* Main 2-Section Body Split with Left Description + Right Visual Automation */}
+      {/* Main 2-Section Body Split */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* LEFT SECTION: Concept & Explanation */}
+        {/* LEFT SECTION: Explanation & Blueprint */}
         <div className="bg-[#121420] border-2 border-[#383e58] p-6 shadow-pixel flex flex-col justify-between">
           <AnimatePresence mode="wait">
             <motion.div
@@ -134,7 +117,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
               transition={{ duration: 0.15 }}
               className="flex flex-col gap-3.5"
             >
-              {/* Step 0: Legitimacy Check */}
+              {/* POINT 1: AUTHENTICATION (LEGITIMACY + WORKSPACE ISOLATION) */}
               {currentStep === 0 && (
                 <>
                   <div className="flex items-center gap-2.5">
@@ -142,73 +125,48 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                       #01
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
-                      Authentication: Are They Legitimate?
+                      Authentication: Identity & Workspaces
                     </h3>
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    The backend's primary duty is <strong>Identity Verification</strong>. When a user logs in, the server checks if they are who they claim to be before granting access.
+                    Authentication in web backends solves <strong>two essential jobs</strong>:
                   </p>
 
-                  <div className="space-y-2 text-xs font-mono">
-                    <div className="p-3 bg-[#090a10] border border-[#2e334a]">
-                      <span className="text-xs text-zinc-400 font-bold uppercase block mb-1">
-                        HOW THE BACKEND CHECKS:
-                      </span>
-                      <p className="text-xs text-zinc-200">
-                        1. Compares input credentials against system records.<br />
-                        2. If matched ➔ issues an encrypted session key.<br />
-                        3. If invalid ➔ immediately shuts the gate (401).
+                  <div className="space-y-2.5 text-xs">
+                    {/* Job 1 */}
+                    <div className="p-3 bg-[#090a10] border-l-4 border-[#FFAA00] border-y border-r border-[#2e334a]">
+                      <strong className="text-xs font-black text-[#FFAA00] uppercase block mb-0.5">
+                        1. Are They Legitimate?
+                      </strong>
+                      <p className="text-zinc-200 font-medium leading-relaxed">
+                        Verifies login credentials (password, OTP, Google OAuth) to confirm the user is real and block fake bots.
+                      </p>
+                    </div>
+
+                    {/* Job 2 */}
+                    <div className="p-3 bg-[#090a10] border-l-4 border-[#55FFFF] border-y border-r border-[#2e334a]">
+                      <strong className="text-xs font-black text-[#55FFFF] uppercase block mb-0.5">
+                        2. Unique Identity & Workspaces
+                      </strong>
+                      <p className="text-zinc-200 font-medium leading-relaxed">
+                        Assigns unique IDs (`user_101`) to strictly partition databases. User A only sees User A's private notes based on their access level.
                       </p>
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> Keeps unauthorized strangers and fake bots out of private accounts.
+                  <div className="p-2.5 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs text-zinc-200 font-medium">
+                    💡 <strong>Takeaway:</strong> Confirms who you are, then keeps your private files isolated.
                   </div>
                 </>
               )}
 
-              {/* Step 1: Workspace Isolation */}
+              {/* POINT 2: BUSINESS LOGIC */}
               {currentStep === 1 && (
                 <>
                   <div className="flex items-center gap-2.5">
                     <span className="text-xs sm:text-sm font-black text-[#55FFFF] px-2.5 py-0.5 bg-[#55FFFF]/15 border border-[#55FFFF]/40">
                       #02
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
-                      Unique Identity & Workspaces
-                    </h3>
-                  </div>
-
-                  <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    The backend assigns every user a <strong>Unique ID</strong> (`user_101`). This ensures each person's data and workspace are strictly isolated from other users.
-                  </p>
-
-                  <div className="space-y-2 text-xs">
-                    <div className="p-3 bg-[#090a10] border border-[#2e334a]">
-                      <span className="text-xs text-zinc-400 font-bold uppercase block mb-1">
-                        ACCESS LEVEL PARTITIONING:
-                      </span>
-                      <p className="text-xs text-zinc-200">
-                        • <strong>Student Access:</strong> Can only view & edit their own private notes.<br />
-                        • <strong>Admin / Teacher:</strong> Elevated dashboard to view course analytics.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> User A can never see User B's files. The backend keeps workspaces separated.
-                  </div>
-                </>
-              )}
-
-              {/* Step 2: Business Logic */}
-              {currentStep === 2 && (
-                <>
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-xs sm:text-sm font-black text-[#0088FF] px-2.5 py-0.5 bg-[#0088FF]/15 border border-[#0088FF]/40">
-                      #03
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       Business Logic & Rules Engine
@@ -219,27 +177,27 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                     The backend is the <strong>Single Source of Truth</strong>. It calculates prices, checks stock inventory, and processes business rules that the client browser cannot tamper with.
                   </p>
 
-                  <div className="p-3 bg-[#090a10] border border-[#2e334a]">
+                  <div className="p-3 bg-[#090a10] border border-[#2e334a] text-xs">
                     <span className="text-xs text-zinc-400 font-bold uppercase block mb-1">
                       WHY NOT ON FRONTEND?
                     </span>
-                    <p className="text-xs text-zinc-200">
-                      If price discounts ran on the frontend, anyone could open browser DevTools and change prices to $0.01.
+                    <p className="text-zinc-200 font-medium leading-relaxed">
+                      If price calculations ran on the frontend, anyone could open browser DevTools and change prices to $0.01 before paying.
                     </p>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#0088FF] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> The server computes the true final price before charging cards.
+                  <div className="p-2.5 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs text-zinc-200 font-medium">
+                    💡 <strong>Takeaway:</strong> The server computes the true final price before charging credit cards.
                   </div>
                 </>
               )}
 
-              {/* Step 3: Security Guard */}
-              {currentStep === 3 && (
+              {/* POINT 3: SECURITY GUARD */}
+              {currentStep === 2 && (
                 <>
                   <div className="flex items-center gap-2.5">
                     <span className="text-xs sm:text-sm font-black text-[#55FF55] px-2.5 py-0.5 bg-[#55FF55]/15 border border-[#55FF55]/40">
-                      #04
+                      #03
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       Security Guard & Exploit Filter
@@ -250,16 +208,16 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                     The golden rule of backend development: <strong>"Never Trust Client Input."</strong> The server sanitizes text inputs and blocks malicious scripts (XSS and SQL injections).
                   </p>
 
-                  <div className="p-3 bg-[#090a10] border border-[#2e334a]">
+                  <div className="p-3 bg-[#090a10] border border-[#2e334a] text-xs">
                     <span className="text-xs text-zinc-400 font-bold uppercase block mb-1">
                       AUTOMATED SANITIZATION:
                     </span>
-                    <p className="text-xs text-zinc-200">
+                    <p className="text-zinc-200 font-medium leading-relaxed">
                       Malicious tags like <code>{'<script>'}</code> are stripped or converted to harmless text before reaching the database.
                     </p>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium">
+                  <div className="p-2.5 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs text-zinc-200 font-medium">
                     💡 <strong>Takeaway:</strong> Protects your website database and visitors from hacker exploits.
                   </div>
                 </>
@@ -268,12 +226,12 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
           </AnimatePresence>
 
           <div className="pt-3.5 border-t border-[#2e334a] text-xs sm:text-sm text-zinc-400 flex items-center justify-between font-bold">
-            <span>Press Next to advance</span>
+            <span>Press Next or Hotbar to advance</span>
             <span className="text-[#55FFFF]">Module 03: Backend</span>
           </div>
         </div>
 
-        {/* RIGHT SECTION: Visual Automation (Self-Running Live Engine) */}
+        {/* RIGHT SECTION: Self-Running Live Visual Automation */}
         <div className="bg-[#090a10] border-2 border-[#55FFFF] p-6 shadow-pixel flex flex-col justify-between">
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-[#2e334a] text-xs sm:text-sm font-bold">
@@ -286,146 +244,129 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
             </span>
           </div>
 
-          {/* Visual Automation Viewport */}
+          {/* Dynamic Animation Viewport */}
           <div className="py-6 flex flex-col items-center justify-center min-h-[220px]">
-            {/* AUTOMATION 1: Legitimacy Verification Scanner */}
+            {/* AUTOMATION 1: Authentication (Legitimacy Check + Workspace Router) */}
             {currentStep === 0 && (
-              <div className="w-full space-y-4">
+              <div className="w-full space-y-3">
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={authCycle}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.25 }}
-                    className="p-4 bg-[#121420] border-2 shadow-pixel text-center space-y-3"
-                    style={{
-                      borderColor: authCycle === 'legit' ? '#55FF55' : '#FF5555'
-                    }}
-                  >
-                    <div className="flex items-center justify-between text-xs font-bold border-b border-[#2e334a] pb-2">
-                      <span className="text-zinc-400">INCOMING LOGIN ATTEMPT:</span>
-                      <span className={authCycle === 'legit' ? 'text-[#55FF55]' : 'text-[#FF5555]'}>
-                        {authCycle === 'legit' ? 'Alex (Registered Student)' : 'Unknown IP (Brute-Force Bot)'}
-                      </span>
-                    </div>
+                  {authStage === 'scan' ? (
+                    <motion.div
+                      key="auth-scan"
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      className="p-4 bg-[#121420] border-2 shadow-pixel text-center space-y-2.5"
+                      style={{
+                        borderColor: authCycle === 'legit' ? '#55FF55' : '#FF5555'
+                      }}
+                    >
+                      <div className="flex items-center justify-between text-xs font-bold border-b border-[#2e334a] pb-1.5">
+                        <span className="text-zinc-400">1. LEGITIMACY SCANNER:</span>
+                        <span className={authCycle === 'legit' ? 'text-[#55FF55]' : 'text-[#FF5555]'}>
+                          {authCycle === 'legit' ? 'Alex (Registered Student)' : 'Unknown IP (Brute Bot)'}
+                        </span>
+                      </div>
 
-                    <div className="p-3 bg-[#090a10] border border-[#2e334a] flex items-center justify-center gap-3">
-                      <Key className={`w-6 h-6 ${authCycle === 'legit' ? 'text-[#55FF55]' : 'text-[#FF5555]'}`} />
-                      <div className="text-left font-mono">
-                        <span className="text-xs text-zinc-400 block font-bold">CREDENTIALS CHECK:</span>
-                        <code className="text-sm font-bold text-white">
+                      <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center justify-center gap-2.5">
+                        <Key className={`w-5 h-5 ${authCycle === 'legit' ? 'text-[#55FF55]' : 'text-[#FF5555]'}`} />
+                        <code className="text-xs font-bold text-white font-mono">
                           {authCycle === 'legit' ? 'alex@school.edu : **********' : 'admin@school.edu : 123456'}
                         </code>
                       </div>
-                    </div>
 
-                    <div className={`p-2.5 text-xs font-black uppercase flex items-center justify-center gap-2 ${
-                      authCycle === 'legit' ? 'bg-[#55FF55]/15 text-[#55FF55] border border-[#55FF55]' : 'bg-[#FF5555]/15 text-[#FF5555] border border-[#FF5555]'
-                    }`}>
-                      {authCycle === 'legit' ? (
-                        <>
-                          <CheckCircle2 className="w-4 h-4" />
-                          <span>200 OK — Real User Verified! Access Granted</span>
-                        </>
-                      ) : (
-                        <>
-                          <XCircle className="w-4 h-4" />
-                          <span>401 Unauthorized — Imposter Blocked!</span>
-                        </>
-                      )}
-                    </div>
-                  </motion.div>
+                      <div className={`p-2 text-xs font-black uppercase flex items-center justify-center gap-1.5 ${
+                        authCycle === 'legit' ? 'bg-[#55FF55]/15 text-[#55FF55] border border-[#55FF55]' : 'bg-[#FF5555]/15 text-[#FF5555] border border-[#FF5555]'
+                      }`}>
+                        {authCycle === 'legit' ? (
+                          <>
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>200 OK — Real User Verified!</span>
+                          </>
+                        ) : (
+                          <>
+                            <XCircle className="w-4 h-4" />
+                            <span>401 Unauthorized — Imposter Blocked!</span>
+                          </>
+                        )}
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="auth-workspace"
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      className="space-y-2.5"
+                    >
+                      <div className="p-2.5 bg-[#121420] border-2 border-[#55FFFF] text-xs flex items-center justify-between shadow-pixel">
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4 text-[#55FFFF]" />
+                          <span className="text-white font-bold">
+                            2. Active User: <strong>{activeUser === 'alex' ? 'Alex (usr_101)' : 'Sam (usr_102)'}</strong>
+                          </span>
+                        </div>
+                        <span className="text-[#55FF55] font-black text-[10px] px-1.5 py-0.5 bg-[#090a10] border border-[#55FF55]/40">
+                          WORKSPACE ROUTED
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className={`p-2.5 border-2 transition-all ${
+                          activeUser === 'alex'
+                            ? 'bg-[#181b2c] border-[#55FFFF] shadow-glow-diamond'
+                            : 'bg-[#090a10] border-[#2e334a] opacity-35'
+                        }`}>
+                          <div className="flex items-center justify-between mb-1">
+                            <FolderLock className="w-4 h-4 text-[#55FFFF]" />
+                            <span className="text-[10px] font-bold text-[#55FFFF]">ALEX VAULT</span>
+                          </div>
+                          <p className="text-xs text-white font-bold">• Calculus Notes</p>
+                          <p className="text-xs text-white font-bold">• Physics Lab #3</p>
+                        </div>
+
+                        <div className={`p-2.5 border-2 transition-all ${
+                          activeUser === 'sam'
+                            ? 'bg-[#181b2c] border-[#FFAA00] shadow-glow-diamond'
+                            : 'bg-[#090a10] border-[#2e334a] opacity-35'
+                        }`}>
+                          <div className="flex items-center justify-between mb-1">
+                            <FolderLock className="w-4 h-4 text-[#FFAA00]" />
+                            <span className="text-[10px] font-bold text-[#FFAA00]">SAM VAULT</span>
+                          </div>
+                          <p className="text-xs text-white font-bold">• History Essay</p>
+                          <p className="text-xs text-white font-bold">• Biology Notes</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
                 </AnimatePresence>
 
                 <p className="text-center text-[11px] text-zinc-400">
-                  ⚡ Backend continuously tests incoming visitor legitimacy against database records.
+                  ⚡ Auto-cycling: 1. Legitimacy check ➔ 2. Isolated workspace routing.
                 </p>
               </div>
             )}
 
-            {/* AUTOMATION 2: Workspace Partitioning & Data Isolation */}
+            {/* AUTOMATION 2: Business Logic Price Calculation Flow */}
             {currentStep === 1 && (
-              <div className="w-full space-y-4">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeUser}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-3"
-                  >
-                    <div className="p-3 bg-[#121420] border-2 border-[#55FFFF] text-xs flex items-center justify-between shadow-pixel">
-                      <div className="flex items-center gap-2">
-                        <Users className="w-5 h-5 text-[#55FFFF]" />
-                        <div>
-                          <span className="text-zinc-400 font-bold block text-[10px]">ACTIVE LOGGED IN USER:</span>
-                          <strong className="text-sm text-white">
-                            {activeUser === 'alex' ? 'Alex (ID: usr_101)' : 'Sam (ID: usr_102)'}
-                          </strong>
-                        </div>
-                      </div>
-                      <span className="text-[#55FF55] font-black text-xs px-2 py-0.5 bg-[#090a10] border border-[#55FF55]/40">
-                        TOKEN ATTACHED
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className={`p-3 border-2 transition-all ${
-                        activeUser === 'alex'
-                          ? 'bg-[#181b2c] border-[#55FFFF] shadow-glow-diamond'
-                          : 'bg-[#090a10] border-[#2e334a] opacity-40'
-                      }`}>
-                        <div className="flex items-center justify-between mb-1">
-                          <FolderLock className="w-4 h-4 text-[#55FFFF]" />
-                          <span className="text-[10px] font-bold text-[#55FFFF]">ALEX VAULT</span>
-                        </div>
-                        <p className="text-xs text-white font-bold">• Calculus Notes</p>
-                        <p className="text-xs text-white font-bold">• Physics Lab #3</p>
-                      </div>
-
-                      <div className={`p-3 border-2 transition-all ${
-                        activeUser === 'sam'
-                          ? 'bg-[#181b2c] border-[#FFAA00] shadow-glow-diamond'
-                          : 'bg-[#090a10] border-[#2e334a] opacity-40'
-                      }`}>
-                        <div className="flex items-center justify-between mb-1">
-                          <FolderLock className="w-4 h-4 text-[#FFAA00]" />
-                          <span className="text-[10px] font-bold text-[#FFAA00]">SAM VAULT</span>
-                        </div>
-                        <p className="text-xs text-white font-bold">• History Essay</p>
-                        <p className="text-xs text-white font-bold">• Biology Flashcards</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                <p className="text-center text-[11px] text-zinc-400">
-                  🔒 Zero data leaks: Queries filter by <code>WHERE user_id = current_user</code>.
-                </p>
-              </div>
-            )}
-
-            {/* AUTOMATION 3: Live Calculation Flow */}
-            {currentStep === 2 && (
               <div className="w-full space-y-3">
-                <div className="p-4 bg-[#121420] border-2 border-[#0088FF] shadow-pixel text-xs space-y-2">
+                <div className="p-4 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel text-xs space-y-2 font-mono">
                   <div className="flex justify-between border-b border-[#2e334a] pb-1.5">
-                    <span className="text-zinc-400">2x Masterclass Tickets:</span>
-                    <strong className="text-white font-mono">$80.00</strong>
+                    <span className="text-zinc-400">2x Masterclass Passes:</span>
+                    <strong className="text-white">$80.00</strong>
                   </div>
                   <div className="flex justify-between border-b border-[#2e334a] pb-1.5 text-[#55FF55]">
-                    <span>Coupon Promo [STUDENT20]:</span>
-                    <strong className="font-mono">-$16.00</strong>
+                    <span>Coupon [STUDENT20]:</span>
+                    <strong>-$16.00</strong>
                   </div>
                   <div className="flex justify-between border-b border-[#2e334a] pb-1.5 text-zinc-400">
                     <span>Regional State Tax (5%):</span>
-                    <strong className="font-mono">+$3.20</strong>
+                    <strong>+$3.20</strong>
                   </div>
                   <div className="pt-1 flex justify-between items-center text-sm font-black text-[#55FF55]">
                     <span>CERTIFIED TOTAL:</span>
-                    <span className="text-lg font-mono px-2 py-0.5 bg-[#090a10] border border-[#55FF55]">
+                    <span className="text-lg px-2.5 py-0.5 bg-[#090a10] border border-[#55FF55]">
                       $67.20 USD
                     </span>
                   </div>
@@ -437,8 +378,8 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
               </div>
             )}
 
-            {/* AUTOMATION 4: Security Guard Packet Filter */}
-            {currentStep === 3 && (
+            {/* AUTOMATION 3: Security Guard Threat Filter */}
+            {currentStep === 2 && (
               <div className="w-full space-y-3">
                 <div className="p-4 bg-[#121420] border-2 border-[#55FF55] shadow-pixel text-xs space-y-3">
                   <div>

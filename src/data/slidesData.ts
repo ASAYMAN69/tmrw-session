@@ -43,12 +43,11 @@ export const SLIDES: SlideData[] = [
     category: 'Backend',
     bigStatement: "Backend = The logic running behind the website.",
     funLine: "The frontend gets the attention. The backend does the paperwork.",
-    maxSubSteps: 4,
+    maxSubSteps: 3,
     presenterNotes: [
-      "Step 1: Auth - Checking legitimacy (Is this visitor real?).",
-      "Step 2: Auth - Unique identity & workspace isolation (User A vs User B).",
-      "Step 3: Business Logic - Server-side rules & price calculations.",
-      "Step 4: Security Guard - Input sanitization & exploit blocker."
+      "Point 1: Authentication - Legitimacy check & unique workspace separation.",
+      "Point 2: Business Logic - Server calculations & single source of truth.",
+      "Point 3: Security - Input sanitization & exploit blocker."
     ]
   },
   {
