@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import { Lock, Key, ShieldCheck, ShieldAlert, Check, X } from 'lucide-react';
-import { sound } from '../../../utils/sound';
+import React from 'react';
+import { Lock, Key, ShieldCheck, Check, X, ShieldAlert } from 'lucide-react';
 
 export const Stage5Auth: React.FC = () => {
-  const [activeRole, setActiveRole] = useState<'student' | 'admin'>('student');
-
   return (
     <div className="flex flex-col gap-4 font-mono select-none">
       {/* Header */}
@@ -12,80 +9,61 @@ export const Stage5Auth: React.FC = () => {
         <div className="flex items-center gap-2">
           <Lock className="w-5 h-5 text-[#FF5555]" />
           <h3 className="text-sm sm:text-base font-bold text-white font-sans uppercase">
-            STAGE 05: AUTHENTICATION & ACCESS CONTROL
+            05. AUTHENTICATION & ACCESS CONTROL
           </h3>
         </div>
-        <div className="flex gap-1">
-          <button
-            onClick={() => { sound.click(); setActiveRole('student'); }}
-            className={`pixel-btn px-2.5 py-1 text-xs cursor-pointer ${
-              activeRole === 'student' ? 'pixel-btn-primary' : 'text-zinc-400'
-            }`}
-          >
-            STUDENT KEYCARD
-          </button>
-          <button
-            onClick={() => { sound.click(); setActiveRole('admin'); }}
-            className={`pixel-btn px-2.5 py-1 text-xs cursor-pointer ${
-              activeRole === 'admin' ? 'bg-[#FF5555]/20 text-[#FF5555] border-[#FF5555]' : 'text-zinc-400'
-            }`}
-          >
-            ADMIN MASTER KEY
-          </button>
-        </div>
+        <span className="text-xs text-[#55FFFF] font-bold">
+          Digital Keycard Protocol (JWT)
+        </span>
       </div>
 
-      {/* AuthN vs AuthZ Dual Concept Cards */}
+      {/* Unique Template: Dual Column AuthN vs AuthZ Split with Role Keycard Badges */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Left: AuthN (Identity Verification) */}
-        <div className="p-4 bg-[#090a10] border-2 border-[#383e58] shadow-pixel flex flex-col justify-between">
+        {/* Pillar 1: Authentication */}
+        <div className="p-4 bg-[#090a10] border-2 border-[#FFAA00] shadow-pixel flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <Key className="w-4 h-4 text-[#FFAA00]" />
-              <span className="text-xs font-bold text-white uppercase">
-                1. AUTHENTICATION (AuthN) — "WHO ARE YOU?"
-              </span>
+            <div className="flex items-center gap-2 text-[#FFAA00] font-bold text-xs mb-1">
+              <Key className="w-4 h-4" />
+              <span>1. AUTHENTICATION (AuthN) — "WHO ARE YOU?"</span>
             </div>
             <p className="text-[11px] text-zinc-300 mb-3">
-              Proving your identity using email + salted password hash or Google OAuth.
+              Proving your identity with email + password hash or Google OAuth.
             </p>
 
             <div className="p-2.5 bg-[#121420] border border-[#2e334a] text-xs space-y-1">
-              <span className="text-[10px] text-zinc-400 block font-bold">ISSUED JWT BADGE:</span>
-              <p className="text-[11px] text-[#55FFFF] font-mono truncate">
+              <span className="text-[10px] text-[#55FFFF] font-bold block">ENCRYPTED JWT KEYCARD:</span>
+              <p className="text-[11px] text-zinc-300 font-mono truncate">
                 Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
               </p>
-              <span className="text-[10px] text-[#55FF55] block">
-                ✓ Stored in secure HTTP-Only cookie (immune to XSS theft)
+              <span className="text-[10px] text-[#55FF55] block font-bold">
+                ✓ Stored in secure HTTP-Only cookie (immune to script theft)
               </span>
             </div>
           </div>
         </div>
 
-        {/* Right: AuthZ (Authorization & Permissions) */}
+        {/* Pillar 2: Authorization */}
         <div className="p-4 bg-[#090a10] border-2 border-[#55FFFF] shadow-pixel flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#55FFFF]" />
-              <span className="text-xs font-bold text-white uppercase">
-                2. AUTHORIZATION (AuthZ) — "WHAT CAN YOU DO?"
-              </span>
+            <div className="flex items-center gap-2 text-[#55FFFF] font-bold text-xs mb-1">
+              <ShieldCheck className="w-4 h-4" />
+              <span>2. AUTHORIZATION (AuthZ) — "WHAT CAN YOU DO?"</span>
             </div>
             <p className="text-[11px] text-zinc-300 mb-3">
-              Enforcing permissions based on your assigned user role.
+              Enforcing permissions based on user roles (Student vs Teacher vs Admin).
             </p>
 
             <div className="space-y-1.5 text-xs">
               <div className="p-1.5 bg-[#121420] border border-[#2e334a] flex items-center justify-between">
                 <span>View & Edit Own Notes:</span>
                 <span className="text-[#55FF55] font-bold flex items-center gap-1">
-                  <Check className="w-3 h-3" /> ALLOWED
+                  <Check className="w-3 h-3" /> STUDENT (ALLOWED)
                 </span>
               </div>
               <div className="p-1.5 bg-[#121420] border border-[#2e334a] flex items-center justify-between">
-                <span>Delete Other Users' Database:</span>
-                <span className={activeRole === 'admin' ? 'text-[#55FF55] font-bold' : 'text-[#FF5555] font-bold'}>
-                  {activeRole === 'admin' ? '✓ GRANTED (ADMIN)' : '✗ DENIED 403 (STUDENT)'}
+                <span>Delete Other Users' Accounts:</span>
+                <span className="text-[#FF5555] font-bold flex items-center gap-1">
+                  <X className="w-3 h-3 text-[#FF5555]" /> ONLY ADMIN (DENIED)
                 </span>
               </div>
             </div>

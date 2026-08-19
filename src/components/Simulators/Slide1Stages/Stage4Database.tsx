@@ -1,37 +1,7 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Database, RefreshCw, Plus, HardDrive, Cpu } from 'lucide-react';
-import { sound } from '../../../utils/sound';
+import React from 'react';
+import { Database, HardDrive, Cpu, CheckCircle2, XCircle } from 'lucide-react';
 
 export const Stage4Database: React.FC = () => {
-  const [dbRows, setDbRows] = useState([
-    { id: 1, title: 'Calculus Notes', user: 'Alex', time: '10:14 AM' },
-    { id: 2, title: 'Physics Lab', user: 'Sam', time: '11:30 AM' }
-  ]);
-  const [ramNotes, setRamNotes] = useState<string[]>(['Calculus Notes', 'Physics Lab']);
-  const [reloading, setReloading] = useState(false);
-
-  const simulateReload = () => {
-    sound.packetPing();
-    setReloading(true);
-    setRamNotes([]); // RAM is wiped!
-
-    setTimeout(() => {
-      setReloading(false);
-      setRamNotes(['Calculus Notes', 'Physics Lab']); // DB rehydrates UI!
-      sound.success();
-    }, 500);
-  };
-
-  const insertRow = () => {
-    sound.click();
-    const newId = dbRows.length + 1;
-    const item = { id: newId, title: `Assignment #${newId}`, user: 'Alex', time: 'Just now' };
-    setDbRows([...dbRows, item]);
-    setRamNotes([...ramNotes, item.title]);
-    sound.success();
-  };
-
   return (
     <div className="flex flex-col gap-4 font-mono select-none">
       {/* Header */}
@@ -39,87 +9,67 @@ export const Stage4Database: React.FC = () => {
         <div className="flex items-center gap-2">
           <Database className="w-5 h-5 text-[#55FF55]" />
           <h3 className="text-sm sm:text-base font-bold text-white font-sans uppercase">
-            STAGE 04: DATABASE — PERMANENT CLOUD STORAGE
+            04. DATABASE — PERMANENT MEMORY STORAGE
           </h3>
         </div>
-        <button
-          onClick={simulateReload}
-          className="pixel-btn px-2.5 py-1 text-xs cursor-pointer text-[#55FFFF] flex items-center gap-1.5"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${reloading ? 'animate-spin' : ''}`} />
-          <span>SIMULATE TAB RELOAD</span>
-        </button>
+        <span className="text-xs text-[#55FF55] font-bold">
+          Survives Tab Closes & Power Loss
+        </span>
       </div>
 
-      {/* RAM vs Persistent Storage Side-by-Side */}
+      {/* Unique Template: Dual Storage Matrix + CRUD Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Left: Volatile RAM */}
-        <div className="p-4 bg-[#090a10] border-2 border-[#FF5555]/50 shadow-pixel flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] text-[#FF5555] font-bold uppercase">
-                BROWSER RAM (TEMPORARY)
-              </span>
+        {/* Left: RAM vs Persistent Disk */}
+        <div className="space-y-2.5">
+          <div className="p-3 bg-[#090a10] border-2 border-[#FF5555]/60 shadow-pixel">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-bold text-[#FF5555] uppercase">TEMPORARY RAM MEMORY</span>
               <Cpu className="w-4 h-4 text-[#FF5555]" />
             </div>
-            <p className="text-[11px] text-zinc-400 mb-2">
-              Variables in JavaScript memory wipe instantly upon closing or refreshing the tab.
+            <p className="text-[11px] text-zinc-300">
+              Variables in JavaScript memory wipe immediately when the browser tab is refreshed or closed.
             </p>
-
-            <div className="p-2.5 bg-[#121420] border border-[#2e334a] min-h-[70px] flex items-center justify-center text-xs">
-              {reloading ? (
-                <span className="text-[#FF5555] font-bold animate-pulse">
-                  [ ⚠️ RAM WIPED TO 0 BYTES ON REFRESH ]
-                </span>
-              ) : (
-                <span className="text-zinc-300">
-                  {ramNotes.length} cached items active in local memory
-                </span>
-              )}
-            </div>
           </div>
 
-          <span className="text-[10px] text-[#FF5555] font-bold mt-2">
-            Result: Cannot rely on RAM alone for user data!
-          </span>
+          <div className="p-3 bg-[#090a10] border-2 border-[#55FF55] shadow-pixel">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-bold text-[#55FF55] uppercase">PERSISTENT CLOUD DISK</span>
+              <HardDrive className="w-4 h-4 text-[#55FF55]" />
+            </div>
+            <p className="text-[11px] text-zinc-300">
+              PostgreSQL writes records to permanent NVMe cloud drives with automated daily backups.
+            </p>
+          </div>
         </div>
 
-        {/* Right: PostgreSQL Database Vault */}
-        <div className="p-4 bg-[#090a10] border-2 border-[#55FF55] shadow-pixel flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] text-[#55FF55] font-bold uppercase">
-                POSTGRESQL VAULT (PERMANENT)
-              </span>
-              <button
-                onClick={insertRow}
-                className="pixel-btn pixel-btn-primary px-2 py-0.5 text-[10px] flex items-center gap-1 cursor-pointer"
-              >
-                <Plus className="w-3 h-3" />
-                <span>INSERT ROW</span>
-              </button>
-            </div>
+        {/* Right: The 4 CRUD Actions */}
+        <div className="p-3.5 bg-[#090a10] border-2 border-[#383e58] shadow-pixel flex flex-col justify-between">
+          <span className="text-[10px] text-zinc-400 font-bold uppercase block mb-2">
+            THE 4 FUNDAMENTAL DATABASE OPERATIONS (CRUD):
+          </span>
 
-            {/* Table Matrix */}
-            <div className="p-2 bg-[#121420] border border-[#2e334a] space-y-1 text-[11px]">
-              <div className="grid grid-cols-3 font-bold text-[#55FFFF] border-b border-[#2e334a] pb-1">
-                <span>ID</span>
-                <span>TITLE</span>
-                <span>STATUS</span>
-              </div>
-              {dbRows.slice(-3).map((r) => (
-                <div key={r.id} className="grid grid-cols-3 text-zinc-300">
-                  <span>0{r.id}</span>
-                  <span className="truncate">{r.title}</span>
-                  <span className="text-[#55FF55]">✓ STORED</span>
-                </div>
-              ))}
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="p-2 bg-[#121420] border border-[#2e334a]">
+              <strong className="text-[#55FFFF] block font-bold">C — CREATE</strong>
+              <code className="text-[10px] text-zinc-300">INSERT INTO notes...</code>
+            </div>
+            <div className="p-2 bg-[#121420] border border-[#2e334a]">
+              <strong className="text-[#55FF55] block font-bold">R — READ</strong>
+              <code className="text-[10px] text-zinc-300">SELECT * FROM notes...</code>
+            </div>
+            <div className="p-2 bg-[#121420] border border-[#2e334a]">
+              <strong className="text-[#FFAA00] block font-bold">U — UPDATE</strong>
+              <code className="text-[10px] text-zinc-300">UPDATE notes SET...</code>
+            </div>
+            <div className="p-2 bg-[#121420] border border-[#2e334a]">
+              <strong className="text-[#FF5555] block font-bold">D — DELETE</strong>
+              <code className="text-[10px] text-zinc-300">DELETE FROM notes...</code>
             </div>
           </div>
 
-          <span className="text-[10px] text-[#55FF55] font-bold mt-2">
-            Result: Saved to NVMe cloud disks with automated daily backups.
-          </span>
+          <p className="text-[11px] text-zinc-400 mt-2">
+            Every feature in modern web applications boils down to one of these four.
+          </p>
         </div>
       </div>
     </div>
