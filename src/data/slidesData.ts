@@ -187,20 +187,6 @@ export const SLIDES: SlideData[] = [
   },
   {
     id: 13,
-    slug: 'the-whole-journey',
-    title: 'The Whole Journey',
-    badge: 'Grand Finale & Launch',
-    subtitle: 'Your journey starts with a single line of code',
-    category: 'Next Steps',
-    bigStatement: "You don't need to understand everything today. You just need to know what comes next.",
-    maxSubSteps: 2,
-    presenterNotes: [
-      "Deliver the final inspirational message.",
-      "Ask: 'So... what are you going to build?' and mint their launch badge with confetti!"
-    ]
-  },
-  {
-    id: 14,
     slug: 'acc-codelaunch-bootcamp',
     title: 'ACC CodeLaunch 2026: Live Web Development Bootcamp',
     badge: 'Official Masterclass',
