@@ -230,20 +230,20 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
               {currentStep === 1 && (
                 <button
                   onClick={handleButtonClick}
-                  className="pixel-btn pixel-btn-primary px-8 py-3.5 text-base cursor-pointer shadow-pixel"
+                  className="pixel-btn pixel-btn-primary px-8 py-3 text-base cursor-pointer shadow-pixel font-sans font-bold tracking-normal flex items-center justify-center"
                 >
                   <Palette className="w-5 h-5 inline mr-2 text-[#55FFFF]" />
-                  <span>SAVE NOTE</span>
+                  <span>Save Note</span>
                 </button>
               )}
 
               {currentStep === 2 && (
                 <button
                   onClick={handleButtonClick}
-                  className="pixel-btn pixel-btn-primary px-9 py-4 text-lg cursor-pointer shadow-glow-diamond flex items-center gap-2.5 animate-pulse-glow"
+                  className="pixel-btn pixel-btn-primary px-9 py-3.5 text-base cursor-pointer shadow-glow-diamond flex items-center justify-center gap-2.5 animate-pulse-glow font-sans font-bold tracking-normal"
                 >
-                  <Sparkles className="w-6 h-6 text-[#55FFFF]" />
-                  <span>SAVE NOTE (CLICK ME!)</span>
+                  <Sparkles className="w-5 h-5 text-[#55FFFF]" />
+                  <span>Save Note (Click Me!)</span>
                 </button>
               )}
             </motion.div>

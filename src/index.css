@@ -57,8 +57,9 @@
   border-right: 2px solid #0e111a;
   border-bottom: 2px solid #0e111a;
   box-shadow: 2px 2px 0px #000000;
-  font-family: 'Silkscreen', 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-family: 'Space Grotesk', 'JetBrains Mono', sans-serif;
+  letter-spacing: normal;
+  font-size: 13px;
   font-weight: 700;
   color: #ffffff;
   transition: transform 0.08s ease, background-color 0.1s ease;
