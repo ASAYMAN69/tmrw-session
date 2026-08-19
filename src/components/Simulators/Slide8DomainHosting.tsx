@@ -4,14 +4,19 @@ import {
   Globe,
   Server,
   Lock,
+  Unlock,
   ArrowRight,
   CheckCircle2,
   Search,
   Zap,
   Shield,
+  ShieldCheck,
+  ShieldAlert,
   Lightbulb,
   Cpu,
-  Cloud
+  Cloud,
+  Flame,
+  Radio
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -19,6 +24,117 @@ interface Slide8Props {
   subStep?: number;
   onSubStepChange?: (subStep: number) => void;
 }
+
+// Procedural Fire Flames Component with rising sparks
+const FireFlamesGraphic: React.FC = () => {
+  const embers = Array.from({ length: 12 });
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-md z-10">
+      {/* Background Heat Flare */}
+      <motion.div
+        animate={{
+          opacity: [0.6, 0.9, 0.6],
+          scale: [0.98, 1.03, 0.98]
+        }}
+        transition={{ repeat: Infinity, duration: 0.8, ease: 'easeInOut' }}
+        className="absolute inset-0 bg-gradient-to-t from-[#FF2200]/30 via-[#FF6600]/15 to-transparent blur-md"
+      />
+
+      {/* Dynamic Animated Flame Waves (SVG) */}
+      <div className="absolute bottom-0 inset-x-0 h-28 flex items-end justify-center">
+        {/* Layer 1: Deep Red Base */}
+        <motion.svg
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          animate={{
+            d: [
+              "M0 100 C 20 50, 40 80, 50 30 C 60 70, 80 45, 100 100 Z",
+              "M0 100 C 25 70, 35 40, 50 60 C 65 30, 75 80, 100 100 Z",
+              "M0 100 C 20 50, 40 80, 50 30 C 60 70, 80 45, 100 100 Z"
+            ],
+            scaleY: [1, 1.25, 1],
+            skewX: [-4, 4, -4]
+          }}
+          transition={{ repeat: Infinity, duration: 0.6, ease: 'easeInOut' }}
+          className="absolute bottom-0 w-full h-full text-[#FF1100]/50 fill-current"
+        />
+
+        {/* Layer 2: Orange Mid Flame */}
+        <motion.svg
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          animate={{
+            d: [
+              "M0 100 C 15 65, 30 40, 50 20 C 70 50, 85 35, 100 100 Z",
+              "M0 100 C 20 45, 40 70, 50 35 C 60 25, 80 60, 100 100 Z",
+              "M0 100 C 15 65, 30 40, 50 20 C 70 50, 85 35, 100 100 Z"
+            ],
+            scaleY: [1.1, 0.9, 1.1],
+            skewX: [5, -5, 5]
+          }}
+          transition={{ repeat: Infinity, duration: 0.45, ease: 'easeInOut' }}
+          className="absolute bottom-0 w-full h-24 text-[#FF6600]/70 fill-current"
+        />
+
+        {/* Layer 3: Intense Gold Center */}
+        <motion.svg
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          animate={{
+            d: [
+              "M10 100 C 25 75, 35 55, 50 25 C 65 60, 75 45, 90 100 Z",
+              "M10 100 C 30 50, 40 75, 50 40 C 60 30, 70 70, 90 100 Z",
+              "M10 100 C 25 75, 35 55, 50 25 C 65 60, 75 45, 90 100 Z"
+            ],
+            scaleY: [0.95, 1.3, 0.95]
+          }}
+          transition={{ repeat: Infinity, duration: 0.35, ease: 'easeInOut' }}
+          className="absolute bottom-0 w-full h-20 text-[#FFAA00]/90 fill-current"
+        />
+
+        {/* Layer 4: White Hot Core */}
+        <motion.div
+          animate={{
+            scale: [0.8, 1.2, 0.8],
+            opacity: [0.7, 1, 0.7]
+          }}
+          transition={{ repeat: Infinity, duration: 0.25 }}
+          className="w-16 h-8 bg-gradient-to-t from-white via-[#FFEE55] to-transparent rounded-full blur-xs mb-1"
+        />
+      </div>
+
+      {/* Floating Burning Spark Particles */}
+      {embers.map((_, i) => {
+        const leftPercent = 10 + (i * 7.5);
+        const duration = 0.8 + ((i % 5) * 0.2);
+        const delay = (i % 6) * 0.15;
+        const size = (i % 3 === 0) ? 'w-2 h-2' : 'w-1.5 h-1.5';
+
+        return (
+          <motion.div
+            key={i}
+            initial={{ y: 90, opacity: 1, scale: 1 }}
+            animate={{
+              y: [-10, -110],
+              x: [(i % 2 === 0 ? -12 : 12), (i % 2 === 0 ? 12 : -12)],
+              opacity: [1, 0.8, 0],
+              scale: [1, 0.4]
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: duration,
+              delay: delay,
+              ease: 'easeOut'
+            }}
+            style={{ left: `${leftPercent}%`, bottom: '15px' }}
+            className={`absolute ${size} rounded-full bg-gradient-to-t from-[#FF2200] to-[#FFEE33] shadow-glow-diamond`}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 export const Slide8DomainHosting: React.FC<Slide8Props> = ({
   subStep = 0,
@@ -37,14 +153,14 @@ export const Slide8DomainHosting: React.FC<Slide8Props> = ({
     return () => clearInterval(interval);
   }, [currentStep]);
 
-  // --- AUTOMATION 3: HTTPS SSL Wire Encryption ---
-  const [isEncrypted, setIsEncrypted] = useState<boolean>(true);
+  // --- AUTOMATION 3: HTTPS SSL Wire Encryption & Fire Hazard Simulator ---
+  const [isEncrypted, setIsEncrypted] = useState<boolean>(false); // Start unencrypted to showcase fire
   useEffect(() => {
     if (currentStep !== 2) return;
     const interval = setInterval(() => {
       setIsEncrypted(prev => !prev);
       sound.click?.();
-    }, 2400);
+    }, 3200);
     return () => clearInterval(interval);
   }, [currentStep]);
 
@@ -197,21 +313,19 @@ export const Slide8DomainHosting: React.FC<Slide8Props> = ({
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    <strong>HTTPS (Hypertext Transfer Protocol Secure)</strong> encrypts all web traffic between the user's browser and your cloud host using TLS/SSL certificates.
+                    <strong>HTTPS</strong> encrypts traffic between user and server. Without it (HTTP), public Wi-Fi sniffers can steal passwords directly out of the air.
                   </p>
 
                   <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-1.5 font-mono">
-                    <span className="text-[10px] text-zinc-400 font-bold block mb-1">WHY SSL IS MANDATORY:</span>
                     <div className="text-zinc-300">
-                      • Prevents coffee-shop Wi-Fi packet sniffing<br />
-                      • Secures passwords, auth tokens & credit cards<br />
-                      • Required by Google Chrome & modern browsers
+                      • <strong className="text-[#FF5555]">HTTP (Unencrypted):</strong> Passwords sent in plain text over the air (Data on Fire!).<br />
+                      • <strong className="text-[#55FF55]">HTTPS (SSL Lock):</strong> Unbreakable cryptographic shield protecting every packet.
                     </div>
                   </div>
 
                   <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
                     <Lightbulb className="w-4 h-4 text-[#55FF55] shrink-0" />
-                    <span><strong>Takeaway:</strong> Modern hosts like Vercel and Cloudflare issue free automated SSL certificates.</span>
+                    <span><strong>Takeaway:</strong> Modern hosts provide free automated SSL certificates with 1-click.</span>
                   </div>
                 </>
               )}
@@ -312,37 +426,99 @@ export const Slide8DomainHosting: React.FC<Slide8Props> = ({
               </div>
             )}
 
-            {/* AUTOMATION 3: HTTPS Encryption Simulation */}
+            {/* AUTOMATION 3: Live HTTPS Shield vs HTTP Real Fire Animation */}
             {currentStep === 2 && (
               <div className="w-full max-w-md mx-auto space-y-3 font-mono">
-                <div className="p-4 bg-[#121420] border-2 border-[#55FF55] shadow-pixel space-y-3">
-                  <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-xs">
-                    <span className="text-zinc-400 font-bold">WIRE ENCRYPTION STATUS:</span>
-                    <span className={`px-2 py-0.5 text-xs font-black border ${
-                      isEncrypted ? 'bg-[#55FF55]/20 border-[#55FF55] text-[#55FF55]' : 'bg-[#FF5555]/20 border-[#FF5555] text-[#FF5555]'
-                    }`}>
-                      {isEncrypted ? 'HTTPS (ENCRYPTED)' : 'HTTP (VULNERABLE)'}
+                <div
+                  className={`p-4 bg-[#121420] border-2 shadow-pixel space-y-3 relative transition-all duration-500 overflow-hidden ${
+                    isEncrypted ? 'border-[#55FF55] shadow-glow-diamond' : 'border-[#FF3300] shadow-[0_0_20px_rgba(255,50,0,0.4)]'
+                  }`}
+                >
+                  {/* REAL FIRE FLAMES ANIMATION WHEN UNENCRYPTED */}
+                  <AnimatePresence>
+                    {!isEncrypted && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <FireFlamesGraphic />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Header & Toggle Button */}
+                  <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-xs relative z-20">
+                    <span className="text-zinc-300 font-bold flex items-center gap-1.5">
+                      <Radio className="w-3.5 h-3.5 text-[#55FFFF] animate-pulse" />
+                      <span>COFFEE SHOP WI-FI:</span>
                     </span>
+
+                    <button
+                      onClick={() => {
+                        sound.click();
+                        setIsEncrypted(!isEncrypted);
+                      }}
+                      className={`px-2.5 py-1 text-xs font-black border cursor-pointer transition-all flex items-center gap-1.5 ${
+                        isEncrypted
+                          ? 'bg-[#55FF55]/20 border-[#55FF55] text-[#55FF55]'
+                          : 'bg-[#FF3300] border-[#FF6600] text-white shadow-glow-diamond animate-pulse'
+                      }`}
+                    >
+                      {isEncrypted ? <ShieldCheck className="w-3.5 h-3.5" /> : <Flame className="w-3.5 h-3.5" />}
+                      <span>{isEncrypted ? 'HTTPS (SECURE)' : 'HTTP (ON FIRE!)'}</span>
+                    </button>
                   </div>
 
-                  {/* Wire Payload Visualizer */}
-                  <div className="p-3 bg-[#090a10] border border-[#2e334a] space-y-1.5 text-xs font-mono">
+                  {/* Wire Payload Box */}
+                  <div className="p-3 bg-[#090a10]/90 border border-[#2e334a] space-y-2 text-xs font-mono relative z-20 backdrop-blur-xs">
                     <div className="flex items-center justify-between text-zinc-400 text-[10px]">
-                      <span>TRANSMITTED PAYLOAD OVER WIRE:</span>
-                      <Lock className={`w-3.5 h-3.5 ${isEncrypted ? 'text-[#55FF55]' : 'text-[#FF5555]'}`} />
+                      <span>TRANSMITTED OVER PUBLIC AIR:</span>
+                      {isEncrypted ? (
+                        <span className="text-[#55FF55] font-bold flex items-center gap-1">
+                          <Lock className="w-3.5 h-3.5" /> SSL SHIELD ON
+                        </span>
+                      ) : (
+                        <span className="text-[#FF4400] font-bold flex items-center gap-1 animate-bounce">
+                          <Flame className="w-3.5 h-3.5" /> SNIFFER ATTACK
+                        </span>
+                      )}
                     </div>
 
-                    <div className={`p-2 border ${
-                      isEncrypted ? 'bg-[#091f14] border-[#55FF55] text-[#55FF55]' : 'bg-[#2a1010] border-[#FF5555] text-[#FF8888]'
-                    }`}>
-                      {isEncrypted
-                        ? 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 (AES-256)'
-                        : 'password=SuperSecret123&user_id=101 (PLAIN TEXT EXPOSED)'}
+                    {/* The Payload */}
+                    <div
+                      className={`p-2.5 border transition-all text-xs font-bold ${
+                        isEncrypted
+                          ? 'bg-[#091f14] border-[#55FF55] text-[#55FF55]'
+                          : 'bg-[#2a0808] border-[#FF3300] text-[#FFAA00] animate-pulse'
+                      }`}
+                    >
+                      {isEncrypted ? (
+                        <div className="space-y-0.5">
+                          <span className="text-[10px] text-zinc-400 block font-normal">ENCRYPTED CIPHERTEXT:</span>
+                          <span className="break-all text-[11px]">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b</span>
+                        </div>
+                      ) : (
+                        <div className="space-y-0.5">
+                          <span className="text-[10px] text-[#FF5555] block font-black">EXPOSED PLAIN TEXT:</span>
+                          <span className="text-white text-xs">password=SuperSecret123&user=Alex</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  <div className="p-2 bg-[#181b2c] border border-[#55FF55]/40 text-center text-[#55FF55] text-xs font-bold">
-                    {isEncrypted ? '✓ TLS 1.3 Handshake verified with valid Certificate Authority.' : '⚠️ Warning: Unencrypted traffic can be intercepted.'}
+                  {/* Status Footer */}
+                  <div
+                    className={`p-2 border text-center text-xs font-bold relative z-20 transition-colors ${
+                      isEncrypted
+                        ? 'bg-[#181b2c] border-[#55FF55]/40 text-[#55FF55]'
+                        : 'bg-[#330c0c] border-[#FF3300] text-[#FF8888]'
+                    }`}
+                  >
+                    {isEncrypted
+                      ? '✓ Green Padlock: Cryptographic shield blocks eavesdroppers.'
+                      : '🔥 Without SSL, anyone on the Wi-Fi can see your raw passwords!'}
                   </div>
                 </div>
               </div>
