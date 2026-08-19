@@ -10,7 +10,12 @@ import {
   Server,
   Sparkles,
   GitBranch,
-  Globe
+  Globe,
+  ChevronLeft,
+  ChevronRight,
+  Layers,
+  Code2,
+  Zap
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 import { fireConfetti } from '../../utils/confetti';
@@ -22,32 +27,94 @@ interface Slide14Props {
 
 const QUESTS = [
   {
-    title: 'Personal Developer Portfolio',
+    id: 1,
+    title: 'Developer Portfolio & Resume',
     time: '1-2 Days',
     stack: 'React + Tailwind + Vercel',
-    desc: 'Showcase your bio, GitHub link, and 3 project cards with dark mode toggle.',
-    badge: '#FFAA00'
+    category: 'Portfolio',
+    desc: 'Showcase your biography, skills, GitHub repositories, and an interactive dark/light mode toggle.',
+    color: '#FFAA00'
   },
   {
-    title: 'Student Homework Tracker',
+    id: 2,
+    title: 'Student Homework & Exam Tracker',
     time: '2-3 Days',
     stack: 'React + Supabase / PostgreSQL',
-    desc: 'Add assignments with due dates, tags, and persistent completion checkboxes.',
-    badge: '#55FFFF'
+    category: 'Productivity',
+    desc: 'Add assignments with course tags, due dates, priority filters, and persistent completion checkboxes.',
+    color: '#55FFFF'
   },
   {
-    title: 'Coffee Brew Timer & Ratio Calculator',
+    id: 3,
+    title: 'Coffee Brew Ratio & Pour Timer',
     time: '1-2 Days',
-    stack: 'React + Audio / Web API',
-    desc: 'Input coffee grams, compute water ratio, and trigger countdown beeps.',
-    badge: '#55FF55'
+    stack: 'React + Web Audio API',
+    category: 'Utility Tool',
+    desc: 'Input coffee beans in grams, automatically compute water ratio, and play audible countdown beeps.',
+    color: '#55FF55'
   },
   {
-    title: 'Daily Expense & Budget Log',
+    id: 4,
+    title: 'Daily Expense & Subscription Log',
     time: '2-4 Days',
     stack: 'React + Express API + DB',
-    desc: 'Log daily expenses by category and render total monthly spending bars.',
-    badge: '#FFAA00'
+    category: 'Finance',
+    desc: 'Record daily purchases by category (Food, Tech, Books) and calculate total monthly spending metrics.',
+    color: '#FFAA00'
+  },
+  {
+    id: 5,
+    title: 'Movie & Anime Watchlist Hub',
+    time: '2-3 Days',
+    stack: 'React + TMDB / Public API',
+    category: 'Entertainment',
+    desc: 'Search for movies and shows, view ratings, trailer embeds, and bookmark favorites to local storage.',
+    color: '#55FFFF'
+  },
+  {
+    id: 6,
+    title: 'Markdown Note Vault & Live Editor',
+    time: '2-3 Days',
+    stack: 'React + Markdown Parser',
+    category: 'Productivity',
+    desc: 'Split-screen real-time markdown editor with syntax highlighting, tag search, and one-click copy.',
+    color: '#55FF55'
+  },
+  {
+    id: 7,
+    title: 'Pomodoro Focus Room + Lo-Fi Audio',
+    time: '1-2 Days',
+    stack: 'React + Audio Player',
+    category: 'Wellness',
+    desc: '25-minute focus session timer with customizable break intervals and relaxing background sound loops.',
+    color: '#FFAA00'
+  },
+  {
+    id: 8,
+    title: 'Interactive Web Dev Quiz Arena',
+    time: '2-3 Days',
+    stack: 'React + OpenTrivia API',
+    category: 'Gaming',
+    desc: '10-question rapid quiz with countdown clock, instant feedback, score multiplier, and end celebration.',
+    color: '#55FFFF'
+  },
+  {
+    id: 9,
+    title: 'Linktree-Style Personal Bio Page',
+    time: '1 Day',
+    stack: 'HTML + Tailwind CSS',
+    category: 'Social',
+    desc: 'Custom-branded responsive links hub with social media icons, animated hover cards, and avatar.',
+    color: '#55FF55'
+  },
+  {
+    id: 10,
+    title: 'Live Currency & Crypto Exchange',
+    time: '1-2 Days',
+    stack: 'React + ExchangeRate API',
+    category: 'Finance',
+    desc: 'Real-time exchange rate calculator for 30+ fiat currencies and crypto tokens with instant search.',
+    color: '#FFAA00'
   }
 ];
 
@@ -57,25 +124,43 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
 }) => {
   const currentStep = Math.min(2, Math.max(0, subStep));
 
-  const [quest, setQuest] = useState(QUESTS[0]);
-  const [rolling, setRolling] = useState(false);
+  const [questIndex, setQuestIndex] = useState<number>(0);
+  const [rolling, setRolling] = useState<boolean>(false);
+
+  const currentQuest = QUESTS[questIndex];
 
   const rollQuest = () => {
     sound.click();
     setRolling(true);
     let count = 0;
+    const maxTicks = 12;
+
     const interval = setInterval(() => {
-      const random = QUESTS[Math.floor(Math.random() * QUESTS.length)];
-      setQuest(random);
+      setQuestIndex((prev) => {
+        let next = Math.floor(Math.random() * QUESTS.length);
+        if (next === prev) next = (next + 1) % QUESTS.length;
+        return next;
+      });
       sound.packetPing?.();
       count++;
-      if (count > 5) {
+
+      if (count >= maxTicks) {
         clearInterval(interval);
         setRolling(false);
         sound.success?.();
         fireConfetti();
       }
-    }, 90);
+    }, 70);
+  };
+
+  const handlePrev = () => {
+    sound.click();
+    setQuestIndex((prev) => (prev > 0 ? prev - 1 : QUESTS.length - 1));
+  };
+
+  const handleNext = () => {
+    sound.click();
+    setQuestIndex((prev) => (prev < QUESTS.length - 1 ? prev + 1 : 0));
   };
 
   return (
@@ -112,7 +197,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
               <Dices className="w-5 h-5 text-[#55FFFF]" />
               <span className="text-xs sm:text-sm font-black">02. IDEA ROLLER</span>
             </div>
-            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">Starter Ideas</span>
+            <span className="text-[10px] font-bold hidden sm:inline text-zinc-500">{QUESTS.length} Ideas Ready</span>
           </button>
 
           {/* Point 3: Done Checklist */}
@@ -194,23 +279,36 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                       #02
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
-                      Project Idea Blueprint
+                      Starter Project Generator
                     </h3>
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    Spin the generator on the right to pick an achievable, high-impact starter project that exercises all layers of the stack.
+                    Pick a project you can finish in 1-4 days. Each project uses the full circuit we learned today:
                   </p>
 
-                  <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-1.5 font-mono">
-                    <span className="text-zinc-400 font-bold block mb-1 text-[10px]">SELECTED QUEST:</span>
-                    <strong className="text-white text-sm block">{quest.title}</strong>
-                    <p className="text-zinc-300">{quest.desc}</p>
+                  <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-2 font-mono">
+                    <div className="flex items-center justify-between text-zinc-400 text-[10px]">
+                      <span>CURRENT SELECTION ({questIndex + 1}/{QUESTS.length}):</span>
+                      <span className="text-[#55FFFF] font-bold">[{currentQuest.category}]</span>
+                    </div>
+
+                    <strong className="text-white text-sm block">{currentQuest.title}</strong>
+                    <p className="text-zinc-300 text-xs">{currentQuest.desc}</p>
+
+                    <div className="flex items-center gap-2 pt-1">
+                      <span className="px-2 py-0.5 bg-[#121420] border border-[#2e334a] text-[10px] text-[#55FFFF]">
+                        {currentQuest.stack}
+                      </span>
+                      <span className="px-2 py-0.5 bg-[#121420] border border-[#2e334a] text-[10px] text-[#55FF55]">
+                        ⏱️ {currentQuest.time}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
                     <Lightbulb className="w-4 h-4 text-[#55FFFF] shrink-0" />
-                    <span><strong>Takeaway:</strong> Build something you would personally use every single day.</span>
+                    <span><strong>Takeaway:</strong> Build something you will personally use every day.</span>
                   </div>
                 </>
               )}
@@ -228,7 +326,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                   </div>
 
                   <p className="text-sm sm:text-base text-zinc-100 font-semibold leading-relaxed">
-                    How do you know when your project is officially complete and ready for your resume?
+                    How do you know when your project is officially complete and ready for your portfolio?
                   </p>
 
                   <div className="space-y-2 text-xs">
@@ -266,7 +364,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
           {/* Header */}
           <div className="flex items-center gap-2 pb-3 border-b border-[#2e334a] text-xs sm:text-sm font-bold text-zinc-300">
             <Server className="w-5 h-5 text-[#55FFFF]" />
-            <span>PROJECT LAUNCHPAD PREVIEW</span>
+            <span>PROJECT LAUNCHPAD ROULETTE</span>
           </div>
 
           {/* Dynamic Animation Viewport - Centered Vertically & Horizontally */}
@@ -274,45 +372,92 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
             {/* AUTOMATION 1 & 2: Interactive Quest Generator Wheel */}
             {currentStep <= 1 && (
               <div className="w-full max-w-md mx-auto space-y-3 font-mono">
-                <div className="p-4 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel space-y-3">
+                <div
+                  className="p-4 bg-[#121420] border-2 shadow-pixel space-y-3 transition-colors duration-300"
+                  style={{ borderColor: currentQuest.color }}
+                >
                   <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-xs">
-                    <span className="text-zinc-400 font-bold">STARTER PROJECT ROULETTE</span>
-                    <button
-                      onClick={rollQuest}
-                      disabled={rolling}
-                      className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1.5 shadow-pixel hover:scale-105 transition-all cursor-pointer"
-                    >
-                      <Dices className={`w-3.5 h-3.5 ${rolling ? 'animate-spin' : ''}`} />
-                      <span>{rolling ? 'ROLLING...' : 'SPIN IDEA'}</span>
-                    </button>
+                    <span className="text-zinc-400 font-bold">
+                      IDEA {questIndex + 1} OF {QUESTS.length}
+                    </span>
+
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={handlePrev}
+                        disabled={rolling}
+                        className="p-1 bg-[#090a10] border border-[#2e334a] hover:border-[#55FFFF] text-zinc-300 cursor-pointer"
+                      >
+                        <ChevronLeft className="w-3.5 h-3.5" />
+                      </button>
+
+                      <button
+                        onClick={rollQuest}
+                        disabled={rolling}
+                        className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1.5 shadow-pixel hover:scale-105 transition-all cursor-pointer"
+                      >
+                        <Dices className={`w-3.5 h-3.5 ${rolling ? 'animate-spin' : ''}`} />
+                        <span>{rolling ? 'SPINNING...' : 'SPIN IDEA'}</span>
+                      </button>
+
+                      <button
+                        onClick={handleNext}
+                        disabled={rolling}
+                        className="p-1 bg-[#090a10] border border-[#2e334a] hover:border-[#55FFFF] text-zinc-300 cursor-pointer"
+                      >
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
 
+                  {/* Active Quest Card */}
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={quest.title}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
+                      key={currentQuest.id}
+                      initial={{ opacity: 0, scale: 0.92, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.92, y: -8 }}
+                      transition={{ duration: 0.15 }}
                       className="p-3 bg-[#090a10] border border-[#2e334a] space-y-2 text-xs"
                     >
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-black text-white uppercase">{quest.title}</h4>
-                        <span className="px-2 py-0.5 bg-[#55FF55]/20 text-[#55FF55] border border-[#55FF55] text-[10px] font-black">
-                          {quest.time}
+                        <h4 className="text-sm font-black text-white uppercase">{currentQuest.title}</h4>
+                        <span
+                          className="px-2 py-0.5 text-[10px] font-black border"
+                          style={{
+                            color: currentQuest.color,
+                            borderColor: currentQuest.color,
+                            backgroundColor: `${currentQuest.color}20`
+                          }}
+                        >
+                          {currentQuest.time}
                         </span>
                       </div>
 
-                      <p className="text-zinc-300 text-xs">{quest.desc}</p>
+                      <p className="text-zinc-300 text-xs leading-relaxed">{currentQuest.desc}</p>
 
-                      <div className="p-1.5 bg-[#121420] border border-[#2e334a] text-zinc-400 text-[11px]">
-                        Stack: <span className="text-[#55FFFF] font-bold">{quest.stack}</span>
+                      <div className="p-1.5 bg-[#121420] border border-[#2e334a] text-zinc-400 text-[11px] flex items-center justify-between">
+                        <span>Stack: <strong className="text-[#55FFFF]">{currentQuest.stack}</strong></span>
+                        <span className="text-[10px] text-zinc-500 font-bold">#{currentQuest.category}</span>
                       </div>
                     </motion.div>
                   </AnimatePresence>
 
+                  {/* Mini Browse Dots / Pill */}
+                  <div className="flex items-center justify-center gap-1.5 pt-1">
+                    {QUESTS.map((q, idx) => (
+                      <button
+                        key={q.id}
+                        onClick={() => { sound.click(); setQuestIndex(idx); }}
+                        className={`h-2 transition-all cursor-pointer rounded-full ${
+                          questIndex === idx ? 'w-6 bg-[#55FFFF]' : 'w-2 bg-[#2e334a] hover:bg-zinc-500'
+                        }`}
+                      />
+                    ))}
+                  </div>
+
                   <div className="p-2 bg-[#091f14] border border-[#55FF55]/60 text-center text-[#55FF55] text-xs font-bold flex items-center justify-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    <span>Spin again or begin coding this weekend!</span>
+                    <span>Click Spin or use arrows to explore all {QUESTS.length} project blueprints!</span>
                   </div>
                 </div>
               </div>
