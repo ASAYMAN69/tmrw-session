@@ -69,9 +69,9 @@ export const Slide1JourneyMap: React.FC<Slide1Props> = ({
 
   return (
     <div className="w-full flex flex-col gap-3 font-mono select-none">
-      {/* 8-Milestone Hotbar Pathway */}
-      <div className="bg-[#121420] border-2 border-[#2e334a] p-1.5 shadow-pixel">
-        <div className="grid grid-cols-4 sm:grid-cols-8 gap-1">
+      {/* 8-Milestone Prominent Hotbar Pathway */}
+      <div className="bg-[#121420] border-2 border-[#2e334a] p-2 shadow-pixel">
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5">
           {STAGES.map((s, idx) => {
             const Icon = s.icon;
             const isSelected = idx === activeIndex;
@@ -84,16 +84,16 @@ export const Slide1JourneyMap: React.FC<Slide1Props> = ({
                   sound.click();
                   onSubStepChange?.(idx);
                 }}
-                className={`py-2 px-1 flex flex-col items-center justify-center cursor-pointer transition-all border ${
+                className={`py-2 px-1.5 flex flex-col items-center justify-center cursor-pointer transition-all border-2 ${
                   isSelected
-                    ? 'bg-[#1e2640] border-[#55FFFF] shadow-pixel-sm text-[#55FFFF]'
+                    ? 'bg-[#1e2640] border-[#55FFFF] shadow-pixel-sm text-[#55FFFF] scale-[1.02]'
                     : isDone
                     ? 'bg-[#151828] border-[#383e58] text-zinc-300 hover:text-white'
                     : 'bg-[#0b0d16] border-[#22273a] text-zinc-600 hover:text-zinc-400'
                 }`}
               >
-                <Icon className="w-4 h-4 mb-1" />
-                <span className="text-[10px] font-bold truncate w-full text-center">
+                <Icon className={`w-5 h-5 mb-1 ${isSelected ? 'text-[#55FFFF]' : 'text-zinc-400'}`} />
+                <span className="text-xs font-extrabold truncate w-full text-center tracking-tight">
                   0{s.id}. {s.name}
                 </span>
               </button>
@@ -103,7 +103,7 @@ export const Slide1JourneyMap: React.FC<Slide1Props> = ({
       </div>
 
       {/* Main Dynamic Stage Viewport Card */}
-      <div className="bg-[#121420] border-2 border-[#383e58] p-4 sm:p-5 shadow-pixel">
+      <div className="bg-[#121420] border-2 border-[#383e58] p-5 sm:p-6 shadow-pixel">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIndex}
