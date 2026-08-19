@@ -106,8 +106,8 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
               {currentStep === 0 && (
                 <>
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs sm:text-sm font-black text-[#FFAA00] px-3 py-1 bg-[#FFAA00]/15 border border-[#FFAA00]/40">
-                      STEP 01 OF 03
+                    <span className="text-xs sm:text-sm font-black text-[#FFAA00] px-2.5 py-0.5 bg-[#FFAA00]/15 border border-[#FFAA00]/40">
+                      #01
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       HTML5 — The Raw Skeleton
@@ -136,8 +136,8 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
               {currentStep === 1 && (
                 <>
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs sm:text-sm font-black text-[#55FFFF] px-3 py-1 bg-[#55FFFF]/15 border border-[#55FFFF]/40">
-                      STEP 02 OF 03
+                    <span className="text-xs sm:text-sm font-black text-[#55FFFF] px-2.5 py-0.5 bg-[#55FFFF]/15 border border-[#55FFFF]/40">
+                      #02
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       CSS3 / Tailwind — The Skin
@@ -166,8 +166,8 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
               {currentStep === 2 && (
                 <>
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs sm:text-sm font-black text-[#55FF55] px-3 py-1 bg-[#55FF55]/15 border border-[#55FF55]/40">
-                      STEP 03 OF 03
+                    <span className="text-xs sm:text-sm font-black text-[#55FF55] px-2.5 py-0.5 bg-[#55FF55]/15 border border-[#55FF55]/40">
+                      #03
                     </span>
                     <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
                       JS / React — The Reactivity Muscle
