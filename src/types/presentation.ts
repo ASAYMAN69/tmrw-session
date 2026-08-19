@@ -4,7 +4,7 @@ export interface SlideData {
   title: string;
   badge: string;
   subtitle?: string;
-  category: 'Foundation' | 'Frontend' | 'Backend' | 'Data & Auth' | 'Deployment' | 'Big Picture' | 'Next Steps' | 'Live Masterclass';
+  category: 'Foundation' | 'Frontend' | 'Backend' | 'Data & Auth' | 'Deployment' | 'Big Picture' | 'Next Steps' | 'Live Masterclass' | 'Q&A';
   purpose?: string;
   bigStatement?: string;
   funLine?: string;
