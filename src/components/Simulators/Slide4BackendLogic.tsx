@@ -295,18 +295,18 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
         </div>
 
         {/* RIGHT SECTION: Visual Server Engine Preview */}
-        <div className="bg-[#090a10] border-2 border-[#55FFFF] p-6 shadow-pixel flex flex-col justify-between">
+        <div className="bg-[#090a10] border-2 border-[#55FFFF] p-6 shadow-pixel flex flex-col">
           {/* Header */}
           <div className="flex items-center gap-2 pb-3 border-b border-[#2e334a] text-xs sm:text-sm font-bold text-zinc-300">
             <Server className="w-5 h-5 text-[#55FFFF]" />
             <span>SERVER ENGINE PREVIEW</span>
           </div>
 
-          {/* Dynamic Animation Viewport */}
-          <div className="py-6 flex flex-col items-center justify-center min-h-[220px]">
+          {/* Dynamic Animation Viewport - Centered Vertically & Horizontally */}
+          <div className="flex-1 flex flex-col items-center justify-center py-6 w-full my-auto">
             {/* AUTOMATION 1.1: Legitimacy Verification Scanner */}
             {currentStep === 0 && (
-              <div className="w-full space-y-3">
+              <div className="w-full max-w-md mx-auto space-y-3">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={authCycle}
@@ -358,7 +358,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
 
             {/* AUTOMATION 1.2: Workspace Partitioning & Data Isolation */}
             {currentStep === 1 && (
-              <div className="w-full space-y-3">
+              <div className="w-full max-w-md mx-auto space-y-3">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeUser}
@@ -417,7 +417,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
 
             {/* AUTOMATION 2: Business Logic Price Calculation Flow */}
             {currentStep === 2 && (
-              <div className="w-full space-y-3">
+              <div className="w-full max-w-md mx-auto space-y-3">
                 <div className="p-4 bg-[#121420] border-2 border-[#55FFFF] shadow-pixel text-xs space-y-2 font-mono">
                   <div className="flex justify-between border-b border-[#2e334a] pb-1.5">
                     <span className="text-zinc-400">2x Masterclass Passes:</span>
@@ -447,7 +447,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
 
             {/* AUTOMATION 3: Security Guard Threat Filter */}
             {currentStep === 3 && (
-              <div className="w-full space-y-3">
+              <div className="w-full max-w-md mx-auto space-y-3">
                 <div className="p-4 bg-[#121420] border-2 border-[#55FF55] shadow-pixel text-xs space-y-3">
                   <div>
                     <span className="text-[10px] text-[#FF5555] font-black uppercase block mb-1">
