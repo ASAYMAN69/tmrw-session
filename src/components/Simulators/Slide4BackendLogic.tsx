@@ -294,17 +294,12 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
           </div>
         </div>
 
-        {/* RIGHT SECTION: Self-Running Live Visual Automation */}
+        {/* RIGHT SECTION: Visual Server Engine Preview */}
         <div className="bg-[#090a10] border-2 border-[#55FFFF] p-6 shadow-pixel flex flex-col justify-between">
           {/* Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-[#2e334a] text-xs sm:text-sm font-bold">
-            <div className="flex items-center gap-2 text-zinc-300">
-              <Server className="w-5 h-5 text-[#55FFFF]" />
-              <span>LIVE SERVER VISUAL AUTOMATION</span>
-            </div>
-            <span className="text-xs text-[#55FF55] font-mono flex items-center gap-1 font-bold">
-              <span className="w-2 h-2 rounded-full bg-[#55FF55] animate-ping" /> AUTO-RUNNING
-            </span>
+          <div className="flex items-center gap-2 pb-3 border-b border-[#2e334a] text-xs sm:text-sm font-bold text-zinc-300">
+            <Server className="w-5 h-5 text-[#55FFFF]" />
+            <span>SERVER ENGINE PREVIEW</span>
           </div>
 
           {/* Dynamic Animation Viewport */}
@@ -482,12 +477,6 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                 </p>
               </div>
             )}
-          </div>
-
-          {/* Metrics Footer */}
-          <div className="p-3 bg-[#121420] border border-[#2e334a] flex items-center justify-between text-xs font-bold text-zinc-300">
-            <span>Server Process: Node.js / Express</span>
-            <span className="text-[#55FFFF]">Status: Listening on Port 3000</span>
           </div>
         </div>
       </div>
