@@ -80,7 +80,7 @@ export const Stage2Frontend: React.FC = () => {
             Handles user clicks, state & API fetch calls.
           </p>
           <code className="block mt-2 p-1.5 bg-[#000000] text-[10px] text-[#55FF55]">
-            onClick={() =&gt; saveNote()}
+            onClick=&#123;() =&gt; saveNote()&#125;
           </code>
         </button>
       </div>
