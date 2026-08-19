@@ -208,11 +208,10 @@ export const SLIDES: SlideData[] = [
     category: 'Live Masterclass',
     bigStatement: "Learn the essentials of web development and turn your ideas into engaging, functional websites through practical learning.",
     funLine: "We bring the future to you.",
-    maxSubSteps: 2,
+    maxSubSteps: 1,
     presenterNotes: [
       "Announce the official ACC CodeLaunch 2026 Online Web Development Bootcamp!",
-      "Highlight: Google Meet, 08-21 September, 8 exclusive sessions, no prior experience needed.",
-      "Encourage everyone to click 'Register Today' and claim their admission pass."
+      "Highlight: Google Meet, 08-21 September, 8 exclusive sessions, no prior experience needed."
     ]
   }
 ];
