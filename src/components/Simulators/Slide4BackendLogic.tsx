@@ -11,7 +11,12 @@ import {
   CheckCircle2,
   XCircle,
   FolderLock,
-  Server
+  Server,
+  Terminal,
+  CornerDownLeft,
+  Database,
+  Flame,
+  Sparkles
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -19,6 +24,239 @@ interface Slide4Props {
   subStep?: number;
   onSubStepChange?: (subStep: number) => void;
 }
+
+// Crazy Motion Graphics Component for Input Sanitization
+const SanitizationMotionGraphics: React.FC = () => {
+  // Stages: 0 = type bad, 1 = enter bad, 2 = block bad, 3 = type good, 4 = enter good, 5 = pass good
+  const [animStage, setAnimStage] = useState<number>(0);
+  const [displayedText, setDisplayedText] = useState<string>('');
+
+  const badPayload = '<script>stealAllData()</script>';
+  const goodPayload = 'Calculus Chapter 4 Notes';
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (animStage === 0) {
+      // Type bad payload fast
+      let idx = 0;
+      setDisplayedText('');
+      const typeInterval = setInterval(() => {
+        if (idx <= badPayload.length) {
+          setDisplayedText(badPayload.slice(0, idx));
+          idx++;
+        } else {
+          clearInterval(typeInterval);
+          timer = setTimeout(() => setAnimStage(1), 300);
+        }
+      }, 35);
+      return () => {
+        clearInterval(typeInterval);
+        clearTimeout(timer);
+      };
+    } else if (animStage === 1) {
+      // Enter bad
+      timer = setTimeout(() => {
+        sound.error?.();
+        setAnimStage(2);
+      }, 350);
+      return () => clearTimeout(timer);
+    } else if (animStage === 2) {
+      // Show blocked and sanitized state for 2.2s
+      timer = setTimeout(() => setAnimStage(3), 2200);
+      return () => clearTimeout(timer);
+    } else if (animStage === 3) {
+      // Type good payload fast
+      let idx = 0;
+      setDisplayedText('');
+      const typeInterval = setInterval(() => {
+        if (idx <= goodPayload.length) {
+          setDisplayedText(goodPayload.slice(0, idx));
+          idx++;
+        } else {
+          clearInterval(typeInterval);
+          timer = setTimeout(() => setAnimStage(4), 300);
+        }
+      }, 35);
+      return () => {
+        clearInterval(typeInterval);
+        clearTimeout(timer);
+      };
+    } else if (animStage === 4) {
+      // Enter good
+      timer = setTimeout(() => {
+        sound.success?.();
+        setAnimStage(5);
+      }, 350);
+      return () => clearTimeout(timer);
+    } else if (animStage === 5) {
+      // Show passed state for 2.2s then restart
+      timer = setTimeout(() => setAnimStage(0), 2200);
+      return () => clearTimeout(timer);
+    }
+  }, [animStage]);
+
+  return (
+    <div className="w-full max-w-md mx-auto space-y-3 font-mono">
+      {/* Dynamic Motion Input Bar */}
+      <motion.div
+        animate={
+          animStage === 2
+            ? {
+                x: [0, -12, 12, -9, 9, -5, 5, -2, 2, 0],
+                rotate: [0, -1.5, 1.5, -1, 1, 0],
+                borderColor: ['#FF2255', '#FF5555', '#FF2255'],
+                boxShadow: [
+                  '0 0 0px rgba(255,34,85,0)',
+                  '0 0 25px rgba(255,34,85,0.7)',
+                  '0 0 10px rgba(255,34,85,0.4)'
+                ]
+              }
+            : animStage === 5
+            ? {
+                scale: [1, 1.02, 1],
+                borderColor: ['#55FF55', '#00FF66', '#55FF55'],
+                boxShadow: [
+                  '0 0 0px rgba(85,255,85,0)',
+                  '0 0 25px rgba(85,255,85,0.7)',
+                  '0 0 10px rgba(85,255,85,0.4)'
+                ]
+              }
+            : {
+                x: 0,
+                rotate: 0,
+                borderColor: '#383e58',
+                boxShadow: '0 0 0px rgba(0,0,0,0)'
+              }
+        }
+        transition={{ duration: 0.45 }}
+        className={`p-3.5 bg-[#090a10] border-2 rounded-none transition-all flex items-center justify-between gap-2 shadow-pixel ${
+          animStage === 2
+            ? 'bg-[#200a12]'
+            : animStage === 5
+            ? 'bg-[#0a1f14]'
+            : ''
+        }`}
+      >
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <Terminal
+            className={`w-4 h-4 shrink-0 ${
+              animStage === 2
+                ? 'text-[#FF2255]'
+                : animStage === 5
+                ? 'text-[#55FF55]'
+                : 'text-[#55FFFF]'
+            }`}
+          />
+          <div className="flex items-center text-xs font-bold truncate">
+            <span
+              className={
+                animStage === 2
+                  ? 'text-[#FF5555] line-through'
+                  : animStage === 5
+                  ? 'text-[#55FF55]'
+                  : 'text-white'
+              }
+            >
+              {displayedText}
+            </span>
+            <span className="w-1.5 h-3.5 bg-[#55FFFF] animate-pulse ml-0.5" />
+          </div>
+        </div>
+
+        {/* Enter key badge */}
+        <motion.div
+          animate={
+            animStage === 1 || animStage === 4
+              ? { scale: [1, 0.85, 1.1, 1], backgroundColor: '#55FFFF', color: '#000' }
+              : {}
+          }
+          className="px-2 py-0.5 text-[10px] font-black border border-[#2e334a] bg-[#121420] text-zinc-400 flex items-center gap-1 shrink-0"
+        >
+          <span>ENTER</span>
+          <CornerDownLeft className="w-3 h-3" />
+        </motion.div>
+      </motion.div>
+
+      {/* Dynamic Status / Laser Inspection Viewport */}
+      <AnimatePresence mode="wait">
+        {/* MALICIOUS BLOCKED BANNER */}
+        {animStage === 2 && (
+          <motion.div
+            key="blocked-status"
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            className="p-3.5 bg-[#1f0910] border-2 border-[#FF2255] shadow-pixel text-center space-y-2"
+          >
+            <div className="flex items-center justify-center gap-2 text-[#FF2255] font-black text-xs">
+              <ShieldAlert className="w-5 h-5 animate-bounce" />
+              <span>🚨 400 BLOCKED: MALICIOUS XSS SCRIPT</span>
+            </div>
+
+            <div className="p-2 bg-[#090a10] border border-[#FF2255]/50 text-[11px] text-left">
+              <span className="text-zinc-400 block text-[9px] font-bold">LASER SANITIZED TO PLAIN TEXT:</span>
+              <code className="text-[#FF8888] font-mono block truncate">
+                &amp;lt;script&amp;gt;stealAllData()&amp;lt;/script&amp;gt;
+              </code>
+            </div>
+
+            <p className="text-[10px] text-[#FF5555] font-bold">
+              ✕ Execution prevented. Threat neutralized before touching database.
+            </p>
+          </motion.div>
+        )}
+
+        {/* CLEAN ACCEPTED BANNER */}
+        {animStage === 5 && (
+          <motion.div
+            key="passed-status"
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            className="p-3.5 bg-[#091f14] border-2 border-[#55FF55] shadow-pixel text-center space-y-2"
+          >
+            <div className="flex items-center justify-center gap-2 text-[#55FF55] font-black text-xs">
+              <CheckCircle2 className="w-5 h-5" />
+              <span>✓ 201 CREATED: CLEAN STRING VALIDATED</span>
+            </div>
+
+            <div className="p-2 bg-[#090a10] border border-[#55FF55]/50 text-[11px] text-left flex items-center justify-between">
+              <div>
+                <span className="text-zinc-400 block text-[9px] font-bold">WRITTEN TO POSTGRESQL:</span>
+                <code className="text-[#55FF55] font-mono">"Calculus Chapter 4 Notes"</code>
+              </div>
+              <Database className="w-5 h-5 text-[#55FF55] shrink-0 ml-2" />
+            </div>
+
+            <p className="text-[10px] text-[#55FF55] font-bold">
+              ✓ Verified safe payload saved cleanly into student database record.
+            </p>
+          </motion.div>
+        )}
+
+        {/* TYPING / INSPECTING STATE */}
+        {(animStage === 0 || animStage === 1 || animStage === 3 || animStage === 4) && (
+          <motion.div
+            key="inspecting-status"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="p-3 bg-[#121420] border border-[#2e334a] text-center text-xs text-zinc-400 space-y-1"
+          >
+            <div className="flex items-center justify-center gap-1.5 text-zinc-300 font-bold">
+              <Sparkles className="w-4 h-4 text-[#55FFFF] animate-spin" />
+              <span>Server-Side DOMPurify & Parameter Filter Active</span>
+            </div>
+            <p className="text-[10px] text-zinc-500 font-mono">
+              Listening for incoming client payloads...
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export const Slide4BackendLogic: React.FC<Slide4Props> = ({
   subStep = 0,
@@ -445,37 +683,9 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
               </div>
             )}
 
-            {/* AUTOMATION 3: Security Guard Threat Filter */}
+            {/* AUTOMATION 3: Security Guard Threat Filter (CRAZY MOTION GRAPHICS) */}
             {currentStep === 3 && (
-              <div className="w-full max-w-md mx-auto space-y-3">
-                <div className="p-4 bg-[#121420] border-2 border-[#55FF55] shadow-pixel text-xs space-y-3">
-                  <div>
-                    <span className="text-[10px] text-[#FF5555] font-black uppercase block mb-1">
-                      1. INCOMING DIRTY PAYLOAD:
-                    </span>
-                    <code className="p-2 bg-[#090a10] border border-[#FF5555]/60 text-[#FF5555] text-xs block font-mono">
-                      {'<script>stealAllCookies()</script>'}
-                    </code>
-                  </div>
-
-                  <div className="text-center text-[#55FFFF] text-xs font-bold">
-                    ⬇ Server-Side DOMPurify & Regex Sanitizer ⬇
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-[#55FF55] font-black uppercase block mb-1">
-                      2. CLEAN DATABASE STORAGE:
-                    </span>
-                    <code className="p-2 bg-[#090a10] border border-[#55FF55] text-[#55FF55] text-xs block font-mono">
-                      {'&lt;script&gt;stealAllCookies()&lt;/script&gt;'}
-                    </code>
-                  </div>
-                </div>
-
-                <p className="text-center text-[11px] text-[#55FF55] font-bold">
-                  ✓ Neutralized into harmless text. Scripts cannot execute in other users' browsers.
-                </p>
-              </div>
+              <SanitizationMotionGraphics />
             )}
           </div>
         </div>
