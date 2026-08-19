@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Layers, ShieldCheck } from 'lucide-react';
+import { FileText, Layers, ShieldCheck, Lightbulb } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
 interface Slide12Props {
@@ -91,8 +91,9 @@ export const Slide12ArchitectureCompare: React.FC<Slide12Props> = ({
           >
             <p className="text-white"><strong>Purpose:</strong> {current.desc}</p>
             <p className="text-zinc-300"><strong>Required Stack:</strong> <span className="text-[#55FFFF]">{current.stack}</span></p>
-            <div className="p-2 bg-[#121420] border border-[#55FF55] text-[#55FF55] text-xs font-bold">
-              💡 {current.takeaway}
+            <div className="p-2 bg-[#121420] border border-[#55FF55] text-[#55FF55] text-xs font-bold flex items-center gap-1.5">
+              <Lightbulb className="w-4 h-4 text-[#55FF55] shrink-0" />
+              <span>{current.takeaway}</span>
             </div>
           </motion.div>
         </AnimatePresence>

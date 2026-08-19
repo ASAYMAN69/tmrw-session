@@ -16,7 +16,8 @@ import {
   CornerDownLeft,
   Database,
   Flame,
-  Sparkles
+  Sparkles,
+  Lightbulb
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -422,8 +423,9 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> Keeps strangers and fake bots out of private accounts.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#FFAA00] shrink-0" />
+                    <span><strong>Takeaway:</strong> Keeps strangers and fake bots out of private accounts.</span>
                   </div>
                 </>
               )}
@@ -456,8 +458,9 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> User A can never see User B's files. The backend keeps workspaces separated.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FFFF] shrink-0" />
+                    <span><strong>Takeaway:</strong> User A can never see User B's files. The backend keeps workspaces separated.</span>
                   </div>
                 </>
               )}
@@ -487,8 +490,9 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                     </p>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> The server computes the true final price before charging cards.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FFFF] shrink-0" />
+                    <span><strong>Takeaway:</strong> The server computes the true final price before charging cards.</span>
                   </div>
                 </>
               )}
@@ -518,8 +522,9 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                     </p>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> Protects your website database and visitors from hacker exploits.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FF55] shrink-0" />
+                    <span><strong>Takeaway:</strong> Protects your website database and visitors from hacker exploits.</span>
                   </div>
                 </>
               )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Globe, Lock } from 'lucide-react';
+import { Globe, Lock, Lightbulb } from 'lucide-react';
 
 export const Stage7Domain: React.FC = () => {
   return (
@@ -52,7 +52,10 @@ export const Stage7Domain: React.FC = () => {
 
       {/* Bottom Summary Bar */}
       <div className="p-3.5 bg-[#121420] border border-[#2e334a] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm text-zinc-100 font-bold">
-        <span>💡 <strong>Domain vs Hosting:</strong> The domain is the street address (notes.dev); hosting is the physical building on that street.</span>
+        <div className="flex items-center gap-2">
+          <Lightbulb className="w-4 h-4 text-[#FFAA00] shrink-0" />
+          <span><strong>Domain vs Hosting:</strong> The domain is the street address (notes.dev); hosting is the physical building on that street.</span>
+        </div>
         <span className="text-[#55FFFF] font-black shrink-0">Registrars: Namecheap, Cloudflare, Porkbun</span>
       </div>
     </div>

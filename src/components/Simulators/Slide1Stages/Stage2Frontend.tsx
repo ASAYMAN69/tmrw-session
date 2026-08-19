@@ -1,5 +1,5 @@
 import React from 'react';
-import { Palette, Layers, Zap, Monitor } from 'lucide-react';
+import { Palette, Layers, Zap, Monitor, Lightbulb } from 'lucide-react';
 
 export const Stage2Frontend: React.FC = () => {
   return (
@@ -71,9 +71,11 @@ export const Stage2Frontend: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Summary Bar */}
       <div className="p-3.5 bg-[#121420] border border-[#2e334a] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm text-zinc-100 font-semibold">
-        <span>💡 <strong>Analogy:</strong> HTML builds the house, CSS paints the walls, JavaScript opens the garage door.</span>
+        <div className="flex items-center gap-2">
+          <Lightbulb className="w-4 h-4 text-[#FFAA00] shrink-0" />
+          <span><strong>Analogy:</strong> HTML builds the house, CSS paints the walls, JavaScript opens the garage door.</span>
+        </div>
         <span className="text-[#55FFFF] font-black shrink-0">Tools: React, Vite, Tailwind CSS</span>
       </div>
     </div>

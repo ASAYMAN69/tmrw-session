@@ -21,7 +21,8 @@ import {
   User,
   ExternalLink,
   BookOpen,
-  RefreshCw
+  RefreshCw,
+  Lightbulb
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 
@@ -475,8 +476,9 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> The browser never touches the database directly. The API is the safe courier.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#FFAA00] shrink-0" />
+                    <span><strong>Takeaway:</strong> The browser never touches the database directly. The API is the safe courier.</span>
                   </div>
                 </>
               )}
@@ -510,8 +512,9 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> Python backend, React website, and iPhone app all communicate seamlessly through JSON.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FFFF] shrink-0" />
+                    <span><strong>Takeaway:</strong> Python backend, React website, and iPhone app all communicate seamlessly through JSON.</span>
                   </div>
                 </>
               )}
@@ -551,8 +554,9 @@ export const Slide5ApiRestaurant: React.FC<Slide5Props> = ({
                     </div>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> REST APIs map user intentions directly into these 4 standard HTTP operations.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FF55] shrink-0" />
+                    <span><strong>Takeaway:</strong> REST APIs map user intentions directly into these 4 standard HTTP operations.</span>
                   </div>
                 </>
               )}

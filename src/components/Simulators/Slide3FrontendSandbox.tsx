@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Palette, Zap, Sparkles, Monitor } from 'lucide-react';
+import { Layers, Palette, Zap, Sparkles, Monitor, Lightbulb } from 'lucide-react';
 import { sound } from '../../utils/sound';
 import { fireConfetti } from '../../utils/confetti';
 
@@ -127,8 +127,9 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
                     </code>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> HTML builds the structure, but has zero color, styling, or custom behavior.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#FFAA00] shrink-0" />
+                    <span><strong>Takeaway:</strong> HTML builds the structure, but has zero color, styling, or custom behavior.</span>
                   </div>
                 </>
               )}
@@ -157,8 +158,9 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
                     </code>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> CSS makes the interface beautiful, but it is static without JavaScript.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FFFF] shrink-0" />
+                    <span><strong>Takeaway:</strong> CSS makes the interface beautiful, but it is static without JavaScript.</span>
                   </div>
                 </>
               )}
@@ -187,8 +189,9 @@ export const Slide3FrontendSandbox: React.FC<Slide3Props> = ({
                     </code>
                   </div>
 
-                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium">
-                    💡 <strong>Takeaway:</strong> JavaScript connects user gestures to live logic and state changes.
+                  <div className="p-3 bg-[#181b2c] border-l-4 border-[#55FF55] text-xs sm:text-sm text-zinc-200 font-medium flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#55FF55] shrink-0" />
+                    <span><strong>Takeaway:</strong> JavaScript connects user gestures to live logic and state changes.</span>
                   </div>
                 </>
               )}
