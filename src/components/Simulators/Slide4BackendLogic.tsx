@@ -80,7 +80,7 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
 
       {/* Main Dynamic Viewport with 3 Completely Distinct Templates */}
       <AnimatePresence mode="wait">
-        {/* SUB-SLIDE 1: AUTHENTICATION & HASH VAULT */}
+        {/* SUB-SLIDE 1: AUTHENTICATION (LEGITIMACY & WORKSPACE ISOLATION) */}
         {currentStep === 0 && (
           <motion.div
             key="substep-auth"
@@ -97,84 +97,81 @@ export const Slide4BackendLogic: React.FC<Slide4Props> = ({
                   #01
                 </span>
                 <h3 className="text-lg sm:text-xl font-black text-white font-sans uppercase">
-                  AUTHENTICATION — PASSWORD HASHING & JWT BADGES
+                  AUTHENTICATION — IDENTITY VERIFICATION & WORKSPACE ISOLATION
                 </h3>
               </div>
               <span className="text-xs font-bold text-[#FFAA00] hidden sm:inline">
-                Zero Plaintext Passwords
+                2 Core Responsibilities
               </span>
             </div>
 
-            {/* Unique Template 1: 2-Column Split (Bcrypt Hash Process VS JWT Token Anatomy) */}
+            {/* Unique Template 1: 2-Column Split (Pillar 1: Legitimacy Check VS Pillar 2: Workspace Separation) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Left Column: The Bcrypt Hash Transformer */}
-              <div className="p-4 bg-[#090a10] border-2 border-[#FFAA00] shadow-pixel flex flex-col justify-between">
+              {/* Left Column: Pillar 1 - Legitimacy Check */}
+              <div className="p-5 bg-[#090a10] border-2 border-[#FFAA00] shadow-pixel flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-[#FFAA00] font-black uppercase">
-                      1. THE BCRYPT HASH VAULT
+                    <span className="text-xs sm:text-sm text-[#FFAA00] font-black uppercase">
+                      1. ARE THEY LEGITIMATE?
                     </span>
-                    <Lock className="w-4 h-4 text-[#FFAA00]" />
+                    <Key className="w-5 h-5 text-[#FFAA00]" />
                   </div>
-                  <p className="text-xs sm:text-sm text-zinc-200 font-semibold mb-3 leading-relaxed">
-                    The backend never stores your real password. It runs a 1-way mathematical hash function that cannot be reversed.
+                  <p className="text-sm text-zinc-100 font-semibold mb-3 leading-relaxed">
+                    The backend verifies if the person knocking on the door is real and owns the account before letting them inside.
                   </p>
 
-                  <div className="space-y-2">
-                    <div className="p-2 bg-[#121420] border border-[#2e334a] flex items-center justify-between text-xs">
-                      <span className="text-zinc-400 font-bold">User Input:</span>
-                      <code className="text-white font-bold">"SuperSecret99!"</code>
+                  <div className="space-y-2 text-xs font-mono">
+                    <div className="p-2.5 bg-[#121420] border border-[#55FF55]/60 flex items-center justify-between">
+                      <span className="text-zinc-300">Valid Password / Google Login:</span>
+                      <strong className="text-[#55FF55] font-black">✓ ACCESS GRANTED</strong>
                     </div>
 
-                    <div className="text-center text-[#FFAA00] text-xs font-bold py-0.5">
-                      ⬇ Salted One-Way Bcrypt Algorithm ⬇
-                    </div>
-
-                    <div className="p-2.5 bg-[#181b2c] border border-[#FFAA00] text-xs">
-                      <span className="text-[10px] text-zinc-400 block font-bold">STORED IN DATABASE:</span>
-                      <code className="text-[#FFAA00] font-mono text-[11px] block truncate mt-0.5">
-                        $2b$12$e8xKQZ9mZ8o2...
-                      </code>
+                    <div className="p-2.5 bg-[#121420] border border-[#FF5555]/60 flex items-center justify-between">
+                      <span className="text-zinc-300">Wrong Password / Imposter:</span>
+                      <strong className="text-[#FF5555] font-black">✗ 401 BLOCKED</strong>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 text-[11px] text-[#55FF55] font-bold">
-                  ✓ Even if the database is leaked, hackers cannot read user passwords.
+                <div className="mt-3 p-2 bg-[#181b2c] border-l-4 border-[#FFAA00] text-xs text-zinc-300 font-medium">
+                  💡 <strong>Goal:</strong> Prevents unauthorized strangers from accessing private system data.
                 </div>
               </div>
 
-              {/* Right Column: The Signed JWT Access Keycard */}
-              <div className="p-4 bg-[#090a10] border-2 border-[#55FFFF] shadow-pixel flex flex-col justify-between">
+              {/* Right Column: Pillar 2 - Unique Identity & Workspace Separation */}
+              <div className="p-5 bg-[#090a10] border-2 border-[#55FFFF] shadow-pixel flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-[#55FFFF] font-black uppercase">
-                      2. THE JWT DIGITAL KEYCARD
+                    <span className="text-xs sm:text-sm text-[#55FFFF] font-black uppercase">
+                      2. ISOLATING USER WORKSPACES
                     </span>
-                    <Key className="w-4 h-4 text-[#55FFFF]" />
+                    <Lock className="w-5 h-5 text-[#55FFFF]" />
                   </div>
-                  <p className="text-xs sm:text-sm text-zinc-200 font-semibold mb-3 leading-relaxed">
-                    Once logged in, the server signs a tamper-proof digital badge with its private secret key.
+                  <p className="text-sm text-zinc-100 font-semibold mb-3 leading-relaxed">
+                    Uniquely identifies who is logged in so each person sees only their own data based on their access level.
                   </p>
 
-                  <div className="p-3 bg-[#121420] border border-[#2e334a] text-xs space-y-1.5 font-mono">
-                    <div className="flex items-center justify-between border-b border-[#2e334a] pb-1">
-                      <span className="text-[#FF5555] font-bold">HEADER:</span>
-                      <span className="text-zinc-300">&#123; "alg": "HS256" &#125;</span>
+                  <div className="space-y-2 text-xs">
+                    <div className="p-2.5 bg-[#121420] border border-[#2e334a] flex items-center justify-between">
+                      <div>
+                        <span className="text-[#55FFFF] font-black block">Student Account (user_801):</span>
+                        <span className="text-zinc-400 text-[11px]">Can only see & edit their own private notes.</span>
+                      </div>
+                      <span className="text-[#55FF55] font-black text-xs">ISOLATED</span>
                     </div>
-                    <div className="flex items-center justify-between border-b border-[#2e334a] pb-1">
-                      <span className="text-[#55FFFF] font-bold">PAYLOAD:</span>
-                      <span className="text-zinc-300">&#123; "id": 104, "role": "student" &#125;</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-[#55FF55] font-bold">SIGNATURE:</span>
-                      <span className="text-[#55FF55]">HMACSHA256(secret)</span>
+
+                    <div className="p-2.5 bg-[#121420] border border-[#2e334a] flex items-center justify-between">
+                      <div>
+                        <span className="text-[#FFAA00] font-black block">Admin / Teacher Access:</span>
+                        <span className="text-zinc-400 text-[11px]">Can view course stats & manage all submissions.</span>
+                      </div>
+                      <span className="text-[#FFAA00] font-black text-xs">ELEVATED</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 text-[11px] text-[#55FFFF] font-bold">
-                  ✓ Stored in secure HTTP-Only cookie, verified on every API request in 1ms.
+                <div className="mt-3 p-2 bg-[#181b2c] border-l-4 border-[#55FFFF] text-xs text-zinc-300 font-medium">
+                  💡 <strong>Goal:</strong> User A can never see User B's files. The backend keeps workspaces separated.
                 </div>
               </div>
             </div>
