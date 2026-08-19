@@ -34,7 +34,7 @@ export const Slide13QuestionsFeedback: React.FC<Slide13Props> = ({
             className="flex items-center justify-center text-center w-full"
           >
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white font-sans tracking-tight text-center leading-tight">
-              Any questions? <span className="text-[#55FFFF] inline-block">:P</span>
+              Any questions? <span className="text-[#55FFFF] inline-block font-['Inter',system-ui,-apple-system,sans-serif] font-black">:P</span>
             </h1>
           </motion.div>
         ) : (
@@ -47,7 +47,7 @@ export const Slide13QuestionsFeedback: React.FC<Slide13Props> = ({
             className="flex items-center justify-center text-center w-full"
           >
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white font-sans tracking-tight text-center leading-tight">
-              Loved the session? <span className="text-[#55FF55] inline-block">:D</span>
+              Loved the session? <span className="text-[#55FF55] inline-block font-['Inter',system-ui,-apple-system,sans-serif] font-black">:D</span>
             </h1>
           </motion.div>
         )}
