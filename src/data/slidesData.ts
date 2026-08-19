@@ -73,11 +73,12 @@ export const SLIDES: SlideData[] = [
     badge: 'Data Persistence',
     subtitle: 'Where everything is remembered when you close the tab',
     category: 'Data & Auth',
-    bigStatement: "The browser displays the data. The database remembers it.",
-    maxSubSteps: 2,
+    bigStatement: "The browser displays the data. The database remembers it forever.",
+    maxSubSteps: 3,
     presenterNotes: [
-      "Show what happens when notes are inserted.",
-      "Simulate tab reload to prove persistent storage."
+      "Point 1: RAM vs Disk - Why variables reset on refresh and disks persist.",
+      "Point 2: Tables & Columns - How relational databases structure records.",
+      "Point 3: CRUD Queries - INSERT, SELECT, UPDATE, and DELETE in action."
     ]
   },
   {
@@ -102,10 +103,11 @@ export const SLIDES: SlideData[] = [
     subtitle: 'How a local project becomes accessible to billions globally',
     category: 'Deployment',
     bigStatement: "Domain = Address • Hosting = Building",
-    maxSubSteps: 2,
+    maxSubSteps: 3,
     presenterNotes: [
-      "Explain that Domain gives humans a name, and Hosting provides the 24/7 cloud server.",
-      "Show DNS resolution in real time."
+      "Point 1: Domain vs Hosting - The street address vs the 24/7 cloud server.",
+      "Point 2: Static vs Dynamic Hosting - Vercel edge vs Node.js server backends.",
+      "Point 3: SSL & HTTPS - The green padlock encrypting internet traffic."
     ]
   },
   {
@@ -118,8 +120,9 @@ export const SLIDES: SlideData[] = [
     bigStatement: "Every click, login, page, and piece of saved information is part of this synchronized conversation.",
     maxSubSteps: 3,
     presenterNotes: [
-      "Walk through the master circuit diagram.",
-      "Follow the visual data packet through all layers."
+      "Point 1: The 3-Tier Architecture - Frontend, Backend, and Database.",
+      "Point 2: The Request Lifecycle - Tracing a click from browser to disk and back.",
+      "Point 3: HTTP Status Codes - 200 OK, 401 Unauthorized, 404 Not Found, 500 Error."
     ]
   },
   {
@@ -130,10 +133,11 @@ export const SLIDES: SlideData[] = [
     subtitle: 'Applying the full stack to a real-world scenario',
     category: 'Big Picture',
     bigStatement: "Every real feature maps directly to one or more components of the stack.",
-    maxSubSteps: 2,
+    maxSubSteps: 3,
     presenterNotes: [
-      "Ask what pieces are needed for a student notes app.",
-      "Reveal all 7 checkmarks and celebrate their understanding."
+      "Point 1: User Story - Real requirements for a student notes application.",
+      "Point 2: 7-Layer Mapping - Connecting features directly to stack layers.",
+      "Point 3: Production Launch - From localhost to live internet deployment."
     ]
   },
   {
@@ -158,41 +162,42 @@ export const SLIDES: SlideData[] = [
     badge: 'Architectural Decisions',
     subtitle: 'Matching your technology stack to your actual project goals',
     category: 'Big Picture',
-    bigStatement: "The website determines the architecture. You don't need a database just because someone said 'database.'",
+    bigStatement: "You do NOT always need a backend. Pick only what your app actually requires.",
     maxSubSteps: 3,
     presenterNotes: [
-      "Compare Portfolio (Frontend only) vs Blog (with CMS/DB) vs SaaS (Full Stack with Auth).",
-      "Relieve beginner overwhelm."
+      "Archetype 1: Static Portfolio - Frontend only ($0/mo).",
+      "Archetype 2: Public Blog - Frontend + Read-only database.",
+      "Archetype 3: Full-Stack SaaS - Complete 3-tier system with auth."
     ]
   },
   {
     id: 12,
-    slug: 'what-you-learn-next',
-    title: 'What You Learn Next',
+    slug: 'skills-and-next-steps',
+    title: 'The Full-Stack Learning Tree',
     badge: 'Skill Progression',
-    subtitle: 'A structured roadmap from beginner to full-stack creator',
-    category: 'Next Steps',
-    bigStatement: "You don't need to learn everything before building something.",
+    subtitle: 'From beginner foundations to production-ready software engineer',
+    category: 'Big Picture',
+    bigStatement: "You do NOT need to learn everything today. Master Level 1 and ship your first project.",
     maxSubSteps: 3,
     presenterNotes: [
-      "Tier 1: Foundations (HTML, CSS, JS, Git).",
-      "Tier 2: Interactive Apps (React, Node, DB).",
-      "Tier 3: Going Live (Hosting, DNS, Env vars)."
+      "Level 1: Web Foundations - HTML, CSS, JavaScript, Git.",
+      "Level 2: Full-Stack Frameworks - React, Node, APIs, PostgreSQL.",
+      "Level 3: Production & DevOps - CI/CD, Cloud Hosting, DNS, Secrets."
     ]
   },
   {
     id: 13,
-    slug: 'your-first-project',
-    title: 'Your First Project',
-    badge: 'Actionable Challenge',
-    subtitle: 'Picking a winning project that you will actually finish',
-    category: 'Next Steps',
-    bigStatement: "Build something small enough to finish.",
-    funLine: "Your first website doesn't need 10 million users. It needs to work.",
-    maxSubSteps: 2,
+    slug: 'pick-your-first-project',
+    title: 'Pick Your First Project',
+    badge: 'Action Plan',
+    subtitle: 'Choose a project you can finish this weekend',
+    category: 'Big Picture',
+    bigStatement: "The best first project is one you actually finish. Ship a tiny MVP before building a giant app.",
+    maxSubSteps: 3,
     presenterNotes: [
-      "Encourage building a small, achievable project.",
-      "Spin the starter project wheel to spark ideas."
+      "Point 1: Scope & Sweet Spot - 1-4 day projects vs multi-month burnout traps.",
+      "Point 2: Project Idea Generator - Roll a curated starter project blueprint.",
+      "Point 3: Definition of Done - UI + Git Repo + Live Public URL."
     ]
   },
   {
