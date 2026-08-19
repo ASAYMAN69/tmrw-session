@@ -72,7 +72,7 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 md:px-6 py-4 flex flex-col gap-3 pb-24 font-mono">
+    <div className="w-full max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-8 py-3 flex flex-col gap-3 pb-24 font-mono">
       {/* Clean Minimal Slide Header */}
       {slide.id !== 16 && (
         <div className="flex flex-col gap-1">
