@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #090a10;
+    color: #f0f2f5;
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Crisp Minecraft / Pixel Box */
+.pixel-box {
+  background: #121420;
+  border: 2px solid #383e58;
+  box-shadow: 3px 3px 0px #000000;
+}
+
+.pixel-box-active {
+  background: #161b30;
+  border: 2px solid #55FFFF;
+  box-shadow: 3px 3px 0px #000000, 0 0 16px rgba(85, 255, 255, 0.25);
+}
+
+.pixel-box-neon {
+  background: #08150c;
+  border: 2px solid #00FF66;
+  box-shadow: 3px 3px 0px #000000, 0 0 20px rgba(0, 255, 102, 0.25);
+}
+
+/* Minecraft Hotbar Slot */
+.pixel-slot {
+  background: #181b2c;
+  border: 2px solid #2e334a;
+  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.5), 2px 2px 0px #000000;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pixel-slot:hover {
+  border-color: #55FFFF;
+  transform: translateY(-2px);
+}
+
+.pixel-slot-active {
+  background: #242c4c;
+  border: 2px solid #55FFFF;
+  box-shadow: inset 2px 2px 0px rgba(85,255,255,0.2), 2px 2px 0px #000000;
+  transform: translateY(-2px);
+}
+
+/* Chunky Beveled Pixel Button */
+.pixel-btn {
+  background: #1e2438;
+  border-top: 2px solid #3e4868;
+  border-left: 2px solid #3e4868;
+  border-right: 2px solid #0e111a;
+  border-bottom: 2px solid #0e111a;
+  box-shadow: 2px 2px 0px #000000;
+  font-family: 'Silkscreen', 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  transition: transform 0.08s ease, background-color 0.1s ease;
+}
+
+.pixel-btn:hover {
+  background: #283250;
+  border-top-color: #55FFFF;
+  border-left-color: #55FFFF;
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+  border-top-color: #0e111a;
+  border-left-color: #0e111a;
+  border-right-color: #3e4868;
+  border-bottom-color: #3e4868;
+}
+
+.pixel-btn-primary {
+  background: #0066cc;
+  border-top: 2px solid #55FFFF;
+  border-left: 2px solid #55FFFF;
+  border-right: 2px solid #003366;
+  border-bottom: 2px solid #003366;
+}
+
+.pixel-btn-primary:hover {
+  background: #0077ee;
+}
+
+.pixel-btn-neon {
+  background: #00FF66;
+  color: #000000;
+  border-top: 2px solid #AAFFAA;
+  border-left: 2px solid #AAFFAA;
+  border-right: 2px solid #006622;
+  border-bottom: 2px solid #006622;
+  box-shadow: 2px 2px 0px #000000, 0 0 15px rgba(0, 255, 102, 0.4);
+}
+
+.pixel-btn-neon:hover {
+  background: #33FF85;
+}
+
+/* Minecraft XP Bar */
+.mc-xp-bar {
+  background: #121420;
+  border-top: 2px solid #000000;
+  height: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-xp-fill {
+  background: #55FF55;
+  box-shadow: inset 0 2px 0 #AAFFAA, inset 0 -2px 0 #00AA00;
+  height: 100%;
+}
+
+/* Subtle Pixel Grid Texture */
+.bg-pixel-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
