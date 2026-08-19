@@ -10,12 +10,7 @@ import {
   Server,
   Sparkles,
   GitBranch,
-  Globe,
-  ChevronLeft,
-  ChevronRight,
-  Layers,
-  Code2,
-  Zap
+  Globe
 } from 'lucide-react';
 import { sound } from '../../utils/sound';
 import { fireConfetti } from '../../utils/confetti';
@@ -289,7 +284,7 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
 
                   <div className="p-3.5 bg-[#090a10] border border-[#2e334a] text-xs space-y-2 font-mono">
                     <div className="flex items-center justify-between text-zinc-400 text-[10px]">
-                      <span>CURRENT SELECTION ({questIndex + 1}/{QUESTS.length}):</span>
+                      <span>STARTER BLUEPRINT:</span>
                       <span className="text-[#55FFFF] font-bold">[{currentQuest.category}]</span>
                     </div>
 
@@ -377,36 +372,16 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                   style={{ borderColor: currentQuest.color }}
                 >
                   <div className="flex items-center justify-between border-b border-[#2e334a] pb-2 text-xs">
-                    <span className="text-zinc-400 font-bold">
-                      IDEA {questIndex + 1} OF {QUESTS.length}
-                    </span>
+                    <span className="text-zinc-400 font-bold">PROJECT GENERATOR</span>
 
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={handlePrev}
-                        disabled={rolling}
-                        className="p-1 bg-[#090a10] border border-[#2e334a] hover:border-[#55FFFF] text-zinc-300 cursor-pointer"
-                      >
-                        <ChevronLeft className="w-3.5 h-3.5" />
-                      </button>
-
-                      <button
-                        onClick={rollQuest}
-                        disabled={rolling}
-                        className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1.5 shadow-pixel hover:scale-105 transition-all cursor-pointer"
-                      >
-                        <Dices className={`w-3.5 h-3.5 ${rolling ? 'animate-spin' : ''}`} />
-                        <span>{rolling ? 'SPINNING...' : 'SPIN IDEA'}</span>
-                      </button>
-
-                      <button
-                        onClick={handleNext}
-                        disabled={rolling}
-                        className="p-1 bg-[#090a10] border border-[#2e334a] hover:border-[#55FFFF] text-zinc-300 cursor-pointer"
-                      >
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                    <button
+                      onClick={rollQuest}
+                      disabled={rolling}
+                      className="px-3 py-1 bg-[#55FFFF] text-black text-xs font-black flex items-center gap-1.5 shadow-pixel hover:scale-105 transition-all cursor-pointer"
+                    >
+                      <Dices className={`w-3.5 h-3.5 ${rolling ? 'animate-spin' : ''}`} />
+                      <span>{rolling ? 'SPINNING...' : 'SPIN IDEA'}</span>
+                    </button>
                   </div>
 
                   {/* Active Quest Card */}
@@ -442,22 +417,9 @@ export const Slide14FirstProjectPicker: React.FC<Slide14Props> = ({
                     </motion.div>
                   </AnimatePresence>
 
-                  {/* Mini Browse Dots / Pill */}
-                  <div className="flex items-center justify-center gap-1.5 pt-1">
-                    {QUESTS.map((q, idx) => (
-                      <button
-                        key={q.id}
-                        onClick={() => { sound.click(); setQuestIndex(idx); }}
-                        className={`h-2 transition-all cursor-pointer rounded-full ${
-                          questIndex === idx ? 'w-6 bg-[#55FFFF]' : 'w-2 bg-[#2e334a] hover:bg-zinc-500'
-                        }`}
-                      />
-                    ))}
-                  </div>
-
                   <div className="p-2 bg-[#091f14] border border-[#55FF55]/60 text-center text-[#55FF55] text-xs font-bold flex items-center justify-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    <span>Click Spin or use arrows to explore all {QUESTS.length} project blueprints!</span>
+                    <span>Spin the generator to pick your starter project blueprint!</span>
                   </div>
                 </div>
               </div>
