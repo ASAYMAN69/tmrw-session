@@ -9,7 +9,7 @@ import {
   Cloud,
   Globe,
   Rocket,
-  Check,
+  CheckCircle2,
   Zap,
   ArrowRight
 } from 'lucide-react';
@@ -33,7 +33,7 @@ interface StageData {
 const STAGES: StageData[] = [
   {
     id: 1,
-    name: 'The Idea & MVP',
+    name: 'THE IDEA & MVP',
     shortName: 'Idea',
     icon: Lightbulb,
     coreQuestion: 'What single problem does this website solve for 1 person?',
@@ -50,7 +50,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 2,
-    name: 'Frontend (The Client UI)',
+    name: 'FRONTEND (THE CLIENT UI)',
     shortName: 'Frontend',
     icon: Palette,
     coreQuestion: 'What does the user see, click, and interact with in their browser?',
@@ -67,7 +67,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 3,
-    name: 'Backend (The Server Engine)',
+    name: 'BACKEND (THE SERVER ENGINE)',
     shortName: 'Backend',
     icon: Cpu,
     coreQuestion: 'What executes rules, validates passwords, and calculates logic behind the scenes?',
@@ -84,7 +84,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 4,
-    name: 'Database (Permanent Storage)',
+    name: 'DATABASE (PERMANENT STORAGE)',
     shortName: 'Database',
     icon: Database,
     coreQuestion: 'Where does data live so it is remembered when you close or reload the tab?',
@@ -101,7 +101,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 5,
-    name: 'Auth & Security (Keycards)',
+    name: 'AUTH & SECURITY (KEYCARDS)',
     shortName: 'Auth',
     icon: Lock,
     coreQuestion: 'Who are you, and what private records are you authorized to view and edit?',
@@ -118,7 +118,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 6,
-    name: 'Hosting (24/7 Cloud Server)',
+    name: 'HOSTING (24/7 CLOUD SERVER)',
     shortName: 'Hosting',
     icon: Cloud,
     coreQuestion: 'How is your website online 24/7 when your personal laptop is closed and asleep?',
@@ -135,7 +135,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 7,
-    name: 'Domain & DNS (The Address)',
+    name: 'DOMAIN & DNS (THE ADDRESS)',
     shortName: 'Domain',
     icon: Globe,
     coreQuestion: 'How do people find your website without memorizing raw numerical IP addresses?',
@@ -152,7 +152,7 @@ const STAGES: StageData[] = [
   },
   {
     id: 8,
-    name: 'Live Launch & Architecture',
+    name: 'LIVE LAUNCH & ARCHITECTURE',
     shortName: 'Live',
     icon: Rocket,
     coreQuestion: 'How do all 8 pieces synchronize into one complete, live web application?',
@@ -169,12 +169,21 @@ const STAGES: StageData[] = [
   }
 ];
 
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04 },
+  },
+};
+
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 6 },
+  hidden: { opacity: 0, y: 8, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.15 },
+    scale: 1,
+    transition: { type: 'spring', stiffness: 320, damping: 25 },
   },
 };
 
@@ -192,79 +201,104 @@ export const Slide1JourneyMap: React.FC<Slide1Props> = ({
   const CurrentIcon = current.icon;
 
   return (
-    <div className="w-full flex flex-col gap-4 font-mono select-none">
-      {/* Open, Unboxed Milestone Navigation Tabs */}
-      <div className="flex items-center justify-between border-b border-[#2e334a]/60 pb-2 overflow-x-auto gap-1">
-        {STAGES.map((s, idx) => {
-          const Icon = s.icon;
-          const isSelected = idx === activeIndex;
-          const isDone = idx < activeIndex;
+    <div className="w-full flex flex-col gap-3 font-mono select-none">
+      {/* 8-Slot Hotbar Strip */}
+      <div className="bg-[#121420] border-2 border-[#2e334a] p-1.5 shadow-pixel">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-4 sm:grid-cols-8 gap-1"
+        >
+          {STAGES.map((s, idx) => {
+            const Icon = s.icon;
+            const isSelected = idx === activeIndex;
+            const isDone = idx < activeIndex;
 
-          return (
-            <button
-              key={s.id}
-              onClick={() => {
-                sound.click();
-                onSubStepChange?.(idx);
-              }}
-              className={`px-2.5 py-1.5 flex items-center gap-1.5 cursor-pointer transition-all border-b-2 -mb-2 ${
-                isSelected
-                  ? 'border-[#55FFFF] text-white font-bold'
-                  : isDone
-                  ? 'border-transparent text-zinc-400 hover:text-white'
-                  : 'border-transparent text-zinc-600 hover:text-zinc-400'
-              }`}
-            >
-              <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-[#55FFFF]' : 'text-zinc-500'}`} />
-              <span className="text-[11px] whitespace-nowrap">
-                {s.shortName}
-              </span>
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={s.id}
+                onClick={() => {
+                  sound.click();
+                  onSubStepChange?.(idx);
+                }}
+                className={`py-2 px-1 flex flex-col items-center justify-center cursor-pointer transition-all border ${
+                  isSelected
+                    ? 'bg-[#1e2640] border-[#55FFFF] shadow-pixel-sm text-[#55FFFF]'
+                    : isDone
+                    ? 'bg-[#151828] border-[#383e58] text-zinc-300 hover:text-white'
+                    : 'bg-[#0b0d16] border-[#22273a] text-zinc-600 hover:text-zinc-400'
+                }`}
+              >
+                <Icon className="w-4 h-4 mb-1" />
+                <span className="text-[10px] font-bold truncate w-full text-center">
+                  0{s.id}. {s.shortName}
+                </span>
+              </button>
+            );
+          })}
+        </motion.div>
       </div>
 
-      {/* Main Unboxed Milestone Body */}
+      {/* Main High-Contrast Structured Milestone Card */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current.id}
           variants={itemVariants}
           initial="hidden"
           animate="visible"
-          exit={{ opacity: 0 }}
-          className="flex flex-col gap-3.5 pt-1"
+          exit={{ opacity: 0, y: -6 }}
+          className="bg-[#121420] border-2 border-[#383e58] p-4 sm:p-5 shadow-pixel flex flex-col gap-3.5"
         >
-          {/* Header Area (Clean, Open) */}
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-2 border-b border-[#2e334a]/40">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[#55FFFF] tracking-wide">
-                {current.badge}
-              </span>
-              <span className="text-zinc-600">•</span>
-              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                {current.name}
-              </h3>
+          {/* Header Strip */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#2e334a]">
+            <div className="flex items-center gap-3">
+              <div
+                className="w-9 h-9 bg-[#181b2c] border flex items-center justify-center shadow-pixel-sm shrink-0"
+                style={{ borderColor: current.accentColor, color: current.accentColor }}
+              >
+                <CurrentIcon className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="font-pixel text-[9px] px-1.5 py-0.2 border block w-fit"
+                    style={{
+                      color: current.accentColor,
+                      borderColor: `${current.accentColor}66`,
+                      backgroundColor: `${current.accentColor}15`,
+                    }}
+                  >
+                    {current.badge}
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white uppercase font-sans">
+                    {current.name}
+                  </h3>
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-[#55FFFF]/80 font-medium">
-              &gt; {current.coreQuestion}
-            </p>
+
+            <div className="text-left sm:text-right">
+              <span className="text-[9px] text-zinc-400 block font-bold">CORE QUESTION</span>
+              <p className="text-xs text-[#55FFFF] font-semibold">{current.coreQuestion}</p>
+            </div>
           </div>
 
-          {/* 2-Column Open Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
-            {/* Left: Natural Bullet Points */}
-            <div className="flex flex-col gap-3">
-              <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans font-medium">
+          {/* 2-Column Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            {/* Left: Summary & Key Bullet Takeaways */}
+            <div className="flex flex-col gap-2.5">
+              <p className="text-xs sm:text-sm text-zinc-100 font-sans leading-relaxed">
                 {current.summary}
               </p>
 
-              <div className="space-y-2.5 pt-1">
+              <div className="space-y-2 pt-1">
                 {current.points.map((pt, pIdx) => (
-                  <div key={pIdx} className="flex items-start gap-2 text-xs">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#55FFFF] mt-1.5 shrink-0" />
+                  <div key={pIdx} className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#55FF55] shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white block font-sans text-xs">{pt.title}</strong>
-                      <p className="text-[11.5px] text-zinc-400 mt-0.5 leading-relaxed">
+                      <strong className="text-white text-xs block">{pt.title}</strong>
+                      <p className="text-[11px] text-zinc-300 mt-0.5 leading-relaxed">
                         {pt.desc}
                       </p>
                     </div>
@@ -273,51 +307,47 @@ export const Slide1JourneyMap: React.FC<Slide1Props> = ({
               </div>
             </div>
 
-            {/* Right: Flow Path & Tools */}
-            <div className="flex flex-col justify-between gap-4">
-              {/* Flow Steps (Unboxed connected breadcrumbs) */}
-              <div>
-                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block mb-2">
-                  EXECUTION PIPELINE
+            {/* Right: Execution Flow & Tools */}
+            <div className="flex flex-col justify-between gap-3">
+              {/* Execution Flow */}
+              <div className="p-3 bg-[#090a10] border border-[#2e334a]">
+                <span className="text-[10px] text-zinc-400 font-bold uppercase block mb-2">
+                  EXECUTION PIPELINE:
                 </span>
-                <div className="flex items-center flex-wrap gap-1.5 text-xs">
+                <div className="grid grid-cols-2 gap-2">
                   {current.flow.map((step, sIdx) => (
-                    <React.Fragment key={sIdx}>
-                      <span className="px-2.5 py-1 bg-[#121420] text-zinc-200 font-medium border border-[#2e334a]">
-                        <span className="text-[10px] text-[#55FFFF] mr-1">0{sIdx + 1}</span>
-                        {step}
-                      </span>
-                      {sIdx < current.flow.length - 1 && (
-                        <ArrowRight className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
-                      )}
-                    </React.Fragment>
+                    <div
+                      key={sIdx}
+                      className="p-1.5 bg-[#121420] border border-[#383e58] text-center"
+                    >
+                      <span className="text-[9px] text-zinc-500 font-bold block">0{sIdx + 1}</span>
+                      <strong className="text-xs text-white truncate block">{step}</strong>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              {/* Tools Arsenal */}
-              <div>
-                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block mb-1.5">
-                  ECOSYSTEM TOOLS
-                </span>
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {current.tools.map((tool, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="px-2 py-0.5 text-[11px] text-[#55FF55] bg-[#090a10] border border-[#2e334a]"
-                    >
-                      {tool}
-                    </span>
-                  ))}
-                </div>
+              {/* Ecosystem Tools */}
+              <div className="p-2.5 bg-[#090a10] border border-[#2e334a] flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] text-zinc-400 font-bold uppercase">TOOLS:</span>
+                {current.tools.map((t, tIdx) => (
+                  <span
+                    key={tIdx}
+                    className="px-2 py-0.5 bg-[#181b2c] border border-[#383e58] text-[10px] text-[#55FFFF] font-bold"
+                  >
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Pro Tip Callout (Unboxed with left vertical accent bar) */}
-          <div className="border-l-2 border-[#55FF55] pl-3 py-1 mt-1 text-xs text-zinc-300">
-            <span className="text-[#55FF55] font-bold mr-1.5">PRO TIP:</span>
-            <span>{current.proTip}</span>
+          {/* Bottom Pro Tip Highlight */}
+          <div className="p-2 bg-[#090a10] border-l-4 border-[#55FF55] flex items-center gap-2 text-xs">
+            <Zap className="w-4 h-4 text-[#FFAA00] shrink-0" />
+            <span className="text-zinc-200">
+              <strong className="text-[#55FF55]">PRO TIP:</strong> {current.proTip}
+            </span>
           </div>
         </motion.div>
       </AnimatePresence>
